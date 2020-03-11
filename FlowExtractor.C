@@ -67,9 +67,9 @@ void FlowExtractor()
 {
   int FlowOrder = 2;
   // Get # of events from Kaon TTree file
-  TFile * tf_evt_in  = new TFile("/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/KKinvM/kaonTree/merged_merged_D9AAA11F292FF0BA1047384EC836F91E.picoDst.result.root","READ");
-  TH1D * h_evt   = (TH1D*) tf_evt_in -> Get("h_evt");
-  double d_N_evt    = h_evt -> Integral();
+  // TFile * tf_evt_in  = new TFile("/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/KKinvM/kaonTree/merged_merged_D9AAA11F292FF0BA1047384EC836F91E.picoDst.result.root","READ");
+  // TH1D * h_evt   = (TH1D*) tf_evt_in -> Get("h_evt");
+  // double d_N_evt    = h_evt -> Integral();
 
   // normal/mixed event invM
   TFile * tf_evt_nm_in = new TFile("/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/KKinvM/phiInvM/merged_KKinvMOutput.root","READ");
@@ -116,7 +116,7 @@ void FlowExtractor()
   // Draw same and normalized-mx events together
   for(int pt=0; pt<12; pt++)
   {
-   TC_invM->cd(++pt)
+   TC_invM->cd(++pt);
    mHistKKInvMpT[pt]->SetTitle(Form("%d <= p_{T} <= %d (GeV/c)",pt*0.3,(pt+1.)*0.3));
    mHistKKInvMpTMixed[pt]->SetTitle(Form("%d <= p_{T} <= %d (GeV/c)",pt*0.3,(pt+1.)*0.3));
    mHistKKInvMpT[pt]->GetXaxis()->SetTitleSize(0.08);
