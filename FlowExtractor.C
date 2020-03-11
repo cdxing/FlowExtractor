@@ -118,17 +118,17 @@ void FlowExtractor()
   {
    TC_invM->cd(++pt);
    mHistKKInvMpT[pt]->SetTitle(Form("%d <= p_{T} <= %d (GeV/c)",pt*0.3,(pt+1.)*0.3));
-   mHistKKInvMpTMixed[pt]->SetTitle(Form("%d <= p_{T} <= %d (GeV/c)",pt*0.3,(pt+1.)*0.3));
+   // mHistKKInvMpTMixed[pt]->SetTitle(Form("%d <= p_{T} <= %d (GeV/c)",pt*0.3,(pt+1.)*0.3));
    mHistKKInvMpT[pt]->GetXaxis()->SetTitleSize(0.08);
    mHistKKInvMpT[pt]->GetXaxis()->SetTitleOffset(1);
    mHistKKInvMpT[pt]->GetXaxis()->SetRangeUser(0.98,1.1);
-   mHistKKInvMpTMixed[pt]->GetXaxis()->SetTitleSize(0.08);
-   mHistKKInvMpTMixed[pt]->GetXaxis()->SetTitleOffset(1);
-   mHistKKInvMpTMixed[pt]->GetXaxis()->SetRangeUser(0.98,1.1);
-   mHistKKInvMpTMixed[pt]-> SetFillColor(kYellow);
-   mHistKKInvMpTMixed[pt]-> SetFillStyle(3001);
+   // mHistKKInvMpTMixed[pt]->GetXaxis()->SetTitleSize(0.08);
+   // mHistKKInvMpTMixed[pt]->GetXaxis()->SetTitleOffset(1);
+   // mHistKKInvMpTMixed[pt]->GetXaxis()->SetRangeUser(0.98,1.1);
+   // mHistKKInvMpTMixed[pt]-> SetFillColor(kYellow);
+   // mHistKKInvMpTMixed[pt]-> SetFillStyle(3001);
    mHistKKInvMpT[pt]->Draw();
-   mHistKKInvMpT[pt]->Draw("same");
+   // mHistKKInvMpT[pt]->Draw("same");
 
 
 
