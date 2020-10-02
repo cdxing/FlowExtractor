@@ -88,7 +88,7 @@ void FlowExtractor(){
   Double_t d_Flow_err_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
   // ---------------------- Input files and plots ------------------------------
   // SE/ME invM input
-  TFile * file_KK_InvM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res/merged_merged_NewpTA_2000Jobs_SE_ME.root","READ");
+  TFile * file_KK_InvM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_invM/merged_sys_nHitsFit_var1_iter1_.root","READ");
   if( !file_KK_InvM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
   if(  file_KK_InvM_Input->IsOpen() ) {
       std::cout<<"#phi InvM loaded successfully!"<<std::endl;
@@ -96,7 +96,7 @@ void FlowExtractor(){
   // flow VS Invariant Mass input
   // TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res/merged_merged_PhiMesonAna_OUTPUT_F7793427B87FC5429328F2DB142A9B34_.root","READ");
   // Default phi-flow
-  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/merged_merged_PhiMesonAna_OUTPUT_sys_etaGap_var2_iter3_171E24C62903AF0F6E138825CA20434D_.root","READ");
+  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root","READ");
   if( !file_flow_invM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
   if(  file_flow_invM_Input->IsOpen() ) {
       std::cout<<"flow file loaded successfully!"<<std::endl;
@@ -228,7 +228,7 @@ void FlowExtractor(){
     }
   }
   // ---------------------- Output files and plots -----------------------------
-  TString outFile = "./out_sys/sys_etaGap_var2_iter3_171E24C62903AF0F6E138825CA20434D_";
+  TString outFile = "./out_sys/sys_test_2_";
   outFile.Append(".phiflow.result.root");
   TFile *outputFile = new TFile(outFile,"recreate");
   // pt SetA, cent SetA
