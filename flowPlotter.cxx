@@ -66,8 +66,8 @@ Double_t d_v2nq(Double_t d_v2, Int_t ncq );
 Double_t d_mTm0nq(Double_t d_pT, Int_t ncq, Double_t mass );
 
 void flowPlotter(){
-  // ========================= (1) dv1/dy of phi-meson =========================
-  TCanvas *TCanv_dv1dy = new TCanvas("TCanv_dv1dy","dv1/dy vs. ",200,10,1024,768);
+  // ========================= (1) dv_{1}/dy of phi-meson =========================
+  TCanvas *TCanv_dv1dy = new TCanvas("TCanv_dv1dy","dv_{1}/dy vs. ",200,10,1024,768);
   TCanv_dv1dy->DrawFrame(2., -0.06, 250., 0.2);
   // 4.5 GeV phi
   double x_phi_4p5[1]    = {4.5};
@@ -76,6 +76,7 @@ void flowPlotter(){
   double yErr_stat_phi_4p5[1] = {0.01566};
          yErr_stat_phi_4p5[0] *= sqrt(2); // 2 points are flipped, only two real data points for fitting, stat err * sqrt(2)
   double yErr_sys_phi_4p5[1]  = {0.013012};
+         yErr_sys_phi_4p5[0]  *= sqrt(2);
 
   // BES-I phi
   double x_phi_BES[6]    = { 11.5, 14.5, 19.6, 27, 39, 200};
@@ -98,8 +99,9 @@ void flowPlotter(){
   // 7.2 GeV
   double x_phi_7p2[1]    = {7.2};
   double xErr_phi_7p2[1] = {0};
-  double y_phi_7p2[1]      = {0.0106145};
-  double yErr_stat_phi_7p2[1] = {0.00988926};
+  double y_phi_7p2[1]      = {0.0142375};
+  double yErr_stat_phi_7p2[1] = {0.00983601};
+  double yErr_sys_phi_7p2[1] = {0.00658015};
   // data set (1) with stat and sys errors
 
   // Now draw data set (1)
@@ -112,7 +114,7 @@ void flowPlotter(){
   TCanv_dv1dy->SetGridy(0);
   TCanv_dv1dy->SetLogx();
   TH2D * histTemp = new TH2D("histTemp","histTemp",1000,2.,250,1000,-0.06,0.2);
-  histTemp->GetYaxis()->SetTitle("dv1/dy");
+  histTemp->GetYaxis()->SetTitle("dv_{1}/dy");
   histTemp->GetYaxis()->SetTitleOffset(1);
   histTemp->GetXaxis()->SetTitle("#sqrt{s_{NN}} [GeV]");
   // histTemp->SetStats(FALSE);
@@ -152,6 +154,10 @@ void flowPlotter(){
   graph_7p2->SetLineColor(kBlue);
   graph_7p2->SetMarkerSize(2);
   graph_7p2->Draw("P");
+  TGraphErrors *graph_7p2_sys = new TGraphErrors(1, x_phi_7p2, y_phi_7p2, xErr_phi_7p2, yErr_sys_phi_7p2);
+  graph_7p2_sys->SetMarkerColor(kBlue);
+  graph_7p2_sys->SetLineColor(kBlue);
+  graph_7p2_sys->Draw("[]");
   // TLgend
   TLegend *legend = new TLegend(0.4,0.65,0.9,0.9);
   legend->AddEntry(graph_7p2,"7.2 GeV 10-40% this analysis","p");
@@ -177,13 +183,16 @@ void flowPlotter(){
   line->SetLineStyle(7);
   line->Draw("same");
   // ========================== (2) v1 vs. y at 7.2 GeV ========================
-  TCanvas *TCanv_v1_vs_y = new TCanvas("TCanv_v1_vs_y","dv1/dy vs. ",200,10,1024,768);
+  TCanvas *TCanv_v1_vs_y = new TCanvas("TCanv_v1_vs_y","dv_{1}/dy vs. ",200,10,1024,768);
   TCanv_v1_vs_y->DrawFrame(0, -0.04, 2.1, 0.1);
   // 7.2 GeV v1 vs. y
-  double x_rap[3]    = { -1.21-_y_CM, -0.75-_y_CM, -0.27-_y_CM};
-  double xErr_rap[3] = {0.21, 0.25, 0.23};
-  double y_v1[3]      = {-0.00596924, 0.016996, 0.0421228};
-  double yErr_stat_v1[3] = {0.0223695, 0.0134569, 0.0488063};
+  double x_rap[3]    = { -1.25-_y_CM, -0.75-_y_CM, -0.25-_y_CM};
+  // double xErr_rap[3] = {0.25, 0.25, 0.25};
+  double xErr_rap[3] = {0};
+  double y_v1[3]      = {0.00678684, 0.0191681, 0.0203576};
+  double y_0[3]      = {0,0,0};
+  double yErr_stat_v1[3] = {0.0220404, 0.0129847, 0.0461443};
+  double yErr_sys_v1[3] = {0.00881589, 0.00917299, 0.0286432};
   TCanv_v1_vs_y->cd();
   TH2D * histTemp1 = new TH2D("histTemp1","histTemp1",1000,0,2.1,1000,-0.04,0.1);
   histTemp1->GetYaxis()->SetTitle("v_{1}");
@@ -197,6 +206,12 @@ void flowPlotter(){
   graph_v1_vs_y_7p2->SetLineColor(kBlue);
   graph_v1_vs_y_7p2->SetMarkerSize(2);
   graph_v1_vs_y_7p2->Draw("P");
+  TGraphErrors *graph_v1_vs_y_7p2_sys = new TGraphErrors(3, x_rap, y_v1, 0, yErr_sys_v1);
+  graph_v1_vs_y_7p2_sys->SetMarkerColor(kBlue);
+  // graph_v1_vs_y_7p2_sys->SetFillColor(4);
+  // graph_v1_vs_y_7p2_sys->SetFillStyle(3001);
+  graph_v1_vs_y_7p2_sys->SetLineColor(kBlue);
+  graph_v1_vs_y_7p2_sys->Draw("[]");
   TLine *line1 = new TLine(0, 0, 2.1, 0);
   line1->SetLineStyle(7);
   line1->Draw("same");
@@ -205,10 +220,10 @@ void flowPlotter(){
   // line2->SetTitle("y_{target}")
   line2->Draw("same");
   TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
-  graph_v1_vs_y_7p2->Fit(tf1_dv1dy,"E+","R",-1.42-_y_CM,/*2.*/-0.5-_y_CM);
+  graph_v1_vs_y_7p2->Fit(tf1_dv1dy,"E+","R",-1.5-_y_CM,/*2.*/-0.5-_y_CM);
   TPaveText * ptext = new TPaveText(0.2,0.7,0.6,0.9,"NDCARC");
   ptext -> AddText("10-40%");
-  ptext -> AddText(Form("dv_{1}/dy: %.4f %c %.4f",(Double_t)tf1_dv1dy->GetParameter(0),177,(Double_t)tf1_dv1dy->GetParError(0)));
+  ptext -> AddText(Form("dv_{1}/dy: %.4f %c %.4f %c %.4f",(Double_t)tf1_dv1dy->GetParameter(0),177,(Double_t)tf1_dv1dy->GetParError(0),177,0.00658015));
   ptext -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_dv1dy->GetChisquare(),(Int_t)tf1_dv1dy->GetNDF()));
   ptext->Draw("same");
   // ========================== (3) v2 vs. pT at 7.2 GeV =======================

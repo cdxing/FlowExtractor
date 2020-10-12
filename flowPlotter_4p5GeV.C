@@ -62,7 +62,7 @@ void flowPlotter_4p5GeV()
     TCanvas *c1 = new TCanvas("c1","c1",200,10,1024,768);
     c1->DrawFrame(3., -0.05, 250., 0.05);
     TH2D * histTemp = new TH2D("histTemp","histTemp",1000,3.,250,1000,-0.05,0.05);
-    histTemp->GetYaxis()->SetTitle("dv1/dy");
+    histTemp->GetYaxis()->SetTitle("dv_{1}/dy");
     histTemp->GetYaxis()->SetTitleOffset(1.4);
     histTemp->GetXaxis()->SetTitle("#sqrt{s_{NN}} (GeV)");
     histTemp->Draw();
@@ -106,8 +106,16 @@ void flowPlotter_4p5GeV()
     // 7.2 GeV
     double x_phi_7p2[1]    = {7.2};
     double xErr_phi_7p2[1] = {0};
-    double y_phi_7p2[1]      = {0.0106145};
-    double yErr_stat_phi_7p2[1] = {0.00988926};
+    double y_phi_7p2[1]      = {0.0142375};
+    double yErr_stat_phi_7p2[1] = {0.00983601};
+    double yErr_sys_phi_7p2[1] = {0.00658015};
+
+    // 7.7 GeV BES-I data, credit Guannan
+    double x_phi_7p7[1]    = {7.9};
+    double xErr_phi_7p7[1] = {0};
+    double y_phi_7p7[1]      = {0.0159611};
+    double yErr_stat_phi_7p7[1] = {0.0403535};
+
     // BES-I phi
     double x1[6]    = { 11.5, 14.5, 19.6, 27, 39, 200};
     double zero1[6] = {0};
@@ -162,6 +170,10 @@ void flowPlotter_4p5GeV()
     graph_7p2->SetLineColor(kBlue+3);
     graph_7p2->SetMarkerSize(2);
     graph_7p2->Draw("P");
+    TGraphErrors *graph_7p2_sys = new TGraphErrors(1, x_phi_7p2, y_phi_7p2, xErr_phi_7p2, yErr_sys_phi_7p2);
+    graph_7p2_sys->SetMarkerColor(kBlue);
+    graph_7p2_sys->SetLineColor(kBlue);
+    graph_7p2_sys->Draw("[]");
 
     // BES-I phi
     TGraphErrors *graph1 = new TGraphErrors(6, x1, py1, zero1, ey_stat1);
@@ -214,7 +226,13 @@ void flowPlotter_4p5GeV()
     cout << "py0 = "     << py0[0] << endl;
     cout << "ey_stat0 = "<< ey_stat0[0] << endl;
     cout << "ey_sys0 = " << ey_sys0[0] << endl;
-
+    // 7.7 GeV BES-I data, credit Guannan
+    TGraphErrors *graph_7p7 = new TGraphErrors(1, x_phi_7p7, y_phi_7p7, xErr_phi_7p7, yErr_stat_phi_7p7);
+    graph_7p7->SetMarkerStyle(34);
+    graph_7p7->SetMarkerColor(kGreen+3);
+    graph_7p7->SetLineColor(kGreen+3);
+    graph_7p7->SetMarkerSize(2);
+    graph_7p7->Draw("P");
     // BES-I phi
     TGraphErrors *graph1_sys = new TGraphErrors(6, x1, py1, zero1, ey_sys1);
     graph1_sys->SetLineColor(kGreen+3);
