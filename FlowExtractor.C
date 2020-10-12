@@ -54,11 +54,33 @@ const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
+Double_t proportion(Double_t *x, Double_t *p);
 Double_t BackgroundFitting(Double_t *x, Double_t *p);
 Double_t TotalFitting(Double_t *x, Double_t *p);
 
 // ======================== (1) Analysis Start =================================
-void FlowExtractor(){
+void FlowExtractor( TString invMFileName,
+                   TString FlowFileName ,
+                    // double inputParameter1 = 0.
+                    Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
+                    Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
+                    Int_t   inputp4 = 0 // Iteration of the analysis is. In this analysis, 2 iterations is enough
+){
+  Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
+  Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
+  Int_t sys_iterN = inputp4; // Iteration of the analysis is. In this analysis, 2 iterations is enough
+  string sys_object[17]  = {"primary", "etaGap", "etaRange",
+                            "vz", "vr", "dedx", "dca",
+                            "nHitsFit", "ratio", "nSigK", "mass2",
+                            "pT", "dipAngle", "vtxDiff", "mthdDiff",
+                            "binning",
+                            "TPCpid"};
+  std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
+  TString outTxt = "./out_sys/phi_v1_y_sys_";
+  outTxt.Append(sys_object[sys_cutN]);
+  outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
+  outTxt.Append(".txt");
+  std::ofstream flowFile(outTxt,ofstream::out);
   // ---------------------- Analysis Setup -------------------------------------
   gStyle->SetOptStat(0);
   // ----- InvMass plots in different centrality and pT or y bins --------------
@@ -88,15 +110,15 @@ void FlowExtractor(){
   Double_t d_Flow_err_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
   // ---------------------- Input files and plots ------------------------------
   // SE/ME invM input
-  TFile * file_KK_InvM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_invM/merged_sys_nHitsFit_var1_iter1_.root","READ");
-  if( !file_KK_InvM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
+  TFile * file_KK_InvM_Input = new TFile(invMFileName,"READ");
+  if( !file_KK_InvM_Input->IsOpen() ) std::cout<<"No SE/ME input!"<<std::endl;
   if(  file_KK_InvM_Input->IsOpen() ) {
       std::cout<<"#phi InvM loaded successfully!"<<std::endl;
   }
   // flow VS Invariant Mass input
   // TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res/merged_merged_PhiMesonAna_OUTPUT_F7793427B87FC5429328F2DB142A9B34_.root","READ");
   // Default phi-flow
-  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root","READ");
+  TFile * file_flow_invM_Input = new TFile(FlowFileName,"READ");
   if( !file_flow_invM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
   if(  file_flow_invM_Input->IsOpen() ) {
       std::cout<<"flow file loaded successfully!"<<std::endl;
@@ -228,8 +250,11 @@ void FlowExtractor(){
     }
   }
   // ---------------------- Output files and plots -----------------------------
-  TString outFile = "./out_sys/sys_test_2_";
-  outFile.Append(".phiflow.result.root");
+  TString outFile = ".phiflow.result.root";
+  outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
+  outFile.Prepend(sys_object[sys_cutN]);
+  outFile.Prepend("sys_");
+  outFile.Prepend("./out_sys/");
   TFile *outputFile = new TFile(outFile,"recreate");
   // pt SetA, cent SetA
   TCanvas *canvas_InvM_ptSetA_centSetA = new TCanvas("canvas_InvM_ptSetA_centSetA","canvas_InvM_ptSetA_centSetA",1920,1080);
@@ -2267,9 +2292,13 @@ void FlowExtractor(){
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->Draw("AP");
     l1_rapSetA_centSetB->Draw("same");
   }
-
+  TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
+  mTGE_v1_reso_vs_rap_rapSetA_centSetA[1]->Fit(tf1_dv1dy,"E+","R",-1.42-_y_CM,/*2.*/-0.5-_y_CM);
   cout<<"v1 10-40% rapSetA_centSetA: " << d_FLow_rapSetA_centSetA[0][1][1][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][1]<<endl;
+  flowFile << d_FLow_rapSetA_centSetA[0][1][1][1]<<" " << d_FLow_rapSetA_centSetA[0][1][2][1]<<" " << d_FLow_rapSetA_centSetA[0][1][3][1] <<" "<< (Double_t)tf1_dv1dy->GetParameter(0) << endl;
   cout<<"v1 err 10-40% rapSetA_centSetA: " << d_Flow_err_rapSetA_centSetA[0][1][1][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][1]<<endl;
+  flowFile << d_Flow_err_rapSetA_centSetA[0][1][1][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][2][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][3][1] << " "<<(Double_t)tf1_dv1dy->GetParError(0) << endl;
+  cout<<"dv1/dy slope: " << (Double_t)tf1_dv1dy->GetParameter(0) <<"+/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
   cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][4] <<endl;
@@ -2339,7 +2368,12 @@ void FlowExtractor(){
   canvas_v2_raw_vs_rap_rapSetA_centSetB->Write();
   canvas_v2_reso_vs_rap_rapSetA_centSetB->Write();
   // outputFile->Write();
+  flowFile.close();
+}
 
+Double_t proportion(Double_t *x, Double_t *p)
+{
+  return ( p[0] * x[0]);
 }
 
 // Fitting functions for Flow VS Invariant Mass
