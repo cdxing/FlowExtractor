@@ -8,65 +8,35 @@ void flowPlotter_4p5GeV()
   // gStyle->SetEndErrorSize(6);
   gStyle->SetOptTitle(0);
 
-  // TFile *fsyserr1 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_1.root","READ");
-  // TFile *fsyserr2 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_2.root","READ");
-  // TFile *fsyserr3 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_3.root","READ");
-  // TFile *fsyserr4 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_4.root","READ");
-  // TFile *fsyserr5 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_5.root","READ");
-  // TFile *fsyserr6 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_6.root","READ");
-  // TFile *fsyserr7 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_7.root","READ");
-  // TFile *fsyserr8 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_8.root","READ");
-  // TFile *fsyserr9 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_9.root","READ");
-  // TFile *fsyserr10 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_10.root","READ");
-  // TFile *fsyserr11 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_11.root","READ");
-  // TFile *fsyserr12 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_12.root","READ");
-  // TFile *fsyserr13 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_13.root","READ");
-  // TFile *fsyserr14 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_merged_14.root","READ");
-  // TFile *fsyserr15 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_15.root","READ");
-  // TFile *fsyserr16 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_16.root","READ");
-  // TFile *fsyserr17 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_17.root","READ");
-  // TFile *fsyserr18 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_18.root","READ");
-  // TFile *fsyserr19 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_19.root","READ");
-  // TFile *fsyserr20 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_20.root","READ");
-  // TFile *fsyserr21 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_hadd_21.root","READ");
-  // TFile *fsyserr22 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_plus_bg_polN.root","READ");
-  // TFile *fsyserr23 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_eff_corr_EP.root","READ");
-  // TFile *fsyserr24 = new TFile("/star/data01/pwg/dchen/Ana/fxtPicoAna/phiAna/phiInvMass/result21cuts_v2/sys_err_21cuts_eff_corr_invM.root","READ");
-  //
-  //   double slopeErr[24];
-  //   slopeErr[0] = ((TH1D*) fsyserr1 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[1] = ((TH1D*) fsyserr2 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[2] = ((TH1D*) fsyserr3 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[3] = ((TH1D*) fsyserr4 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[4] = ((TH1D*) fsyserr5 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[5] = ((TH1D*) fsyserr6 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[6] = ((TH1D*) fsyserr7 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[7] = ((TH1D*) fsyserr8 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[8] = ((TH1D*) fsyserr9 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[9] = ((TH1D*) fsyserr10 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[10] = ((TH1D*) fsyserr11 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[11] = ((TH1D*) fsyserr12 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[12] = ((TH1D*) fsyserr13 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[13] = ((TH1D*) fsyserr14 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[14] = ((TH1D*) fsyserr15 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[15] = ((TH1D*) fsyserr16 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[16] = ((TH1D*) fsyserr17 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[17] = ((TH1D*) fsyserr18 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[18] = ((TH1D*) fsyserr19 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[19] = ((TH1D*) fsyserr20 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[20] = ((TH1D*) fsyserr21 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[21] = ((TH1D*) fsyserr22 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[22] = ((TH1D*) fsyserr23 ->Get("h_slope"))->GetStdDev(1);
-  //   slopeErr[23] = ((TH1D*) fsyserr24 ->Get("h_slope"))->GetStdDev(1);
 
     TCanvas *c1 = new TCanvas("c1","c1",200,10,1024,768);
-    c1->DrawFrame(3., -0.05, 250., 0.05);
-    TH2D * histTemp = new TH2D("histTemp","histTemp",1000,3.,250,1000,-0.05,0.05);
-    histTemp->GetYaxis()->SetTitle("dv_{1}/dy");
+    c1->DrawFrame(3., -0.05, 40., 0.06);
+    // TH2D * histTemp = new TH2D("histTemp","histTemp",1000,3.,250,1000,-0.05,0.05);
+    TH2D * histTemp = new TH2D("histTemp","histTemp",38,3.,41,1000,-0.05,0.06);
+    histTemp->GetYaxis()->SetTitle("Directed Flow Slope dv_{1} /dy|_{y=0}");
     histTemp->GetYaxis()->SetTitleOffset(1.4);
-    histTemp->GetXaxis()->SetTitle("#sqrt{s_{NN}} (GeV)");
+    histTemp->GetXaxis()->SetTitleOffset(1.3);
+    // histTemp->GetXaxis()->SetNdivisions(438);
+    histTemp->GetXaxis()->SetBinLabel(1,"label");
+    histTemp->GetXaxis()->SetTitle("Collision Energy #sqrt{s_{NN}} (GeV)");
     histTemp->Draw();
-
+    TPaveText * ptxt_3_40 = new TPaveText(0.15,0.7,0.38,0.85,"NDCARC");
+    ptxt_3_40->SetFillColor(0);
+    ptxt_3_40 -> AddText("Au+Au 4.5, 7.2 GeV FXT");
+    ptxt_3_40 -> AddText("STAR preliminary");
+    ptxt_3_40->Draw("same");
+    // TGaxis *axis1 = new TGaxis(3,-0.05,41,-0.05,3,40,3,"G");
+    // axis1->SetName("axis1");
+    // axis1->Draw();
+    // TPaveText * ptxt_4_xlabel = new TPaveText(0.178,0.055,0.198,0.095,"NDCARC");
+    // ptxt_4_xlabel->SetFillColor(0);
+    // ptxt_4_xlabel -> AddText("4");
+    // ptxt_4_xlabel->Draw("same");
+    // TPaveText * ptxt_40_xlabel = new TPaveText(0.878,0.055,0.908,0.095,"NDCARC");
+    // ptxt_40_xlabel->SetFillColor(0);
+    // ptxt_40_xlabel -> AddText("40");
+    // ptxt_40_xlabel->SetAllWith("40", "font", 5);
+    // ptxt_40_xlabel->Draw("same");
     //4.5 GeV phi
     double x0[1]    = {4.5};
     double zero0[1] = {0};
@@ -74,47 +44,27 @@ void flowPlotter_4p5GeV()
     double ey_stat0[1] = {0.01566};
     ey_stat0[0] *= sqrt(2);
     double ey_sys0[1]  = {0.013012};
-    // ey_sys0[0]=sqrt(
-    //   slopeErr[0]**2+
-    //   slopeErr[1]**2+
-    //   slopeErr[2]**2+
-    //   slopeErr[3]**2+
-    //   slopeErr[4]**2+
-    //   slopeErr[5]**2+
-    //   slopeErr[6]**2+
-    //   slopeErr[7]**2+
-    //   slopeErr[8]**2+
-    //   slopeErr[9]**2+
-    //   slopeErr[10]**2+
-    //   slopeErr[11]**2+
-    //   slopeErr[12]**2+
-    //   slopeErr[13]**2+
-    //   slopeErr[14]**2+
-    //   slopeErr[15]**2+
-    //   slopeErr[16]**2+
-    //   slopeErr[17]**2+
-    //   slopeErr[18]**2+
-    //   slopeErr[19]**2+
-    //   slopeErr[20]**2+
-    //   slopeErr[21]**2+
-    //   slopeErr[22]**2+
-    //   slopeErr[21]**2
-    // );
     ey_sys0[0] *= sqrt(2);
     std::cout<< "ey_sys0[0] = "<< ey_sys0[0] << std::endl;
     //0.013012
     // 7.2 GeV
     double x_phi_7p2[1]    = {7.2};
     double xErr_phi_7p2[1] = {0};
-    double y_phi_7p2[1]      = {0.0142375};
-    double yErr_stat_phi_7p2[1] = {0.00983601};
-    double yErr_sys_phi_7p2[1] = {0.00658015};
+    double y_phi_7p2[1]      = {0.0138904};
+    double yErr_stat_phi_7p2[1] = {0.00916586};
+    double yErr_sys_phi_7p2[1] = {0.00647123};
+
+    // 7.2 7.7 GeV together
+    double x_phi_7p2_7p7[1]    = {7.6};
+    double xErr_phi_7p2_7p7[1] = {0};
+    double y_phi_7p2_7p7[1]      = {0.0139926};//{0.0159611};
+    double yErr_stat_phi_7p2_7p7[1] = {0.00873405};//{0.0403535};
 
     // 7.7 GeV BES-I data, credit Guannan
-    double x_phi_7p7[1]    = {7.9};
+    double x_phi_7p7[1]    = {8.2};
     double xErr_phi_7p7[1] = {0};
-    double y_phi_7p7[1]      = {0.0159611};
-    double yErr_stat_phi_7p7[1] = {0.0403535};
+    double y_phi_7p7[1]      = {0.0153485};//{0.0159611};
+    double yErr_stat_phi_7p7[1] = {0.0391923};//{0.0403535};
 
     // BES-I phi
     double x1[6]    = { 11.5, 14.5, 19.6, 27, 39, 200};
@@ -144,8 +94,22 @@ void flowPlotter_4p5GeV()
     double ey_stat4[8] = {0.00290359,  0.00150192,  0.00162578,  0.00132712,  0.00112134, 0.000672674, 0.00205018, 0.000302512};
     double ey_sys4[8]  = {0.000950781, 0.000974057, 0.000974057, 0.000458308, 0.0002,     0.0001,      0.0030239,  0.000194};
 
+    double d_offset = 0.1;
+    for(int i = 0;i<6;i++){
+      x1[i] += 5*d_offset;
+      // x2[i] -= d_offset;
+      // x3[i] -= d_offset * 2;
+      // x4[i] -= d_offset * 3;
+    }
+    // for(int i = 0;i<8;i++){
+    //   x2[i] += d_offset;
+    //   x3[i] += d_offset * 2;
+    //   x4[i] += d_offset * 3;
+    // }
+
     // data set (1) with stat and sys errors
 
+    //
 
     // Now draw data set (1)
     // We first have to draw it only with the stat errors
@@ -157,70 +121,80 @@ void flowPlotter_4p5GeV()
 
     //4.5 GeV phi
     TGraphErrors *graph0 = new TGraphErrors(1, x0, py0, zero0, ey_stat0);
-    graph0->SetMarkerStyle(28);
-    graph0->SetMarkerColor(kRed);
-    graph0->SetLineColor(kRed);
+    graph0->SetMarkerStyle(34);
+    graph0->SetMarkerColor(kBlack);
+    graph0->SetLineColor(kBlack);
     graph0->SetMarkerSize(2);
     graph0->Draw("P");
 
     // 7.2 GeV
     TGraphErrors *graph_7p2 = new TGraphErrors(1, x_phi_7p2, y_phi_7p2, xErr_phi_7p2, yErr_stat_phi_7p2);
-    graph_7p2->SetMarkerStyle(28);
-    graph_7p2->SetMarkerColor(kBlue+3);
-    graph_7p2->SetLineColor(kBlue+3);
-    graph_7p2->SetMarkerSize(2);
+    graph_7p2->SetMarkerStyle(29);
+    graph_7p2->SetMarkerColor(kBlue);
+    graph_7p2->SetLineColor(kBlue);
+    graph_7p2->SetMarkerSize(2.5);
     graph_7p2->Draw("P");
     TGraphErrors *graph_7p2_sys = new TGraphErrors(1, x_phi_7p2, y_phi_7p2, xErr_phi_7p2, yErr_sys_phi_7p2);
     graph_7p2_sys->SetMarkerColor(kBlue);
     graph_7p2_sys->SetLineColor(kBlue);
     graph_7p2_sys->Draw("[]");
 
+    // 7.2 GeV
+    TGraphErrors *graph_7p2_7p7 = new TGraphErrors(1, x_phi_7p2_7p7, y_phi_7p2_7p7, xErr_phi_7p2_7p7, yErr_stat_phi_7p2_7p7);
+    graph_7p2_7p7->SetMarkerStyle(29);
+    graph_7p2_7p7->SetMarkerColor(kRed);
+    graph_7p2_7p7->SetLineColor(kRed);
+    graph_7p2_7p7->SetMarkerSize(2.5);
+    graph_7p2_7p7->Draw("P");
+
     // BES-I phi
     TGraphErrors *graph1 = new TGraphErrors(6, x1, py1, zero1, ey_stat1);
-    graph1->SetMarkerStyle(34);
-    graph1->SetMarkerColor(kGreen+3);
-    graph1->SetLineColor(kGreen+3);
+    graph1->SetMarkerStyle(28);
+    graph1->SetMarkerColor(kBlack);
+    graph1->SetLineColor(kBlack);
     graph1->SetMarkerSize(2);
     graph1->Draw("P");
 
     // BES-I Proton
     TGraphErrors *graph2 = new TGraphErrors(8, x2, py2, zero2, ey_stat2);
-    graph2->SetMarkerStyle(21);
+    graph2->SetMarkerStyle(25);
     graph2->SetMarkerColor(kBlack);
     graph2->SetLineColor(kBlack);
-    graph2->SetMarkerSize(2);
+    graph2->SetMarkerSize(1);
     graph2->Draw("P");
 
     // BES-I KPlus
     TGraphErrors *graph3 = new TGraphErrors(8, x3, py3, zero3, ey_stat3);
-    graph3->SetMarkerStyle(22);
-    graph3->SetMarkerColor(kBlue);
-    graph3->SetLineColor(kBlue);
-    graph3->SetMarkerSize(2);
+    graph3->SetMarkerStyle(26);
+    graph3->SetMarkerColor(kBlack);
+    graph3->SetLineColor(kBlack);
+    graph3->SetMarkerSize(1);
     graph3->Draw("P");
 
     // BES-I KMinus
     TGraphErrors *graph4 = new TGraphErrors(8, x4, py4, zero4, ey_stat4);
-    graph4->SetMarkerStyle(23);
-    graph4->SetMarkerColor(6);
-    graph4->SetLineColor(6);
-    graph4->SetMarkerSize(2);
+    graph4->SetMarkerStyle(32);
+    graph4->SetMarkerColor(kBlack);
+    graph4->SetLineColor(kBlack);
+    graph4->SetMarkerSize(1);
     graph4->Draw("P");
 
-    TLegend *legend = new TLegend(0.6,0.65,0.9,0.9);
-    legend->AddEntry(graph0,"#phi @ 4.5 GeV","p");
-    legend->AddEntry(graph_7p2,"#phi @ 7.2 GeV","p");
-    legend->AddEntry(graph1,"#phi @ BES-I","p");
-    legend->AddEntry(graph2,"p @ BES-I","p");
-    legend->AddEntry(graph3,"K^{+} @ BES-I","p");
-    legend->AddEntry(graph4,"K^{-} @ BES-I","p");
-
+    TLegend *legend = new TLegend(0.54,0.6,0.88,0.88);
+    legend->SetBorderSize(0);
+    legend->AddEntry(graph0,"#phi  4.5 GeV FXT 0-30%","p");
+    legend->AddEntry(graph_7p2,"#phi  7.2 GeV FXT 10-40%","p");
+    legend->AddEntry(graph_7p2_7p7,"#phi  7.2 FXT 7.7 COL combined 10-40%","p");
+    legend->AddEntry(graph1,"#phi  BES-I 10-40%","p");
+    legend->AddEntry(graph2,"p  BES-I 10-40%","p");
+    legend->AddEntry(graph3,"K^{+}  BES-I 10-40%","p");
+    legend->AddEntry(graph4,"K^{-}  BES-I 10-40%","p");
+    //, offset -0.2 GeV  , 7.7 GeV offset 0.2 GeV
     legend->Draw("same");
     // Now we have to somehow depict the sys errors
 
     //4.5 GeV phi
     TGraphErrors *graph0_sys = new TGraphErrors(1, x0, py0, zero0, ey_sys0);
-    graph0_sys->SetLineColor(kRed);
+    graph0_sys->SetLineColor(kBlack);
     graph0_sys->Draw("[]");
 
     cout << "py0 = "     << py0[0] << endl;
@@ -228,14 +202,14 @@ void flowPlotter_4p5GeV()
     cout << "ey_sys0 = " << ey_sys0[0] << endl;
     // 7.7 GeV BES-I data, credit Guannan
     TGraphErrors *graph_7p7 = new TGraphErrors(1, x_phi_7p7, y_phi_7p7, xErr_phi_7p7, yErr_stat_phi_7p7);
-    graph_7p7->SetMarkerStyle(34);
-    graph_7p7->SetMarkerColor(kGreen+3);
-    graph_7p7->SetLineColor(kGreen+3);
+    graph_7p7->SetMarkerStyle(28);
+    graph_7p7->SetMarkerColor(kBlack);
+    graph_7p7->SetLineColor(kBlack);
     graph_7p7->SetMarkerSize(2);
     graph_7p7->Draw("P");
     // BES-I phi
     TGraphErrors *graph1_sys = new TGraphErrors(6, x1, py1, zero1, ey_sys1);
-    graph1_sys->SetLineColor(kGreen+3);
+    graph1_sys->SetLineColor(kBlack);
     graph1_sys->Draw("[]");
 
     // BES-I Proton
@@ -245,15 +219,15 @@ void flowPlotter_4p5GeV()
 
     // BES-I KPlus
     TGraphErrors *graph3_sys = new TGraphErrors(8, x3, py3, zero3, ey_sys3);
-    graph3_sys->SetLineColor(kBlue);
+    graph3_sys->SetLineColor(kBlack);
     graph3_sys->Draw("[]");
 
     // BES-I KMinus
     TGraphErrors *graph4_sys = new TGraphErrors(8, x4, py4, zero4, ey_sys4);
-    graph4_sys->SetLineColor(6);
+    graph4_sys->SetLineColor(kBlack);
     graph4_sys->Draw("[]");
 
-    TLine *line = new TLine(3, 0, 250, 0);
+    TLine *line = new TLine(3, 0, 41, 0);
     line->SetLineStyle(7);
     line->Draw();
 }

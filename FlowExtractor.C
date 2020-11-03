@@ -59,12 +59,12 @@ Double_t BackgroundFitting(Double_t *x, Double_t *p);
 Double_t TotalFitting(Double_t *x, Double_t *p);
 
 // ======================== (1) Analysis Start =================================
-void FlowExtractor( TString invMFileName,
-                   TString FlowFileName ,
+void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",
+                   TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
-                    Int_t   inputp4 = 0 // Iteration of the analysis is. In this analysis, 2 iterations is enough
+                    Int_t   inputp4 = 3 // Iteration of the analysis is. In this analysis, 2 iterations is enough
 ){
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -83,6 +83,7 @@ void FlowExtractor( TString invMFileName,
   std::ofstream flowFile(outTxt,ofstream::out);
   // ---------------------- Analysis Setup -------------------------------------
   gStyle->SetOptStat(0);
+  gROOT->ForceStyle();
   // ----- InvMass plots in different centrality and pT or y bins --------------
   Double_t ptSetA[3]  = {0.6, 1.2, 2.4};
   Double_t ptSetB[5]  = {0.4, 0.7, 1.0, 1.4, 2.0};
@@ -2293,12 +2294,15 @@ void FlowExtractor( TString invMFileName,
     l1_rapSetA_centSetB->Draw("same");
   }
   TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
-  mTGE_v1_reso_vs_rap_rapSetA_centSetA[1]->Fit(tf1_dv1dy,"E+","R",-1.42-_y_CM,/*2.*/-0.5-_y_CM);
+  mTGE_v1_reso_vs_rap_rapSetA_centSetA[1]->Fit(tf1_dv1dy,"E+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
   cout<<"v1 10-40% rapSetA_centSetA: " << d_FLow_rapSetA_centSetA[0][1][1][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][1]<<endl;
   flowFile << d_FLow_rapSetA_centSetA[0][1][1][1]<<" " << d_FLow_rapSetA_centSetA[0][1][2][1]<<" " << d_FLow_rapSetA_centSetA[0][1][3][1] <<" "<< (Double_t)tf1_dv1dy->GetParameter(0) << endl;
   cout<<"v1 err 10-40% rapSetA_centSetA: " << d_Flow_err_rapSetA_centSetA[0][1][1][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][1]<<endl;
   flowFile << d_Flow_err_rapSetA_centSetA[0][1][1][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][2][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][3][1] << " "<<(Double_t)tf1_dv1dy->GetParError(0) << endl;
   cout<<"dv1/dy slope: " << (Double_t)tf1_dv1dy->GetParameter(0) <<"+/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+  cout<<"v1 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1] <<endl;
+  cout<<"v1 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1] <<endl;
+  cout<<endl;
   cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][4] <<endl;
