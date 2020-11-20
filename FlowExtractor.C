@@ -75,7 +75,7 @@ void FlowExtractor(TString FlowFileName,
                             "binning",
                             "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
-  TString outTxt = "./out_sys/phi_v1_y_sys_";
+  TString outTxt = "./out_sys/out_sys_Crosscheck/phi_v1_y_sys_rotation_KPFlexTOF_";
   outTxt.Append(sys_object[sys_cutN]);
   outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outTxt.Append(".txt");
@@ -252,8 +252,8 @@ void FlowExtractor(TString FlowFileName,
   TString outFile = ".phiflow.result.root";
   outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outFile.Prepend(sys_object[sys_cutN]);
-  outFile.Prepend("sys_");
-  outFile.Prepend("./out_sys/");
+  outFile.Prepend("sys_rotation_KPFlexTOF_");
+  outFile.Prepend("./out_sys/out_sys_Crosscheck/");
   TFile *outputFile = new TFile(outFile,"recreate");
   // pt SetA, cent SetA
   TCanvas *canvas_InvM_ptSetA_centSetA = new TCanvas("canvas_InvM_ptSetA_centSetA","canvas_InvM_ptSetA_centSetA",1920,1080);
