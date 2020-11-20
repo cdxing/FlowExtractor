@@ -158,7 +158,8 @@ void plot7p2QA(){
   if(  file_KK_InvM_Input->IsOpen() ) {
       std::cout<<"#phi InvM loaded successfully!"<<std::endl;
   }
-  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root","READ");
+  // TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root","READ");
+  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter2_652813E64F931A3A7865DC8AA3CF9F7E_.root","READ");
   if( !file_flow_invM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
   if(  file_flow_invM_Input->IsOpen() ) {
       std::cout<<"flow file loaded successfully!"<<std::endl;
@@ -166,8 +167,10 @@ void plot7p2QA(){
   TH1D *Hist_Input_SE_InvM_rapSetA_centSetA;
   TH1D *Hist_Input_ME_InvM_rapSetA_centSetA;
   TProfile *Profile_Input_v1_reso_rapSetA_centSetA;
-  Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
-  Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_ME_InvM_rapSetA2_centSetA1");
+  // Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
+  Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
+  // Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_ME_InvM_rapSetA2_centSetA1");
+  Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_rotation_InvM_rapSetA2_centSetA1");
   Profile_Input_v1_reso_rapSetA_centSetA = (TProfile*) file_flow_invM_Input->Get("Hist_v1_reso_rapSetA2_centSetA1_pfx");
 
   TCanvas* c4 = new TCanvas("c4","#phi invM",200,0,1024,768);
@@ -281,7 +284,7 @@ void plot7p2QA(){
   ptxt_prelim_1->SetFillColor(0);
   ptxt_prelim_1 -> AddText("Au+Au 7.2 GeV FXT 10-40%");
   ptxt_prelim_1 -> AddText("1.02 < y < 1.52, y_{target} = 2.02");
-  ptxt_prelim_1 -> AddText("STAR preliminary");
+  // ptxt_prelim_1 -> AddText("STAR preliminary");
   ptxt_prelim_1->Draw("same");
 
 
