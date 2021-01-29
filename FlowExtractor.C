@@ -50,7 +50,7 @@
 using namespace std;
 // -------------------------- set Some fitting prerequsites --------------------
 
-const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
+const Double_t _sigmaRange = 3.; // Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
@@ -59,8 +59,9 @@ Double_t BackgroundFitting(Double_t *x, Double_t *p);
 Double_t TotalFitting(Double_t *x, Double_t *p);
 
 // ======================== (1) Analysis Start =================================
-void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",
-                   TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
+void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
+                   // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_crosscheck/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_C8A781722258FB768479544F7612801B_NewProd.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -76,7 +77,9 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
                             "binning",
                             "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
-  TString outTxt = "./out_sys/phi_v1_y_sys_";
+  // TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
+  TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
+  TString outHead = outTxt;
   outTxt.Append(sys_object[sys_cutN]);
   outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outTxt.Append(".txt");
@@ -100,7 +103,9 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   Double_t d_FLow_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_FLow_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_FLow_rapSetA_centSetA[2][2][4][6]; // pt SetC, cent 0-60%, 0-80%
+  Double_t d_FLow_rapSetA_centSetA_pTRange[2][2][4][6][3]; // pt SetC, cent 0-60%, 0-80%, 3 pT range, [0.1,1], [1,2], [0.1,2]
   Double_t d_FLow_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
+
 
   Double_t d_Flow_err_ptSetA_centSetA[2][2][2][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
@@ -108,14 +113,15 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   Double_t d_Flow_err_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_Flow_err_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_Flow_err_rapSetA_centSetA[2][2][4][6]; // pt SetC, cent 0-60%, 0-80%
+  Double_t d_Flow_err_rapSetA_centSetA_pTRange[2][2][4][6][3]; // pt SetC, cent 0-60%, 0-80%, 3 pT range, [0.1,1], [1,2], [0.1,2]
   Double_t d_Flow_err_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
   // ---------------------- Input files and plots ------------------------------
   // SE/ME invM input
-  TFile * file_KK_InvM_Input = new TFile(invMFileName,"READ");
-  if( !file_KK_InvM_Input->IsOpen() ) std::cout<<"No SE/ME input!"<<std::endl;
-  if(  file_KK_InvM_Input->IsOpen() ) {
-      std::cout<<"#phi InvM loaded successfully!"<<std::endl;
-  }
+  // TFile * file_KK_InvM_Input = new TFile(invMFileName,"READ");
+  // if( !file_KK_InvM_Input->IsOpen() ) std::cout<<"No SE/ME input!"<<std::endl;
+  // if(  file_KK_InvM_Input->IsOpen() ) {
+  //     std::cout<<"#phi InvM loaded successfully!"<<std::endl;
+  // }
   // flow VS Invariant Mass input
   // TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res/merged_merged_PhiMesonAna_OUTPUT_F7793427B87FC5429328F2DB142A9B34_.root","READ");
   // Default phi-flow
@@ -134,8 +140,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int pt=0; pt<2; pt++)
   {
     for(int cent=0; cent<6;cent++){
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_ptSetA%d_centSetA%d",pt,cent));
+      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent));
+      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d",pt,cent));
       mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
       mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetA%d_pfx",pt,cent));
       mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
@@ -152,8 +158,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int pt=0; pt<2; pt++)
   {
     for(int cent=0; cent<9;cent++){
-      mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_ptSetA%d_centSetB%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetA_centSetB[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_ptSetA%d_centSetB%d",pt,cent));
+      mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetB%d",pt,cent));
+      mHist_Input_ME_InvM_ptSetA_centSetB[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetB%d",pt,cent));
       mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetB%d_pfx",pt,cent));
       mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetB%d_pfx",pt,cent));
       mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetB%d_pfx",pt,cent));
@@ -170,8 +176,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int pt=0; pt<4; pt++)
   {
     for(int cent=0; cent<6;cent++){
-      mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_ptSetB%d_centSetA%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetB_centSetA[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_ptSetB%d_centSetA%d",pt,cent));
+      mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetB%d_centSetA%d",pt,cent));
+      mHist_Input_ME_InvM_ptSetB_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d",pt,cent));
       mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetB%d_centSetA%d_pfx",pt,cent));
       mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetB%d_centSetA%d_pfx",pt,cent));
       mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetB%d_centSetA%d_pfx",pt,cent));
@@ -188,8 +194,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int pt=0; pt<4; pt++)
   {
     for(int cent=0; cent<9;cent++){
-      mHist_Input_SE_InvM_ptSetB_centSetB[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_ptSetB%d_centSetB%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetB_centSetB[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_ptSetB%d_centSetB%d",pt,cent));
+      mHist_Input_SE_InvM_ptSetB_centSetB[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetB%d_centSetB%d",pt,cent));
+      mHist_Input_ME_InvM_ptSetB_centSetB[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetB%d_centSetB%d",pt,cent));
       mProfile_Input_v1_raw_ptSetB_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetB%d_centSetB%d_pfx",pt,cent));
       mProfile_Input_v1_reso_ptSetB_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetB%d_centSetB%d_pfx",pt,cent));
       mProfile_Input_v2_raw_ptSetB_centSetB[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetB%d_centSetB%d_pfx",pt,cent));
@@ -206,8 +212,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int pt=0; pt<10; pt++)
   {
     for(int cent=0; cent<2;cent++){
-      mHist_Input_SE_InvM_ptSetC_centAll[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_ptSetC%d_centAll%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetC_centAll[pt][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_ptSetC%d_centAll%d",pt,cent));
+      mHist_Input_SE_InvM_ptSetC_centAll[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetC%d_centAll%d",pt,cent));
+      mHist_Input_ME_InvM_ptSetC_centAll[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetC%d_centAll%d",pt,cent));
       mProfile_Input_v1_raw_ptSetC_centAll[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetC%d_centAll%d_pfx",pt,cent));
       mProfile_Input_v1_reso_ptSetC_centAll[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetC%d_centAll%d_pfx",pt,cent));
       mProfile_Input_v2_raw_ptSetC_centAll[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetC%d_centAll%d_pfx",pt,cent));
@@ -221,15 +227,39 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   TProfile *mProfile_Input_v1_reso_rapSetA_centSetA[4][6];
   TProfile *mProfile_Input_v2_raw_rapSetA_centSetA[4][6];
   TProfile *mProfile_Input_v2_reso_rapSetA_centSetA[4][6];
+  // pT range cut [0.1,1.0], [1.0, 2.0], [0.1, 2.0]
+  TH1D *mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[4][6][3];
+  TH1D *mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TH2D *mHist_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[4][6][3];
+  TProfile *mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[4][6][3];
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<6;cent++){
-      mHist_Input_SE_InvM_rapSetA_centSetA[rap][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_rapSetA%d_centSetA%d",rap,cent));
-      mHist_Input_ME_InvM_rapSetA_centSetA[rap][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_rapSetA%d_centSetA%d",rap,cent));
+      mHist_Input_SE_InvM_rapSetA_centSetA[rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_rapSetA%d_centSetA%d",rap,cent));
+      mHist_Input_ME_InvM_rapSetA_centSetA[rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_rapSetA%d_centSetA%d",rap,cent));
       mProfile_Input_v1_raw_rapSetA_centSetA[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_rapSetA%d_centSetA%d_pfx",rap,cent));
       mProfile_Input_v1_reso_rapSetA_centSetA[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_rapSetA%d_centSetA%d_pfx",rap,cent));
       mProfile_Input_v2_raw_rapSetA_centSetA[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_rapSetA%d_centSetA%d_pfx",rap,cent));
       mProfile_Input_v2_reso_rapSetA_centSetA[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_rapSetA%d_centSetA%d_pfx",rap,cent));
+      // phi-meson v1 vs. y with pT range pTRangePhiV1vsy [0.1, 1.0], [1.0, 2.0], [0.1, 2.0]
+      for(int pt=0; pt<3;pt++){
+        mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]   =  (TH2D*) file_flow_invM_Input->Get(Form("Hist_v1_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]   =   (TH2D*) file_flow_invM_Input->Get(Form("Hist_v1_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]   =  (TH2D*) file_flow_invM_Input->Get(Form("Hist_v2_raw_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]   =   (TH2D*) file_flow_invM_Input->Get(Form("Hist_v2_reso_rapSetA%d_centSetA%d_pTRange%d",rap,cent,pt));
+        mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = (TProfile*) mHist_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->ProfileX();
+        mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = (TProfile*) mHist_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->ProfileX();
+        mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt] = (TProfile*)  mHist_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->ProfileX();
+        mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt] = (TProfile*) mHist_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->ProfileX();
+      }
     }
   }
   // rap SetA, cent SetB
@@ -242,8 +272,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   for(int rap=0; rap<4; rap++)
   {
     for(int cent=0; cent<9;cent++){
-      mHist_Input_SE_InvM_rapSetA_centSetB[rap][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_SE_InvM_rapSetA%d_centSetB%d",rap,cent));
-      mHist_Input_ME_InvM_rapSetA_centSetB[rap][cent] = (TH1D*) file_KK_InvM_Input->Get(Form("Hist_ME_InvM_rapSetA%d_centSetB%d",rap,cent));
+      mHist_Input_SE_InvM_rapSetA_centSetB[rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_rapSetA%d_centSetB%d",rap,cent));
+      mHist_Input_ME_InvM_rapSetA_centSetB[rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_rapSetA%d_centSetB%d",rap,cent));
       mProfile_Input_v1_raw_rapSetA_centSetB[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_rapSetA%d_centSetB%d_pfx",rap,cent));
       mProfile_Input_v1_reso_rapSetA_centSetB[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_rapSetA%d_centSetB%d_pfx",rap,cent));
       mProfile_Input_v2_raw_rapSetA_centSetB[rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_rapSetA%d_centSetB%d_pfx",rap,cent));
@@ -254,8 +284,8 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   TString outFile = ".phiflow.result.root";
   outFile.Prepend(Form("_var%d_iter%d_", sys_varN, sys_iterN));
   outFile.Prepend(sys_object[sys_cutN]);
-  outFile.Prepend("sys_");
-  outFile.Prepend("./out_sys/");
+  outFile.Prepend(outHead);
+  // outFile.Prepend("./out_sys/out_sys_Crosscheck/");
   TFile *outputFile = new TFile(outFile,"recreate");
   // pt SetA, cent SetA
   TCanvas *canvas_InvM_ptSetA_centSetA = new TCanvas("canvas_InvM_ptSetA_centSetA","canvas_InvM_ptSetA_centSetA",1920,1080);
@@ -399,6 +429,41 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   TGraphErrors *mTGE_v1_reso_vs_rap_rapSetA_centSetA[6];
   TGraphErrors *mTGE_v2_raw_vs_rap_rapSetA_centSetA[6];
   TGraphErrors *mTGE_v2_reso_vs_rap_rapSetA_centSetA[6];
+
+  // rap SetA, cent SetA, pTRange [0.1,1.0], [1,2], [0.1,2.0]
+  TCanvas *canvas_InvM_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v1_raw_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v1_reso_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v2_raw_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v2_reso_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[3];
+  TCanvas *canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[3];
+  for(int pt=0;pt<3;pt++){
+    canvas_InvM_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_InvM_rapSetA_centSetA_pTRange%d",pt),Form("canvas_InvM_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v1_raw_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v1_raw_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v1_raw_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v1_reso_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v1_reso_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v1_reso_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v2_raw_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v2_raw_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v2_raw_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v2_reso_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v2_reso_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v2_reso_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_InvM_rapSetA_centSetA_pTRange[pt]->Divide(6,4);
+    canvas_v1_raw_rapSetA_centSetA_pTRange[pt]->Divide(6,4);
+    canvas_v1_reso_rapSetA_centSetA_pTRange[pt]->Divide(6,4);
+    canvas_v2_raw_rapSetA_centSetA_pTRange[pt]->Divide(6,4);
+    canvas_v2_reso_rapSetA_centSetA_pTRange[pt]->Divide(6,4);
+    canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange%d",pt),1920,1080);
+    canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Divide(6);
+    canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Divide(6);
+    canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Divide(6);
+    canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Divide(6);
+  }
+  TGraphErrors *mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[6][3];
+  TGraphErrors *mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[6][3];
+  TGraphErrors *mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[6][3];
+  TGraphErrors *mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[6][3];
   // rap SetA, cent SetB
   TCanvas *canvas_InvM_rapSetA_centSetB = new TCanvas("canvas_InvM_rapSetA_centSetB","canvas_InvM_rapSetA_centSetB",1920,1080);
   TCanvas *canvas_v1_raw_rapSetA_centSetB = new TCanvas("canvas_v1_raw_rapSetA_centSetB","canvas_v1_raw_rapSetA_centSetB",1920,1080);
@@ -1951,6 +2016,196 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
       ptextFlow_v2_reso_rapSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA[1][1][rap][cent],177,d_Flow_err_rapSetA_centSetA[1][1][rap][cent]));
       ptextFlow_v2_reso_rapSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
       ptextFlow_v2_reso_rapSetA_centSetA->Draw("same");
+      // phi-meson v1 vs. y with pT range pTRangePhiV1vsy [0.1, 1.0], [1.0, 2.0], [0.1, 2.0]
+      for(int pt=0; pt<3;pt++){
+        canvas_InvM_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap);
+        mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetMaximum());
+        mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        // Get the bin of the Normalization range
+        int a_iBin_range[4];
+        for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> FindFixBin(a_d_int_range[ijk]);
+        //right bg Normalization
+        Double_t d_r_area     = a_d_int_range[3]-a_d_int_range[2];
+        Double_t d_r_same_int = mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+        Double_t d_r_mx_int   = mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+        Double_t d_r_norm     = (d_r_mx_int != 0.0) ? d_r_same_int/d_r_mx_int : 1.0;
+        cout<<" R: "<<d_r_area<<" : "<<d_r_same_int<<" : "<<d_r_mx_int<<endl;
+        //left bg Normalization
+        Double_t d_l_area =  a_d_int_range[1]-a_d_int_range[0];
+        Double_t d_l_same_int = mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+        Double_t d_l_mx_int   = mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+        Double_t d_l_norm     = (d_l_mx_int != 0.0) ? d_l_same_int/d_l_mx_int : 1.0;
+        cout<<" L: "<<d_l_area<<" : "<<d_l_same_int<<" : "<<d_l_mx_int<<endl;
+        cout<<" l: "<<d_l_norm<<" r: "<<d_r_norm<<endl;
+        Double_t d_norm = ((d_r_norm/d_r_area) + (d_l_norm/d_l_area))/( (1.0/d_r_area) + (1.0/d_l_area));
+        cout<<" d_norm = "<<d_norm<<endl;
+
+        // Normalize mixed event invariant mass
+        mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetMarkerStyle(1);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Sumw2();
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Scale(d_norm);
+        mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetLineColor(kRed);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetFillColor(kRed);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetFillStyle(3002);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw("HISTsames");
+        // Substract normalized ME from SE to get Signal
+        TH1D * HistSignal = (TH1D*) mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Clone("HistSignal");
+        // HistSignal->SetLineColor(kRed);
+        HistSignal -> Reset();
+        HistSignal -> Sumw2();
+
+        for(int ijk = 1; ijk < HistSignal->GetNbinsX()+1; ijk++)
+        {
+          Double_t d_center   = mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> GetBinCenter(ijk);
+          Double_t d_same     = mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> GetBinContent(ijk);
+          Double_t d_same_err = mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> GetBinError(ijk);
+          Double_t d_mx       = mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> GetBinContent(ijk);
+          Double_t d_mx_err   = mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> GetBinError(ijk);
+          Double_t d_sig      = d_same - d_mx;
+          Double_t d_sig_err  = sqrt(d_same_err*d_same_err+d_mx_err*d_mx_err);
+
+          HistSignal -> SetBinContent(ijk,d_sig);
+          HistSignal -> SetBinError(ijk,d_sig_err);
+        }
+        HistSignal->SetMarkerStyle(2);
+        HistSignal->SetMarkerColor(kBlue);
+        HistSignal->SetLineColor(kBlue);
+        HistSignal -> Draw("HISTsamesE");
+        gStyle->SetOptFit(1111);
+
+        //Fit function
+        //fit Signal with Gauss plus constant
+        TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
+        TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+        //fit to a simple gauss first to get seed
+        TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
+        HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
+        // seeds
+        Double_t d_seeds_p0    = tf1_gauss -> GetParameter(0);
+        Double_t d_seeds_mean  = tf1_gauss -> GetParameter(1);
+        Double_t d_seeds_sigma = tf1_gauss -> GetParameter(2);
+
+        tf1_Signal -> SetParameter(1,d_seeds_mean);
+        tf1_Signal -> SetParameter(2,d_seeds_sigma);
+        tf1_Signal -> SetParLimits(1,d_seeds_mean-d_seeds_sigma,d_seeds_mean+d_seeds_sigma);
+        tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
+        tf1_Signal -> SetLineColor(kBlue);
+
+        int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+        tf1_Signal->Draw("same");
+        canvas_InvM_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap)->Update();
+        cout << "FitStatus= " << FitStatus << endl;
+        // To count how many #phi mesons HistSignal has
+        dParSig[0]    = tf1_Signal -> GetParameter(0);
+        dParSig[1]    = tf1_Signal -> GetParameter(1);
+        dParSig[2]    = tf1_Signal -> GetParameter(2);
+        dParSig[3]    = tf1_Signal -> GetParameter(3);
+        int iBin_3sigint_low = HistSignal -> FindFixBin(dParSig[1] - (3*dParSig[2]));
+        int iBin_3sigint_hi  = HistSignal -> FindFixBin(dParSig[1] + (3*dParSig[2]));
+        Double_t d_3sig_integral_error;
+        Double_t d_3sig_integral = HistSignal -> IntegralAndError(iBin_3sigint_low,iBin_3sigint_hi,d_3sig_integral_error,"");
+        TPaveText * ptext = new TPaveText(0.1,0.65,0.30,0.9,"NDCARC");
+        ptext -> AddText(Form("Mean: %.4f",dParSig[1]));
+        ptext -> AddText(Form("Sigma: %.4f",dParSig[2]));
+        ptext -> AddText(Form("3#sigma Int: %.4f",d_3sig_integral));
+        ptext -> AddText(Form("3#sigma Int Err: %.4f",d_3sig_integral_error));
+        ptext -> Draw("same");
+        // Fitting the background
+        // TH1D * mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] = (TH1D*) mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> Clone("mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]");
+        // mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]   -> SetTitle(Form("%s Background fit with Pol2",mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetTitle() ));
+        TF1 * tf1_Background = new TF1("tf1_pol","[0] + [1]*x + [2]*x**2",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetFillColor(kRed);
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt] -> SetFillStyle(3002);
+        // mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->SetMaximum(mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetBinContent(mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->GetMaximumBin())*1.4);
+        // mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mHist_Input_ME_InvM_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_Background,"E+","R",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+        // sameEventInvM->Draw("same");
+        tf1_Background->SetLineColor(kRed);
+        tf1_Background->Draw("same");
+        dParBg[0]=tf1_Background->GetParameter(0);
+        dParBg[1]=tf1_Background->GetParameter(1);
+        dParBg[2]=tf1_Background->GetParameter(2);
+        TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
+        TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+
+        canvas_v1_raw_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap);
+        mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v1_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_rapSetA_centSetA_pTRange[0][0][rap][cent][pt] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_rapSetA_centSetA_pTRange[0][0][rap][cent][pt] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v1_raw_rapSetA_centSetA_pTRange = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v1_raw_rapSetA_centSetA_pTRange -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA_pTRange[0][0][rap][cent][pt],177,d_Flow_err_rapSetA_centSetA_pTRange[0][0][rap][cent][pt]));
+        ptextFlow_v1_raw_rapSetA_centSetA_pTRange -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v1_raw_rapSetA_centSetA_pTRange->Draw("same");
+
+        canvas_v1_reso_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap);
+        mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v1_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_rapSetA_centSetA_pTRange[0][1][rap][cent][pt] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_rapSetA_centSetA_pTRange[0][1][rap][cent][pt] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v1_reso_rapSetA_centSetA_pTRange = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v1_reso_rapSetA_centSetA_pTRange -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA_pTRange[0][1][rap][cent][pt],177,d_Flow_err_rapSetA_centSetA_pTRange[0][1][rap][cent][pt]));
+        ptextFlow_v1_reso_rapSetA_centSetA_pTRange -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v1_reso_rapSetA_centSetA_pTRange->Draw("same");
+
+        canvas_v2_raw_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap);
+        mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v2_raw_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_rapSetA_centSetA_pTRange[1][0][rap][cent][pt] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_rapSetA_centSetA_pTRange[1][0][rap][cent][pt] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v2_raw_rapSetA_centSetA_pTRange = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v2_raw_rapSetA_centSetA_pTRange -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA_pTRange[1][0][rap][cent][pt],177,d_Flow_err_rapSetA_centSetA_pTRange[1][0][rap][cent][pt]));
+        ptextFlow_v2_raw_rapSetA_centSetA_pTRange -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v2_raw_rapSetA_centSetA_pTRange->Draw("same");
+
+        canvas_v2_reso_rapSetA_centSetA_pTRange[pt]->cd((cent+1)+6*rap);
+        mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Draw();
+        mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v2_reso_rapSetA_centSetA_pTRange[rap][cent][pt]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_rapSetA_centSetA_pTRange[1][1][rap][cent][pt] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_rapSetA_centSetA_pTRange[1][1][rap][cent][pt] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v2_reso_rapSetA_centSetA_pTRange = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v2_reso_rapSetA_centSetA_pTRange -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA_pTRange[1][1][rap][cent][pt],177,d_Flow_err_rapSetA_centSetA_pTRange[1][1][rap][cent][pt]));
+        ptextFlow_v2_reso_rapSetA_centSetA_pTRange -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v2_reso_rapSetA_centSetA_pTRange->Draw("same");
+      }
     }
   }
   const int n_rapSetA_centSetA = 3;
@@ -2010,6 +2265,64 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->Draw("AP");
     l1_rapSetA_centSetA->Draw("same");
+
+    for(int pt = 0; pt<3;pt++){
+      TLine *l1_rapSetA_centSetA_pTRange = new TLine(0,0,2,0);
+      l1_rapSetA_centSetA_pTRange->SetLineStyle(2);
+      Double_t x[n_rapSetA_centSetA] = { -1.25-_y_CM, -0.75-_y_CM, -0.25-_y_CM};
+      Double_t ex[n_rapSetA_centSetA] = { 0.25, 0.25, 0.25};
+      Double_t y_v1_raw[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA_pTRange[0][0][1][cent][pt],
+        d_FLow_rapSetA_centSetA_pTRange[0][0][2][cent][pt], d_FLow_rapSetA_centSetA_pTRange[0][0][3][cent][pt]};
+      Double_t ey_v1_raw[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA_pTRange[0][0][1][cent][pt],
+        d_Flow_err_rapSetA_centSetA_pTRange[0][0][2][cent][pt], d_Flow_err_rapSetA_centSetA_pTRange[0][0][3][cent][pt]};
+      canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->cd(cent+1);
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt] = new TGraphErrors(n_rapSetA_centSetA,x,y_v1_raw,ex,ey_v1_raw);
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetXaxis()->SetTitle("y-y_{CM}");
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{1}");
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerColor(4);
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerStyle(24);
+      mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Draw("AP");
+      l1_rapSetA_centSetA->Draw("same");
+
+      Double_t y_v1_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA_pTRange[0][1][1][cent][pt],
+        d_FLow_rapSetA_centSetA_pTRange[0][1][2][cent][pt], d_FLow_rapSetA_centSetA_pTRange[0][1][3][cent][pt]};
+      Double_t ey_v1_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA_pTRange[0][1][1][cent][pt],
+        d_Flow_err_rapSetA_centSetA_pTRange[0][1][2][cent][pt], d_Flow_err_rapSetA_centSetA_pTRange[0][1][3][cent][pt]};
+      canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->cd(cent+1);
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt] = new TGraphErrors(n_rapSetA_centSetA,x,y_v1_reso,ex,ey_v1_reso);
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetXaxis()->SetTitle("y-y_{CM}");
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{1}");
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerColor(4);
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerStyle(24);
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Draw("AP");
+      l1_rapSetA_centSetA->Draw("same");
+
+      Double_t y_v2_raw[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA_pTRange[1][0][1][cent][pt],
+        d_FLow_rapSetA_centSetA_pTRange[1][0][2][cent][pt], d_FLow_rapSetA_centSetA_pTRange[1][0][3][cent][pt]};
+      Double_t ey_v2_raw[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA_pTRange[1][0][1][cent][pt],
+        d_Flow_err_rapSetA_centSetA_pTRange[1][0][2][cent][pt], d_Flow_err_rapSetA_centSetA_pTRange[1][0][3][cent][pt]};
+      canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->cd(cent+1);
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_raw,ex,ey_v2_raw);
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetXaxis()->SetTitle("y-y_{CM}");
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{2}^{raw}");
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerColor(4);
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerStyle(24);
+      mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Draw("AP");
+      l1_rapSetA_centSetA->Draw("same");
+
+      Double_t y_v2_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA_pTRange[1][1][1][cent][pt],
+        d_FLow_rapSetA_centSetA_pTRange[1][1][2][cent][pt], d_FLow_rapSetA_centSetA_pTRange[1][1][3][cent][pt]};
+      Double_t ey_v2_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA_pTRange[1][1][1][cent][pt],
+        d_Flow_err_rapSetA_centSetA_pTRange[1][1][2][cent][pt], d_Flow_err_rapSetA_centSetA_pTRange[1][1][3][cent][pt]};
+      canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->cd(cent+1);
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetXaxis()->SetTitle("y-y_{CM}");
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerColor(4);
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerStyle(24);
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Draw("AP");
+      l1_rapSetA_centSetA->Draw("same");
+    }
   }
   mTGE_v1_raw_vs_rap_rapSetA_centSetA[0]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
   mTGE_v1_raw_vs_rap_rapSetA_centSetA[1]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
@@ -2038,6 +2351,36 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   mTGE_v2_reso_vs_rap_rapSetA_centSetA[3]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[2],centSetA[4]));
   mTGE_v2_reso_vs_rap_rapSetA_centSetA[4]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
   mTGE_v2_reso_vs_rap_rapSetA_centSetA[5]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
+  for(int pt=0; pt<3;pt++){
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[0][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[1],pt));
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[1][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[1],centSetA[2],pt));
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[2][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[3],pt));
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[3][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[4],pt));
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[4][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[3],pt));
+    mTGE_v1_raw_vs_rap_rapSetA_centSetA_pTRange[5][pt]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[4],pt));
+
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[0][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[1],pt));
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[1][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[1],centSetA[2],pt));
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[2][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[3],pt));
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[3][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[4],pt));
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[4][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[3],pt));
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[5][pt]->SetTitle(Form("v_{1}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[4],pt));
+
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[0][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[1],pt));
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[1][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[1],centSetA[2],pt));
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[2][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[3],pt));
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[3][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[4],pt));
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[4][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[3],pt));
+    mTGE_v2_raw_vs_rap_rapSetA_centSetA_pTRange[5][pt]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[4],pt));
+
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[0][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[1],pt));
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[1][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[1],centSetA[2],pt));
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[2][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[3],pt));
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[3][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[2],centSetA[4],pt));
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[4][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[3],pt));
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[5][pt]->SetTitle(Form("v_{2}, %3.f -%3.f%%, pt_%d",centSetA[0],centSetA[4],pt));
+
+  }
   // rap SetA, cent SetB
   for(int rap=0; rap<4; rap++)
   {
@@ -2294,15 +2637,46 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
     l1_rapSetA_centSetB->Draw("same");
   }
   TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
-  mTGE_v1_reso_vs_rap_rapSetA_centSetA[1]->Fit(tf1_dv1dy,"E+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
-  cout<<"v1 10-40% rapSetA_centSetA: " << d_FLow_rapSetA_centSetA[0][1][1][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][1] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][1]<<endl;
-  flowFile << d_FLow_rapSetA_centSetA[0][1][1][1]<<" " << d_FLow_rapSetA_centSetA[0][1][2][1]<<" " << d_FLow_rapSetA_centSetA[0][1][3][1] <<" "<< (Double_t)tf1_dv1dy->GetParameter(0) << endl;
-  cout<<"v1 err 10-40% rapSetA_centSetA: " << d_Flow_err_rapSetA_centSetA[0][1][1][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][1] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][1]<<endl;
-  flowFile << d_Flow_err_rapSetA_centSetA[0][1][1][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][2][1]<<" " << d_Flow_err_rapSetA_centSetA[0][1][3][1] << " "<<(Double_t)tf1_dv1dy->GetParError(0) << endl;
-  cout<<"dv1/dy slope: " << (Double_t)tf1_dv1dy->GetParameter(0) <<"+/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+  for(int cent = 0; cent<3;cent++){
+    mTGE_v1_reso_vs_rap_rapSetA_centSetA[cent]->Fit(tf1_dv1dy,"QE+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
+    cout<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][cent]<<endl;
+    flowFile<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][cent]<<endl;
+    cout<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][cent]<<endl;
+    flowFile<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][cent]<<endl;
+    cout<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1]) << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+    flowFile<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1])<< (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+    cout<<endl;
+    flowFile<<endl;
+  }
   cout<<"v1 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1] <<endl;
   cout<<"v1 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1] <<endl;
   cout<<endl;
+
+  for(int pt=0;pt<3;pt++){
+    for(int cent = 0; cent<3;cent++){
+      mTGE_v1_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Fit(tf1_dv1dy,"QE+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
+      cout<<Form("v1 %2.f-%2.f%% rapSetA_centSetA, pT Range%d: ",centSetA[cent],centSetA[cent+1],pt) << d_FLow_rapSetA_centSetA_pTRange[0][1][1][cent][pt] <<", "<<d_FLow_rapSetA_centSetA_pTRange[0][1][2][cent][pt] <<", "<<d_FLow_rapSetA_centSetA_pTRange[0][1][3][cent][pt]<<endl;
+      flowFile<<Form("v1 %2.f-%2.f%% rapSetA_centSetA, pT Range%d: ",centSetA[cent],centSetA[cent+1],pt) << d_FLow_rapSetA_centSetA_pTRange[0][1][1][cent][pt] <<", "<<d_FLow_rapSetA_centSetA_pTRange[0][1][2][cent][pt] <<", "<<d_FLow_rapSetA_centSetA_pTRange[0][1][3][cent][pt]<<endl;
+      // flowFile << d_FLow_rapSetA_centSetA_pTRange[0][1][1][1][pt]<<" " << d_FLow_rapSetA_centSetA_pTRange[0][1][2][1][pt]<<" " << d_FLow_rapSetA_centSetA_pTRange[0][1][3][1][pt] <<" "<< (Double_t)tf1_dv1dy->GetParameter(0) << endl;
+      cout<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA, pT Range%d: ",centSetA[cent],centSetA[cent+1],pt) << d_Flow_err_rapSetA_centSetA_pTRange[0][1][1][cent][pt] <<", "<<d_Flow_err_rapSetA_centSetA_pTRange[0][1][2][cent][pt] <<", "<<d_Flow_err_rapSetA_centSetA_pTRange[0][1][3][cent][pt]<<endl;
+      flowFile<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA, pT Range%d: ",centSetA[cent],centSetA[cent+1],pt) << d_Flow_err_rapSetA_centSetA_pTRange[0][1][1][cent][pt] <<", "<<d_Flow_err_rapSetA_centSetA_pTRange[0][1][2][cent][pt] <<", "<<d_Flow_err_rapSetA_centSetA_pTRange[0][1][3][cent][pt]<<endl;
+      // flowFile << d_Flow_err_rapSetA_centSetA_pTRange[0][1][1][1][pt]<<" " << d_Flow_err_rapSetA_centSetA_pTRange[0][1][2][1][pt]<<" " << d_Flow_err_rapSetA_centSetA_pTRange[0][1][3][1][pt] << " "<<(Double_t)tf1_dv1dy->GetParError(0) << endl;
+      cout<<"dv1/dy slope: " << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      flowFile<<"dv1/dy slope: " << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      cout<<endl;
+      flowFile<<endl;
+      // mTGE_v1_reso_vs_rap_rapSetA_centSetA[cent]->Fit(tf1_dv1dy,"QE+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
+      // cout<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][cent]<<endl;
+      // flowFile<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[0][1][3][cent]<<endl;
+      // cout<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][cent]<<endl;
+      // flowFile<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[0][1][3][cent]<<endl;
+      // cout<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1]) << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      // flowFile<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1])<< (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      // cout<<endl;
+      // flowFile<<endl;
+    }
+  }
+
   cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[1][1][1][1] <<endl;
   cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][4] <<endl;
@@ -2362,6 +2736,17 @@ void FlowExtractor( TString invMFileName = "./res_sys/result_sys_invM/merged_mer
   canvas_v1_reso_vs_rap_rapSetA_centSetA->Write();
   canvas_v2_raw_vs_rap_rapSetA_centSetA->Write();
   canvas_v2_reso_vs_rap_rapSetA_centSetA->Write();
+  for(int pt=0;pt<3;pt++){
+    canvas_InvM_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v1_raw_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v1_reso_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v2_raw_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v2_reso_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+    canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+  }
   canvas_InvM_rapSetA_centSetB->Write();
   canvas_v1_raw_rapSetA_centSetB->Write();
   canvas_v1_reso_rapSetA_centSetB->Write();
