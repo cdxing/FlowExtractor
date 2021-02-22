@@ -50,7 +50,7 @@
 using namespace std;
 // -------------------------- set Some fitting prerequsites --------------------
 
-const Double_t _sigmaRange = 3.; // Sigma of the Fitting range
+const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
@@ -61,11 +61,11 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_crosscheck/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_C8A781722258FB768479544F7612801B_NewProd.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter4_2B8B22165C3472AE156ED01C4878A879_.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
-                    Int_t   inputp4 = 3 // Iteration of the analysis is. In this analysis, 2 iterations is enough
+                    Int_t   inputp4 = 4 // Iteration of the analysis is. In this analysis, 2 iterations is enough
 ){
   Int_t sys_cutN = inputp2; // sysErr cut Indexes 0-15
   Int_t sys_varN = inputp3; // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -78,7 +78,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
                             "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
   // TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
-  TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
+  TString outTxt = "./out_v2/phi_v2_y_sys_";
   TString outHead = outTxt;
   outTxt.Append(sys_object[sys_cutN]);
   outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
@@ -96,18 +96,18 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
 
   Double_t centSetA[5]  = {0, 10, 40, 60, 80}; // %
   Double_t centSetB[10]  = {0, 5, 10, 20, 30, 40, 50, 60, 70, 80}; // %
-  // directed and elliptic flow. Indexes: 0: v1, 1: v2; raw, reso; pT/y SetA; cent SetA
-  Double_t d_FLow_ptSetA_centSetA[2][2][2][6]; // pt SetA, cent SetA
+  // directed and elliptic flow. Indexes: 0: v1, 1: v2; raw, reso; pT/y SetA; cent SetA; jkk
+  Double_t d_FLow_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
   Double_t d_FLow_ptSetB_centSetA[2][2][4][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_FLow_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
-  Double_t d_FLow_rapSetA_centSetA[2][2][4][6]; // pt SetC, cent 0-60%, 0-80%
+  Double_t d_FLow_rapSetA_centSetA[2][2][4][6]; // pt SetA, cent 0-60%, 0-80%
   Double_t d_FLow_rapSetA_centSetA_pTRange[2][2][4][6][3]; // pt SetC, cent 0-60%, 0-80%, 3 pT range, [0.1,1], [1,2], [0.1,2]
   Double_t d_FLow_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
 
 
-  Double_t d_Flow_err_ptSetA_centSetA[2][2][2][6]; // pt SetA, cent SetA
+  Double_t d_Flow_err_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
   Double_t d_Flow_err_ptSetB_centSetA[2][2][4][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
@@ -131,21 +131,23 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       std::cout<<"flow file loaded successfully!"<<std::endl;
   }
   // pt SetA, cent SetA
-  TH1D *mHist_Input_SE_InvM_ptSetA_centSetA[2][6];
-  TH1D *mHist_Input_ME_InvM_ptSetA_centSetA[2][6];
-  TProfile *mProfile_Input_v1_raw_ptSetA_centSetA[2][6];
-  TProfile *mProfile_Input_v1_reso_ptSetA_centSetA[2][6];
-  TProfile *mProfile_Input_v2_raw_ptSetA_centSetA[2][6];
-  TProfile *mProfile_Input_v2_reso_ptSetA_centSetA[2][6];
-  for(int pt=0; pt<2; pt++)
-  {
-    for(int cent=0; cent<6;cent++){
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent));
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d",pt,cent));
-      mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
-      mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetA%d_pfx",pt,cent));
-      mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
-      mProfile_Input_v2_reso_ptSetA_centSetA[pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetA%d_centSetA%d_pfx",pt,cent));
+  TH1D *mHist_Input_SE_InvM_ptSetA_centSetA[11][2][6];
+  TH1D *mHist_Input_ME_InvM_ptSetA_centSetA[11][2][6];
+  TProfile *mProfile_Input_v1_raw_ptSetA_centSetA[11][2][6];
+  TProfile *mProfile_Input_v1_reso_ptSetA_centSetA[11][2][6];
+  TProfile *mProfile_Input_v2_raw_ptSetA_centSetA[11][2][6];
+  TProfile *mProfile_Input_v2_reso_ptSetA_centSetA[11][2][6];
+  for(int jkk=0; jkk<11; jkk++){
+    for(int pt=0; pt<2; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk));
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk));
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+      }
     }
   }
   // pt SetA, cent SetB
@@ -491,252 +493,256 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // ----------------------- Normalization range -------------------------------
   Double_t a_d_int_range[4] ={
     0.99,
-    1.008,
-    1.04,
+    1.014,
+    1.026,
     1.09
   };
   // pt SetA, cent SetA
-  for(int pt=0; pt<2; pt++)
-  {
-    for(int cent=0; cent<6;cent++){
-      canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt);
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent]->GetMaximum());
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      // Get the bin of the Normalization range
-      int a_iBin_range[4];
-      for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> FindFixBin(a_d_int_range[ijk]);
-      //right bg Normalization
-      Double_t d_r_area     = a_d_int_range[3]-a_d_int_range[2];
-      Double_t d_r_same_int = mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
-      Double_t d_r_mx_int   = mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
-      Double_t d_r_norm     = (d_r_mx_int != 0.0) ? d_r_same_int/d_r_mx_int : 1.0;
-      cout<<" R: "<<d_r_area<<" : "<<d_r_same_int<<" : "<<d_r_mx_int<<endl;
-      //left bg Normalization
-      Double_t d_l_area =  a_d_int_range[1]-a_d_int_range[0];
-      Double_t d_l_same_int = mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
-      Double_t d_l_mx_int   = mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
-      Double_t d_l_norm     = (d_l_mx_int != 0.0) ? d_l_same_int/d_l_mx_int : 1.0;
-      cout<<" L: "<<d_l_area<<" : "<<d_l_same_int<<" : "<<d_l_mx_int<<endl;
-      cout<<" l: "<<d_l_norm<<" r: "<<d_r_norm<<endl;
-      Double_t d_norm = ((d_r_norm/d_r_area) + (d_l_norm/d_l_area))/( (1.0/d_r_area) + (1.0/d_l_area));
-      cout<<" d_norm = "<<d_norm<<endl;
+  for(int jkk=0; jkk<11; jkk++){
+    for(int pt=0; pt<2; pt++)
+    {
+      for(int cent=0; cent<6;cent++){
+        canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt);
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetMaximum());
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        // Get the bin of the Normalization range
+        int a_iBin_range[4];
+        for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> FindFixBin(a_d_int_range[ijk]);
+        //right bg Normalization
+        Double_t d_r_area     = a_d_int_range[3]-a_d_int_range[2];
+        Double_t d_r_same_int = mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+        Double_t d_r_mx_int   = mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+        Double_t d_r_norm     = (d_r_mx_int != 0.0) ? d_r_same_int/d_r_mx_int : 1.0;
+        cout<<" R: "<<d_r_area<<" : "<<d_r_same_int<<" : "<<d_r_mx_int<<endl;
+        //left bg Normalization
+        Double_t d_l_area =  a_d_int_range[1]-a_d_int_range[0];
+        Double_t d_l_same_int = mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+        Double_t d_l_mx_int   = mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+        Double_t d_l_norm     = (d_l_mx_int != 0.0) ? d_l_same_int/d_l_mx_int : 1.0;
+        cout<<" L: "<<d_l_area<<" : "<<d_l_same_int<<" : "<<d_l_mx_int<<endl;
+        cout<<" l: "<<d_l_norm<<" r: "<<d_r_norm<<endl;
+        Double_t d_norm = ((d_r_norm/d_r_area) + (d_l_norm/d_l_area))/( (1.0/d_r_area) + (1.0/d_l_area));
+        cout<<" d_norm = "<<d_norm<<endl;
 
-      // Normalize mixed event invariant mass
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> SetMarkerStyle(1);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> Sumw2();
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> Scale(d_norm);
-      mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent]->Draw();
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> SetLineColor(kRed);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> SetFillColor(kRed);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> SetFillStyle(3002);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->Draw("HISTsames");
-      // Substract normalized ME from SE to get Signal
-      TH1D * HistSignal = (TH1D*) mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> Clone("HistSignal");
-      // HistSignal->SetLineColor(kRed);
-      HistSignal -> Reset();
-      HistSignal -> Sumw2();
+        // Normalize mixed event invariant mass
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetMarkerStyle(1);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> Sumw2();
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> Scale(d_norm);
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetLineColor(kRed);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->Draw("HISTsames");
+        // Substract normalized ME from SE to get Signal
+        TH1D * HistSignal = (TH1D*) mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> Clone("HistSignal");
+        // HistSignal->SetLineColor(kRed);
+        HistSignal -> Reset();
+        HistSignal -> Sumw2();
 
-      for(int ijk = 1; ijk < HistSignal->GetNbinsX()+1; ijk++)
-      {
-        Double_t d_center   = mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> GetBinCenter(ijk);
-        Double_t d_same     = mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> GetBinContent(ijk);
-        Double_t d_same_err = mHist_Input_SE_InvM_ptSetA_centSetA[pt][cent] -> GetBinError(ijk);
-        Double_t d_mx       = mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> GetBinContent(ijk);
-        Double_t d_mx_err   = mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> GetBinError(ijk);
-        Double_t d_sig      = d_same - d_mx;
-        Double_t d_sig_err  = sqrt(d_same_err*d_same_err+d_mx_err*d_mx_err);
+        for(int ijk = 1; ijk < HistSignal->GetNbinsX()+1; ijk++)
+        {
+          Double_t d_center   = mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> GetBinCenter(ijk);
+          Double_t d_same     = mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
+          Double_t d_same_err = mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> GetBinError(ijk);
+          Double_t d_mx       = mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
+          Double_t d_mx_err   = mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> GetBinError(ijk);
+          Double_t d_sig      = d_same - d_mx;
+          Double_t d_sig_err  = sqrt(d_same_err*d_same_err+d_mx_err*d_mx_err);
 
-        HistSignal -> SetBinContent(ijk,d_sig);
-        HistSignal -> SetBinError(ijk,d_sig_err);
+          HistSignal -> SetBinContent(ijk,d_sig);
+          HistSignal -> SetBinError(ijk,d_sig_err);
+        }
+        HistSignal->SetMarkerStyle(2);
+        HistSignal->SetMarkerColor(kBlue);
+        HistSignal->SetLineColor(kBlue);
+        HistSignal -> Draw("HISTsamesE");
+        gStyle->SetOptFit(1111);
+
+        //Fit function
+        //fit Signal with Gauss plus constant
+        TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
+        TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+        //fit to a simple gauss first to get seed
+        TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
+        HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
+        // seeds
+        Double_t d_seeds_p0    = tf1_gauss -> GetParameter(0);
+        Double_t d_seeds_mean  = tf1_gauss -> GetParameter(1);
+        Double_t d_seeds_sigma = tf1_gauss -> GetParameter(2);
+
+        tf1_Signal -> SetParameter(1,d_seeds_mean);
+        tf1_Signal -> SetParameter(2,d_seeds_sigma);
+        tf1_Signal -> SetParLimits(1,d_seeds_mean-d_seeds_sigma,d_seeds_mean+d_seeds_sigma);
+        tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
+        tf1_Signal -> SetLineColor(kBlue);
+
+        int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+        tf1_Signal->Draw("same");
+        canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt)->Update();
+        cout << "FitStatus= " << FitStatus << endl;
+        // To count how many #phi mesons HistSignal has
+        dParSig[0]    = tf1_Signal -> GetParameter(0);
+        dParSig[1]    = tf1_Signal -> GetParameter(1);
+        dParSig[2]    = tf1_Signal -> GetParameter(2);
+        dParSig[3]    = tf1_Signal -> GetParameter(3);
+        int iBin_3sigint_low = HistSignal -> FindFixBin(dParSig[1] - (3*dParSig[2]));
+        int iBin_3sigint_hi  = HistSignal -> FindFixBin(dParSig[1] + (3*dParSig[2]));
+        Double_t d_3sig_integral_error;
+        Double_t d_3sig_integral = HistSignal -> IntegralAndError(iBin_3sigint_low,iBin_3sigint_hi,d_3sig_integral_error,"");
+        TPaveText * ptext = new TPaveText(0.1,0.65,0.30,0.9,"NDCARC");
+        ptext -> AddText(Form("Mean: %.4f",dParSig[1]));
+        ptext -> AddText(Form("Sigma: %.4f",dParSig[2]));
+        ptext -> AddText(Form("3#sigma Int: %.4f",d_3sig_integral));
+        ptext -> AddText(Form("3#sigma Int Err: %.4f",d_3sig_integral_error));
+        ptext -> Draw("same");
+        // Fitting the background
+        // TH1D * mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> Clone("mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]");
+        // mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]   -> SetTitle(Form("%s Background fit with Pol2",mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetTitle() ));
+        TF1 * tf1_Background = new TF1("tf1_pol","[0] + [1]*x + [2]*x**2",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
+        // mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->SetMaximum(mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetBinContent(mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetMaximumBin())*1.4);
+        // mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_Background,"E+","R",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+        // sameEventInvM->Draw("same");
+        tf1_Background->SetLineColor(kRed);
+        tf1_Background->Draw("same");
+        dParBg[0]=tf1_Background->GetParameter(0);
+        dParBg[1]=tf1_Background->GetParameter(1);
+        dParBg[2]=tf1_Background->GetParameter(2);
+        TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
+        TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+
+        canvas_v1_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_ptSetA_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_ptSetA_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v1_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v1_raw_ptSetA_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][0][0][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][0][0][pt][cent]));
+        ptextFlow_v1_raw_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v1_raw_ptSetA_centSetA->Draw("same");
+
+        canvas_v1_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_ptSetA_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_ptSetA_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v1_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v1_reso_ptSetA_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][0][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][0][1][pt][cent]));
+        ptextFlow_v1_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v1_reso_ptSetA_centSetA->Draw("same");
+
+        canvas_v2_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_ptSetA_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_ptSetA_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v2_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v2_raw_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][1][0][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][1][0][pt][cent]));
+        ptextFlow_v2_raw_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v2_raw_ptSetA_centSetA->Draw("same");
+
+        canvas_v2_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Draw();
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        tf1_totalFlow -> SetLineColor(kBlue);
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        d_FLow_ptSetA_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        d_Flow_err_ptSetA_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        TPaveText * ptextFlow_v2_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][1][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][1][1][pt][cent]));
+        ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v2_reso_ptSetA_centSetA->Draw("same");
       }
-      HistSignal->SetMarkerStyle(2);
-      HistSignal->SetMarkerColor(kBlue);
-      HistSignal->SetLineColor(kBlue);
-      HistSignal -> Draw("HISTsamesE");
-      gStyle->SetOptFit(1111);
-
-      //Fit function
-      //fit Signal with Gauss plus constant
-      TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-      TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
-      //fit to a simple gauss first to get seed
-      TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
-      HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
-      // seeds
-      Double_t d_seeds_p0    = tf1_gauss -> GetParameter(0);
-      Double_t d_seeds_mean  = tf1_gauss -> GetParameter(1);
-      Double_t d_seeds_sigma = tf1_gauss -> GetParameter(2);
-
-      tf1_Signal -> SetParameter(1,d_seeds_mean);
-      tf1_Signal -> SetParameter(2,d_seeds_sigma);
-      tf1_Signal -> SetParLimits(1,d_seeds_mean-d_seeds_sigma,d_seeds_mean+d_seeds_sigma);
-      tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
-      tf1_Signal -> SetLineColor(kBlue);
-
-      int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
-      tf1_Signal->Draw("same");
-      canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt)->Update();
-      cout << "FitStatus= " << FitStatus << endl;
-      // To count how many #phi mesons HistSignal has
-      dParSig[0]    = tf1_Signal -> GetParameter(0);
-      dParSig[1]    = tf1_Signal -> GetParameter(1);
-      dParSig[2]    = tf1_Signal -> GetParameter(2);
-      dParSig[3]    = tf1_Signal -> GetParameter(3);
-      int iBin_3sigint_low = HistSignal -> FindFixBin(dParSig[1] - (3*dParSig[2]));
-      int iBin_3sigint_hi  = HistSignal -> FindFixBin(dParSig[1] + (3*dParSig[2]));
-      Double_t d_3sig_integral_error;
-      Double_t d_3sig_integral = HistSignal -> IntegralAndError(iBin_3sigint_low,iBin_3sigint_hi,d_3sig_integral_error,"");
-      TPaveText * ptext = new TPaveText(0.1,0.65,0.30,0.9,"NDCARC");
-      ptext -> AddText(Form("Mean: %.4f",dParSig[1]));
-      ptext -> AddText(Form("Sigma: %.4f",dParSig[2]));
-      ptext -> AddText(Form("3#sigma Int: %.4f",d_3sig_integral));
-      ptext -> AddText(Form("3#sigma Int Err: %.4f",d_3sig_integral_error));
-      ptext -> Draw("same");
-      // Fitting the background
-      // TH1D * mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] = (TH1D*) mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> Clone("mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]");
-      // mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]   -> SetTitle(Form("%s Background fit with Pol2",mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->GetTitle() ));
-      TF1 * tf1_Background = new TF1("tf1_pol","[0] + [1]*x + [2]*x**2",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> SetFillColor(kRed);
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent] -> SetFillStyle(3002);
-      // mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->SetMaximum(mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->GetBinContent(mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->GetMaximumBin())*1.4);
-      // mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->Draw();
-      mHist_Input_ME_InvM_ptSetA_centSetA[pt][cent]->Fit(tf1_Background,"E+","R",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
-      // sameEventInvM->Draw("same");
-      tf1_Background->SetLineColor(kRed);
-      tf1_Background->Draw("same");
-      dParBg[0]=tf1_Background->GetParameter(0);
-      dParBg[1]=tf1_Background->GetParameter(1);
-      dParBg[2]=tf1_Background->GetParameter(2);
-      TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-      TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
-
-      canvas_v1_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
-      mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent]->Draw();
-      mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-      Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-      Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-      Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-      tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-      tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-      tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-      tf1_totalFlow -> SetLineColor(kBlue);
-      mProfile_Input_v1_raw_ptSetA_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-      d_FLow_ptSetA_centSetA[0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-      d_Flow_err_ptSetA_centSetA[0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-      TPaveText * ptextFlow_v1_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-      ptextFlow_v1_raw_ptSetA_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[0][0][pt][cent],177,d_Flow_err_ptSetA_centSetA[0][0][pt][cent]));
-      ptextFlow_v1_raw_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-      ptextFlow_v1_raw_ptSetA_centSetA->Draw("same");
-
-      canvas_v1_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
-      mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent]->Draw();
-      mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-      d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-      d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-      d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-      tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-      tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-      tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-      tf1_totalFlow -> SetLineColor(kBlue);
-      mProfile_Input_v1_reso_ptSetA_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-      d_FLow_ptSetA_centSetA[0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-      d_Flow_err_ptSetA_centSetA[0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-      TPaveText * ptextFlow_v1_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-      ptextFlow_v1_reso_ptSetA_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[0][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[0][1][pt][cent]));
-      ptextFlow_v1_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-      ptextFlow_v1_reso_ptSetA_centSetA->Draw("same");
-
-      canvas_v2_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
-      mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent]->Draw();
-      mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-      d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-      d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-      d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-      tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-      tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-      tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-      tf1_totalFlow -> SetLineColor(kBlue);
-      mProfile_Input_v2_raw_ptSetA_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-      d_FLow_ptSetA_centSetA[1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-      d_Flow_err_ptSetA_centSetA[1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-      TPaveText * ptextFlow_v2_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-      ptextFlow_v2_raw_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[1][0][pt][cent],177,d_Flow_err_ptSetA_centSetA[1][0][pt][cent]));
-      ptextFlow_v2_raw_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-      ptextFlow_v2_raw_ptSetA_centSetA->Draw("same");
-
-      canvas_v2_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
-      mProfile_Input_v2_reso_ptSetA_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mProfile_Input_v2_reso_ptSetA_centSetA[pt][cent]->Draw();
-      mProfile_Input_v2_reso_ptSetA_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-      d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-      d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-      d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-      tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-      tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-      tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-      tf1_totalFlow -> SetLineColor(kBlue);
-      mProfile_Input_v2_reso_ptSetA_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-      d_FLow_ptSetA_centSetA[1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-      d_Flow_err_ptSetA_centSetA[1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-      TPaveText * ptextFlow_v2_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-      ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[1][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[1][1][pt][cent]));
-      ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-      ptextFlow_v2_reso_ptSetA_centSetA->Draw("same");
     }
   }
   const int n_ptSetA_centSetA = 2;
-  for(int cent=0; cent<6;cent++){
-    TLine *l1_ptSetA_centSetA = new TLine(0.2,0,2.2,0);
-    l1_ptSetA_centSetA->SetLineStyle(2);
-    Double_t x[n_ptSetA_centSetA] = {0.9, 1.8};
-    Double_t ex[n_ptSetA_centSetA] = {0.3, 0.6};
-    Double_t y_v1_raw[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][0][0][cent], d_FLow_ptSetA_centSetA[0][0][1][cent]};
-    Double_t ey_v1_raw[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][0][0][cent], d_Flow_err_ptSetA_centSetA[0][0][1][cent]};
-    canvas_v1_raw_vs_pT_ptSetA_centSetA->cd(cent+1);
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v1_raw,ex,ey_v1_raw);
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
-    mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
-    l1_ptSetA_centSetA->Draw("same");
+  for(int jkk=0; jkk<11; jkk++){
+    for(int cent=0; cent<6;cent++){
+      TLine *l1_ptSetA_centSetA = new TLine(0.2,0,2.2,0);
+      l1_ptSetA_centSetA->SetLineStyle(2);
+      Double_t x[n_ptSetA_centSetA] = {0.9, 1.8};
+      Double_t ex[n_ptSetA_centSetA] = {0.3, 0.6};
+      Double_t y_v1_raw[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][0][0][0][cent], d_FLow_ptSetA_centSetA[0][0][0][1][cent]};
+      Double_t ey_v1_raw[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][0][0][0][cent], d_Flow_err_ptSetA_centSetA[0][0][0][1][cent]};
+      canvas_v1_raw_vs_pT_ptSetA_centSetA->cd(cent+1);
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v1_raw,ex,ey_v1_raw);
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
+      mTGE_v1_raw_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
+      l1_ptSetA_centSetA->Draw("same");
 
-    Double_t y_v1_reso[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][1][0][cent], d_FLow_ptSetA_centSetA[0][1][1][cent]};
-    Double_t ey_v1_reso[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][1][0][cent], d_Flow_err_ptSetA_centSetA[0][1][1][cent]};
-    canvas_v1_reso_vs_pT_ptSetA_centSetA->cd(cent+1);
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v1_reso,ex,ey_v1_reso);
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
-    mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
-    l1_ptSetA_centSetA->Draw("same");
+      Double_t y_v1_reso[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][0][1][0][cent], d_FLow_ptSetA_centSetA[0][0][1][1][cent]};
+      Double_t ey_v1_reso[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][0][1][0][cent], d_Flow_err_ptSetA_centSetA[0][0][1][1][cent]};
+      canvas_v1_reso_vs_pT_ptSetA_centSetA->cd(cent+1);
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v1_reso,ex,ey_v1_reso);
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
+      mTGE_v1_reso_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
+      l1_ptSetA_centSetA->Draw("same");
 
-    Double_t y_v2_raw[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[1][0][0][cent], d_FLow_ptSetA_centSetA[1][0][1][cent]};
-    Double_t ey_v2_raw[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[1][0][0][cent], d_Flow_err_ptSetA_centSetA[1][0][1][cent]};
-    canvas_v2_raw_vs_pT_ptSetA_centSetA->cd(cent+1);
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v2_raw,ex,ey_v2_raw);
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{raw}");
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
-    mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
-    l1_ptSetA_centSetA->Draw("same");
+      Double_t y_v2_raw[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][1][0][0][cent], d_FLow_ptSetA_centSetA[0][1][0][1][cent]};
+      Double_t ey_v2_raw[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][1][0][0][cent], d_Flow_err_ptSetA_centSetA[0][1][0][1][cent]};
+      canvas_v2_raw_vs_pT_ptSetA_centSetA->cd(cent+1);
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v2_raw,ex,ey_v2_raw);
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{raw}");
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
+      mTGE_v2_raw_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
+      l1_ptSetA_centSetA->Draw("same");
 
-    Double_t y_v2_reso[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[1][1][0][cent], d_FLow_ptSetA_centSetA[1][1][1][cent]};
-    Double_t ey_v2_reso[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[1][1][0][cent], d_Flow_err_ptSetA_centSetA[1][1][1][cent]};
-    canvas_v2_reso_vs_pT_ptSetA_centSetA->cd(cent+1);
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
-    mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
-    l1_ptSetA_centSetA->Draw("same");
+      Double_t y_v2_reso[n_ptSetA_centSetA] = {d_FLow_ptSetA_centSetA[0][1][1][0][cent], d_FLow_ptSetA_centSetA[0][1][1][1][cent]};
+      Double_t ey_v2_reso[n_ptSetA_centSetA] = {d_Flow_err_ptSetA_centSetA[0][1][1][0][cent], d_Flow_err_ptSetA_centSetA[0][1][1][1][cent]};
+      canvas_v2_reso_vs_pT_ptSetA_centSetA->cd(cent+1);
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
+      l1_ptSetA_centSetA->Draw("same");
+    }
   }
   mTGE_v1_raw_vs_pT_ptSetA_centSetA[0]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
   mTGE_v1_raw_vs_pT_ptSetA_centSetA[1]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
@@ -2648,9 +2654,11 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     cout<<endl;
     flowFile<<endl;
   }
-  cout<<"v1 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1] <<endl;
-  cout<<"v1 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1] <<endl;
-  cout<<endl;
+  for(int jkk=0;jkk<11;jkk++){
+    cout<<"v1 10-40% ptSetA_centSetA_jkk_: " << jkk << " " << d_FLow_ptSetA_centSetA[jkk][0][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[jkk][0][1][1][1] <<endl;
+    cout<<"v1 Err 10-40% ptSetA_centSetA_jkk_: "<< jkk << " " << d_Flow_err_ptSetA_centSetA[jkk][0][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][0][1][1][1] <<endl;
+    cout<<endl;
+  }
 
   for(int pt=0;pt<3;pt++){
     for(int cent = 0; cent<3;cent++){
@@ -2676,11 +2684,28 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // flowFile<<endl;
     }
   }
-
-  cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][1] <<endl;
-  cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[1][1][1][1] <<endl;
-  cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[1][1][1][4] <<endl;
-  cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[1][1][1][4] <<endl;
+  for(int jkk=0;jkk<11;jkk++){
+    cout<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_FLow_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
+    flowFile<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_FLow_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
+    cout<<"v2 Err 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
+    flowFile<<"v2 Err 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
+    // cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
+    // cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
+  }
+  cout<<endl;
+  for(int jkk=0;jkk<11;jkk++){
+    cout<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " /*<< d_FLow_ptSetA_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1] <<endl;
+    flowFile<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " /*<< d_FLow_ptSetA_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1] <<endl;
+    cout<<"v2 Err 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " /*<< d_Flow_err_ptSetA_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][1] <<endl;
+    flowFile<<"v2 Err 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " /*<< d_Flow_err_ptSetA_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][1] <<endl;
+    // cout<<"v2 40-60% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
+    // cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
+  }
+  cout << endl;
+  cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetB_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][3][1]  <<endl;
+  flowFile<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetB_centSetA[1][1][0][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[1][1][3][1] <<endl;
+  cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetB_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][3][1] <<endl;
+  flowFile<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetB_centSetA[1][1][0][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[1][1][3][1] <<endl;
   outputFile->cd();
   canvas_InvM_ptSetA_centSetA->Write();
   canvas_v1_raw_ptSetA_centSetA->Write();
