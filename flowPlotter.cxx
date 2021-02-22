@@ -106,7 +106,7 @@ void flowPlotter(){
 
   // Now draw data set (1)
   // ------------- We first have to draw it only with the stat errors ------------
-  gStyle->SetOptStat(0);
+  // gStyle->SetOptStat(0);
   gStyle->SetOptDate(0);
   gStyle->SetEndErrorSize(6);
   gStyle->SetOptTitle(0);
@@ -314,8 +314,20 @@ void flowPlotter(){
   // 7.2 GeV v2 vs. pT 10-40%
   double x_ptSetA[2]    = { 0.9,1.8};
   double xErr_ptSetA[2] = {0.3,0.6};
-  double y_v2_10_40[2]      = {0.0256657, 0.0120596};
-  double yErr_stat_v2_10_40[2] = {0.023679, 0.0240889};
+  // double y_v2_10_40[2]      = {0.0256657, 0.0120596}; // EPD
+  // double yErr_stat_v2_10_40[2] = {0.023679, 0.0240889};
+
+  // double y_v2_10_40[2]      = {-0.0149938, -0.0150853}; // w bin
+  // double yErr_stat_v2_10_40[2] = {0.0277206, 0.028806};
+
+  double y_v2_10_40[2]      = {-0.00966106, -0.0205263}; // w bin
+  double yErr_stat_v2_10_40[2] = {0.014085270558323343, 0.009257925680356804};
+
+  double x_ptSetB[4]    = { 0.55,0.85,1.2,1.7};
+  double xErr_ptSetB[4] = {0.15,0.15,0.2,0.3};
+
+  // double y_v2_10_40[4]      = { 0.0120157, -0.0221078, -0.0647598, 0.0635793};
+  // double yErr_stat_v2_10_40[4] = {0.0487792, 0.0416835, 0.0301251, 0.0388423};
 
   // 7.2 GeV v2 vs. pT 10-40% Shaowei
   double y_v2_10_40_Shaowei[2]      = {-0.0191553, -0.030874};
@@ -393,8 +405,8 @@ void flowPlotter(){
   TCanv_v2_vs_pt_0_60->DrawFrame(0, -0.1, 3, 0.2);
 
   // 7.2 GeV v2 vs. pT 0-60%
-  // double x_ptSetA[3]    = { 0.9,1.8};
-  // double xErr_ptSetA[3] = {0.3,0.6};
+  // double x_ptSetA[2]    = { 0.9,1.8};
+  // double xErr_ptSetA[2] = {0.3,0.6};
   double y_v2_0_60[2]      = {0.0108515, -0.0102652};
   double yErr_stat_v2_0_60[2] = {0.0250194, 0.0256442};
 
@@ -1037,6 +1049,26 @@ void flowPlotter(){
   // leg_7p2_v1_phi_ptSetA->AddEntry((TObject*)0,Form("dv_{1}/dy = %.4f %c %.4f %c %.4f",0.0138904/*(Double_t)tf1_dv1dy->GetParameter(0)*/,177,0.00916586/*(Double_t)tf1_dv1dy->GetParError(0)*/,177,0.00647123),"");
   // leg_7p2_v1_phi_ptSetA->Draw("same");
   ptext_ptSetA->Draw("same");
+
+  // ========================== (7) v2 2 bin jackknife 7.2 GeV ========================
+  TCanvas *TCanv_jkk = new TCanvas("TCanv_jkk","TCanv_jkk",200,10,1024,768);
+  TCanv_jkk->Divide(2,1);
+  Double_t jkk0[10] = {-0.0224922, -0.0222856, -0.0099591, 0.000997738,
+    -0.0153799, -0.0036787, -0.0278074, -0.00608307, -0.0134696, 0.0238224};
+  Double_t jkk1[10] = {-0.0140789, -0.0389647, -0.0166912, -0.0300542,
+    -0.0187818, -0.0310772, -0.0184702, -0.00846529, -0.0104781, -0.0182829};
+  TH1D *h_v2_bin1 = new TH1D("h_v2_bin1","h_v2_bin1",8, -0.05,0.05);
+  TH1D *h_v2_bin2 = new TH1D("h_v2_bin2","h_v2_bin2",8, -0.05,0.05);
+  for(int i=0;i<10;i++){
+    h_v2_bin1->Fill(jkk0[i]);
+    h_v2_bin2->Fill(jkk1[i]);
+  }
+  TCanv_jkk->cd(1);
+  h_v2_bin1->Draw();
+  TCanv_jkk->cd(2);
+  h_v2_bin2->Draw();
+
+
 }
 
 Double_t proportion(Double_t *x, Double_t *p)
