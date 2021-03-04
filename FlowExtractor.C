@@ -62,7 +62,7 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter4_4330F8115CB4FD93CDF48C272BE87FE5_.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/PhiMesonAna_OUTPUT_sys_primary_var0_iter4_v1rapjkk.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -100,7 +100,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // directed and elliptic flow. Indexes: 0: v1, 1: v2; raw, reso; pT/y SetA; cent SetA; jkk
   Double_t d_FLow_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
-  Double_t d_FLow_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
+  // Double_t d_FLow_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_FLow_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_FLow_rapSetA_centSetA[11][2][2][4][6]; // pt SetA, cent 0-60%, 0-80%
@@ -110,7 +110,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
 
   Double_t d_Flow_err_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
-  Double_t d_Flow_err_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
+  // Double_t d_Flow_err_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_Flow_err_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_Flow_err_rapSetA_centSetA[11][2][2][4][6]; // pt SetC, cent 0-60%, 0-80%
@@ -170,25 +170,25 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   }
   // }
   // pt SetB, cent SetA
-  TH1D *mHist_Input_SE_InvM_ptSetB_centSetA[11][4][6];
-  TH1D *mHist_Input_ME_InvM_ptSetB_centSetA[11][4][6];
+  // TH1D *mHist_Input_SE_InvM_ptSetB_centSetA[11][4][6];
+  // TH1D *mHist_Input_ME_InvM_ptSetB_centSetA[11][4][6];
   // TProfile *mProfile_Input_v1_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_Input_v1_reso_ptSetB_centSetA[11][4][6];
+  // TProfile *mProfile_Input_v1_reso_ptSetB_centSetA[11][4][6];
   // TProfile *mProfile_Input_v2_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_Input_v2_reso_ptSetB_centSetA[11][4][6];
-  for(int jkk=0; jkk<11; jkk++){
-    for(int pt=1; pt<4; pt++)
-    {
-      for(int cent=0; cent<6;cent++){
-        mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk));
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk));
-        // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-      }
-    }
-  }
+  // TProfile *mProfile_Input_v2_reso_ptSetB_centSetA[11][4][6];
+  // for(int jkk=0; jkk<11; jkk++){
+  //   for(int pt=1; pt<4; pt++)
+  //   {
+  //     for(int cent=0; cent<6;cent++){
+  //       mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk));
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetB%d_centSetA%d_jkk%d",pt,cent,jkk));
+  //       // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+  //       mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+  //       // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+  //       mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetB%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+  //     }
+  //   }
+  // }
   // pt SetB, cent SetB
   // TH1D *mHist_Input_SE_InvM_ptSetB_centSetB[4][9];
   // TH1D *mHist_Input_ME_InvM_ptSetB_centSetB[4][9];
@@ -228,9 +228,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // rap SetA, cent SetA
   TH1D *mHist_Input_SE_InvM_rapSetA_centSetA[11][4][6];
   TH1D *mHist_Input_ME_InvM_rapSetA_centSetA[11][4][6];
-  TProfile *mProfile_Input_v1_raw_rapSetA_centSetA[11][4][6];
+  // TProfile *mProfile_Input_v1_raw_rapSetA_centSetA[11][4][6];
   TProfile *mProfile_Input_v1_reso_rapSetA_centSetA[11][4][6];
-  TProfile *mProfile_Input_v2_raw_rapSetA_centSetA[11][4][6];
+  // TProfile *mProfile_Input_v2_raw_rapSetA_centSetA[11][4][6];
   TProfile *mProfile_Input_v2_reso_rapSetA_centSetA[11][4][6];
   // pT range cut [0.1,1.0], [1.0, 2.0], [0.1, 2.0]
   // TH1D *mHist_Input_SE_InvM_rapSetA_centSetA_pTRange[4][6][3];
@@ -248,9 +248,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       for(int cent=0; cent<6;cent++){
         mHist_Input_SE_InvM_rapSetA_centSetA[jkk][rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_rapSetA%d_centSetA%d_jkk%d",rap,cent,jkk));
         mHist_Input_ME_InvM_rapSetA_centSetA[jkk][rap][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_rapSetA%d_centSetA%d_jkk%d",rap,cent,jkk));
-        mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
+        // mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
         mProfile_Input_v1_reso_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
-        mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
+        // mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
         mProfile_Input_v2_reso_rapSetA_centSetA[jkk][rap][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_rapSetA%d_centSetA%d_jkk%d_pfx",rap,cent,jkk));
         // phi-meson v1 vs. y with pT range pTRangePhiV1vsy [0.1, 1.0], [1.0, 2.0], [0.1, 2.0]
         // for(int pt=0; pt<3;pt++){
@@ -344,28 +344,28 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   TGraphErrors *mTGE_v2_raw_vs_pT_ptSetA_centSetB[9];
   TGraphErrors *mTGE_v2_reso_vs_pT_ptSetA_centSetB[9];
   // pt SetB, cent SetA
-  TCanvas *canvas_InvM_ptSetB_centSetA = new TCanvas("canvas_InvM_ptSetB_centSetA","canvas_InvM_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v1_raw_ptSetB_centSetA = new TCanvas("canvas_v1_raw_ptSetB_centSetA","canvas_v1_raw_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v1_reso_ptSetB_centSetA = new TCanvas("canvas_v1_reso_ptSetB_centSetA","canvas_v1_reso_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v2_raw_ptSetB_centSetA = new TCanvas("canvas_v2_raw_ptSetB_centSetA","canvas_v2_raw_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v2_reso_ptSetB_centSetA = new TCanvas("canvas_v2_reso_ptSetB_centSetA","canvas_v2_reso_ptSetB_centSetA",1920,1080);
-  canvas_InvM_ptSetB_centSetA->Divide(6,4);
-  canvas_v1_raw_ptSetB_centSetA->Divide(6,4);
-  canvas_v1_reso_ptSetB_centSetA->Divide(6,4);
-  canvas_v2_raw_ptSetB_centSetA->Divide(6,4);
-  canvas_v2_reso_ptSetB_centSetA->Divide(6,4);
-  TCanvas *canvas_v1_raw_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v1_raw_vs_pT_ptSetB_centSetA","canvas_v1_raw_vs_pT_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v1_reso_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v1_reso_vs_pT_ptSetB_centSetA","canvas_v1_reso_vs_pT_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v2_raw_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v2_raw_vs_pT_ptSetB_centSetA","canvas_v2_raw_vs_pT_ptSetB_centSetA",1920,1080);
-  TCanvas *canvas_v2_reso_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v2_reso_vs_pT_ptSetB_centSetA","canvas_v2_reso_vs_pT_ptSetB_centSetA",1920,1080);
-  canvas_v1_raw_vs_pT_ptSetB_centSetA->Divide(6);
-  canvas_v1_reso_vs_pT_ptSetB_centSetA->Divide(6);
-  canvas_v2_raw_vs_pT_ptSetB_centSetA->Divide(6);
-  canvas_v2_reso_vs_pT_ptSetB_centSetA->Divide(6);
-  TGraphErrors *mTGE_v1_raw_vs_pT_ptSetB_centSetA[6];
-  TGraphErrors *mTGE_v1_reso_vs_pT_ptSetB_centSetA[6];
-  TGraphErrors *mTGE_v2_raw_vs_pT_ptSetB_centSetA[6];
-  TGraphErrors *mTGE_v2_reso_vs_pT_ptSetB_centSetA[6];
+  // TCanvas *canvas_InvM_ptSetB_centSetA = new TCanvas("canvas_InvM_ptSetB_centSetA","canvas_InvM_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v1_raw_ptSetB_centSetA = new TCanvas("canvas_v1_raw_ptSetB_centSetA","canvas_v1_raw_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v1_reso_ptSetB_centSetA = new TCanvas("canvas_v1_reso_ptSetB_centSetA","canvas_v1_reso_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v2_raw_ptSetB_centSetA = new TCanvas("canvas_v2_raw_ptSetB_centSetA","canvas_v2_raw_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v2_reso_ptSetB_centSetA = new TCanvas("canvas_v2_reso_ptSetB_centSetA","canvas_v2_reso_ptSetB_centSetA",1920,1080);
+  // canvas_InvM_ptSetB_centSetA->Divide(6,4);
+  // canvas_v1_raw_ptSetB_centSetA->Divide(6,4);
+  // canvas_v1_reso_ptSetB_centSetA->Divide(6,4);
+  // canvas_v2_raw_ptSetB_centSetA->Divide(6,4);
+  // canvas_v2_reso_ptSetB_centSetA->Divide(6,4);
+  // TCanvas *canvas_v1_raw_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v1_raw_vs_pT_ptSetB_centSetA","canvas_v1_raw_vs_pT_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v1_reso_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v1_reso_vs_pT_ptSetB_centSetA","canvas_v1_reso_vs_pT_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v2_raw_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v2_raw_vs_pT_ptSetB_centSetA","canvas_v2_raw_vs_pT_ptSetB_centSetA",1920,1080);
+  // TCanvas *canvas_v2_reso_vs_pT_ptSetB_centSetA = new TCanvas("canvas_v2_reso_vs_pT_ptSetB_centSetA","canvas_v2_reso_vs_pT_ptSetB_centSetA",1920,1080);
+  // canvas_v1_raw_vs_pT_ptSetB_centSetA->Divide(6);
+  // canvas_v1_reso_vs_pT_ptSetB_centSetA->Divide(6);
+  // canvas_v2_raw_vs_pT_ptSetB_centSetA->Divide(6);
+  // canvas_v2_reso_vs_pT_ptSetB_centSetA->Divide(6);
+  // TGraphErrors *mTGE_v1_raw_vs_pT_ptSetB_centSetA[6];
+  // TGraphErrors *mTGE_v1_reso_vs_pT_ptSetB_centSetA[6];
+  // TGraphErrors *mTGE_v2_raw_vs_pT_ptSetB_centSetA[6];
+  // TGraphErrors *mTGE_v2_reso_vs_pT_ptSetB_centSetA[6];
   // pt SetB, cent SetB
   TCanvas *canvas_InvM_ptSetB_centSetB = new TCanvas("canvas_InvM_ptSetB_centSetB","canvas_InvM_ptSetB_centSetB",1920,1080);
   TCanvas *canvas_v1_raw_ptSetB_centSetB = new TCanvas("canvas_v1_raw_ptSetB_centSetB","canvas_v1_raw_ptSetB_centSetB",1920,1080);
@@ -414,14 +414,14 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   TGraphErrors *mTGE_v2_reso_vs_pT_ptSetC_centAll[2];
   // rap SetA, cent SetA
   TCanvas *canvas_InvM_rapSetA_centSetA = new TCanvas("canvas_InvM_rapSetA_centSetA","canvas_InvM_rapSetA_centSetA",1920,1080);
-  TCanvas *canvas_v1_raw_rapSetA_centSetA = new TCanvas("canvas_v1_raw_rapSetA_centSetA","canvas_v1_raw_rapSetA_centSetA",1920,1080);
+  // TCanvas *canvas_v1_raw_rapSetA_centSetA = new TCanvas("canvas_v1_raw_rapSetA_centSetA","canvas_v1_raw_rapSetA_centSetA",1920,1080);
   TCanvas *canvas_v1_reso_rapSetA_centSetA = new TCanvas("canvas_v1_reso_rapSetA_centSetA","canvas_v1_reso_rapSetA_centSetA",1920,1080);
-  TCanvas *canvas_v2_raw_rapSetA_centSetA = new TCanvas("canvas_v2_raw_rapSetA_centSetA","canvas_v2_raw_rapSetA_centSetA",1920,1080);
+  // TCanvas *canvas_v2_raw_rapSetA_centSetA = new TCanvas("canvas_v2_raw_rapSetA_centSetA","canvas_v2_raw_rapSetA_centSetA",1920,1080);
   TCanvas *canvas_v2_reso_rapSetA_centSetA = new TCanvas("canvas_v2_reso_rapSetA_centSetA","canvas_v2_reso_rapSetA_centSetA",1920,1080);
   canvas_InvM_rapSetA_centSetA->Divide(6,4);
-  canvas_v1_raw_rapSetA_centSetA->Divide(6,4);
+  // canvas_v1_raw_rapSetA_centSetA->Divide(6,4);
   canvas_v1_reso_rapSetA_centSetA->Divide(6,4);
-  canvas_v2_raw_rapSetA_centSetA->Divide(6,4);
+  // canvas_v2_raw_rapSetA_centSetA->Divide(6,4);
   canvas_v2_reso_rapSetA_centSetA->Divide(6,4);
   TCanvas *canvas_v1_raw_vs_rap_rapSetA_centSetA = new TCanvas("canvas_v1_raw_vs_rap_rapSetA_centSetA","canvas_v1_raw_vs_rap_rapSetA_centSetA",1920,1080);
   TCanvas *canvas_v1_reso_vs_rap_rapSetA_centSetA = new TCanvas("canvas_v1_reso_vs_rap_rapSetA_centSetA","canvas_v1_reso_vs_rap_rapSetA_centSetA",1920,1080);
@@ -437,15 +437,15 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   TGraphErrors *mTGE_v2_reso_vs_rap_rapSetA_centSetA[6];
 
   // rap SetA, cent SetA, pTRange [0.1,1.0], [1,2], [0.1,2.0]
-  TCanvas *canvas_InvM_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v1_raw_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v1_reso_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v2_raw_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v2_reso_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[3];
-  TCanvas *canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_InvM_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v1_raw_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v1_reso_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v2_raw_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v2_reso_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[3];
+  // TCanvas *canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[3];
   // for(int pt=0;pt<3;pt++){
   //   canvas_InvM_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_InvM_rapSetA_centSetA_pTRange%d",pt),Form("canvas_InvM_rapSetA_centSetA_pTRange%d",pt),1920,1080);
   //   canvas_v1_raw_rapSetA_centSetA_pTRange[pt] = new TCanvas(Form("canvas_v1_raw_rapSetA_centSetA_pTRange%d",pt),Form("canvas_v1_raw_rapSetA_centSetA_pTRange%d",pt),1920,1080);
@@ -776,260 +776,260 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // mTGE_v2_reso_vs_pT_ptSetA_centSetA[4]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
   // mTGE_v2_reso_vs_pT_ptSetA_centSetA[5]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
   // pt SetB, cent SetA
-  for(int jkk=0; jkk<11; jkk++){
-    for(int pt=1; pt<4; pt++)
-    {
-      for(int cent=0; cent<6;cent++){
-        canvas_InvM_ptSetB_centSetA->cd((cent+1)+6*pt);
-        mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximum());
-        mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        // Get the bin of the Normalization range
-        int a_iBin_range[4];
-        for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> FindFixBin(a_d_int_range[ijk]);
-        //right bg Normalization
-        Double_t d_r_area     = a_d_int_range[3]-a_d_int_range[2];
-        Double_t d_r_same_int = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
-        Double_t d_r_mx_int   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
-        Double_t d_r_norm     = (d_r_mx_int != 0.0) ? d_r_same_int/d_r_mx_int : 1.0;
-        cout<<" R: "<<d_r_area<<" : "<<d_r_same_int<<" : "<<d_r_mx_int<<endl;
-        //left bg Normalization
-        Double_t d_l_area =  a_d_int_range[1]-a_d_int_range[0];
-        Double_t d_l_same_int = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
-        Double_t d_l_mx_int   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
-        Double_t d_l_norm     = (d_l_mx_int != 0.0) ? d_l_same_int/d_l_mx_int : 1.0;
-        cout<<" L: "<<d_l_area<<" : "<<d_l_same_int<<" : "<<d_l_mx_int<<endl;
-        cout<<" l: "<<d_l_norm<<" r: "<<d_r_norm<<endl;
-        Double_t d_norm = ((d_r_norm/d_r_area) + (d_l_norm/d_l_area))/( (1.0/d_r_area) + (1.0/d_l_area));
-        cout<<" d_norm = "<<d_norm<<endl;
-
-        // Normalize mixed event invariant mass
-        mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetMarkerStyle(1);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Sumw2();
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Scale(d_norm);
-        mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetLineColor(kRed);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw("HISTsames");
-        // Substract normalized ME from SE to get Signal
-        TH1D * HistSignal = (TH1D*) mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Clone("HistSignal");
-        // HistSignal->SetLineColor(kRed);
-        HistSignal -> Reset();
-        HistSignal -> Sumw2();
-
-        for(int ijk = 1; ijk < HistSignal->GetNbinsX()+1; ijk++)
-        {
-          Double_t d_center   = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinCenter(ijk);
-          Double_t d_same     = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
-          Double_t d_same_err = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinError(ijk);
-          Double_t d_mx       = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
-          Double_t d_mx_err   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinError(ijk);
-          Double_t d_sig      = d_same - d_mx;
-          Double_t d_sig_err  = sqrt(d_same_err*d_same_err+d_mx_err*d_mx_err);
-
-          HistSignal -> SetBinContent(ijk,d_sig);
-          HistSignal -> SetBinError(ijk,d_sig_err);
-        }
-        HistSignal->SetMarkerStyle(2);
-        HistSignal->SetMarkerColor(kBlue);
-        HistSignal->SetLineColor(kBlue);
-        HistSignal -> Draw("HISTsamesE");
-        gStyle->SetOptFit(1111);
-
-        //Fit function
-        //fit Signal with Gauss plus constant
-        TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-        TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
-        //fit to a simple gauss first to get seed
-        TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
-        HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
-        // seeds
-        Double_t d_seeds_p0    = tf1_gauss -> GetParameter(0);
-        Double_t d_seeds_mean  = tf1_gauss -> GetParameter(1);
-        Double_t d_seeds_sigma = tf1_gauss -> GetParameter(2);
-
-        tf1_Signal -> SetParameter(1,d_seeds_mean);
-        tf1_Signal -> SetParameter(2,d_seeds_sigma);
-        tf1_Signal -> SetParLimits(1,d_seeds_mean-d_seeds_sigma,d_seeds_mean+d_seeds_sigma);
-        tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
-        tf1_Signal -> SetLineColor(kBlue);
-
-        int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
-        tf1_Signal->Draw("same");
-        canvas_InvM_ptSetB_centSetA->cd((cent+1)+6*pt)->Update();
-        cout << "FitStatus= " << FitStatus << endl;
-        // To count how many #phi mesons HistSignal has
-        dParSig[0]    = tf1_Signal -> GetParameter(0);
-        dParSig[1]    = tf1_Signal -> GetParameter(1);
-        dParSig[2]    = tf1_Signal -> GetParameter(2);
-        dParSig[3]    = tf1_Signal -> GetParameter(3);
-        int iBin_3sigint_low = HistSignal -> FindFixBin(dParSig[1] - (3*dParSig[2]));
-        int iBin_3sigint_hi  = HistSignal -> FindFixBin(dParSig[1] + (3*dParSig[2]));
-        Double_t d_3sig_integral_error;
-        Double_t d_3sig_integral = HistSignal -> IntegralAndError(iBin_3sigint_low,iBin_3sigint_hi,d_3sig_integral_error,"");
-        TPaveText * ptext = new TPaveText(0.1,0.65,0.30,0.9,"NDCARC");
-        ptext -> AddText(Form("Mean: %.4f",dParSig[1]));
-        ptext -> AddText(Form("Sigma: %.4f",dParSig[2]));
-        ptext -> AddText(Form("3#sigma Int: %.4f",d_3sig_integral));
-        ptext -> AddText(Form("3#sigma Int Err: %.4f",d_3sig_integral_error));
-        ptext -> Draw("same");
-        // Fitting the background
-        // TH1D * mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Clone("mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]");
-        // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]   -> SetTitle(Form("%s Background fit with Pol2",mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetTitle() ));
-        TF1 * tf1_Background = new TF1("tf1_pol","[0] + [1]*x + [2]*x**2",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
-        // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->SetMaximum(mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetBinContent(mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximumBin())*1.4);
-        // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_Background,"E+","R",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
-        // sameEventInvM->Draw("same");
-        tf1_Background->SetLineColor(kRed);
-        tf1_Background->Draw("same");
-        dParBg[0]=tf1_Background->GetParameter(0);
-        dParBg[1]=tf1_Background->GetParameter(1);
-        dParBg[2]=tf1_Background->GetParameter(2);
-        TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-        TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
-
-        canvas_v1_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
-        // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_ptSetB_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_ptSetB_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v1_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v1_raw_ptSetB_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][0][0][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][0][0][pt][cent]));
-        ptextFlow_v1_raw_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v1_raw_ptSetB_centSetA->Draw("same");
-
-        canvas_v1_reso_ptSetB_centSetA->cd((cent+1)+6*pt);
-        mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_ptSetB_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_ptSetB_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v1_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v1_reso_ptSetB_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][0][1][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][0][1][pt][cent]));
-        ptextFlow_v1_reso_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v1_reso_ptSetB_centSetA->Draw("same");
-
-        canvas_v2_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
-        // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_ptSetB_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_ptSetB_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v2_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v2_raw_ptSetB_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][1][0][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][1][0][pt][cent]));
-        ptextFlow_v2_raw_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v2_raw_ptSetB_centSetA->Draw("same");
-
-        canvas_v2_reso_ptSetB_centSetA->cd((cent+1)+6*pt);
-        mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Draw();
-        mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_ptSetB_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_ptSetB_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v2_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v2_reso_ptSetB_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][1][1][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][1][1][pt][cent]));
-        ptextFlow_v2_reso_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v2_reso_ptSetB_centSetA->Draw("same");
-      }
-    }
-  }
-  const int n_ptSetB_centSetA = 3;
-  for(int jkk=0; jkk<11; jkk++){
-    for(int cent=0; cent<6;cent++){
-      TLine *l1_ptSetB_centSetA = new TLine(0.2,0,2.2,0);
-      l1_ptSetB_centSetA->SetLineStyle(2);
-      Double_t x[n_ptSetB_centSetA] = {0.85, 1.55, 2.5};
-      Double_t ex[n_ptSetB_centSetA] = {0.25, 0.45, 0.5};
-      // Double_t y_v1_raw[n_ptSetB_centSetA-1] = {/*d_FLow_ptSetB_centSetA[jkk][0][0][0][cent],*/ d_FLow_ptSetB_centSetA[jkk][0][0][1][cent],
-      //   d_FLow_ptSetB_centSetA[jkk][0][0][2][cent], d_FLow_ptSetB_centSetA[jkk][0][0][3][cent]};
-      // Double_t ey_v1_raw[n_ptSetB_centSetA-1] = {/*d_Flow_err_ptSetB_centSetA[jkk][0][0][0][cent],*/ d_Flow_err_ptSetB_centSetA[jkk][0][0][1][cent],
-      //   d_Flow_err_ptSetB_centSetA[jkk][0][0][2][cent], d_Flow_err_ptSetB_centSetA[jkk][0][0][3][cent]};
-      // canvas_v1_raw_vs_pT_ptSetB_centSetA->cd(cent+1);
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v1_raw,ex,ey_v1_raw);
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
-      // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
-      // l1_ptSetB_centSetA->Draw("same");
-
-      Double_t y_v1_reso[n_ptSetB_centSetA] = {/*d_FLow_ptSetB_centSetA[jkk][0][1][0][cent],*/ d_FLow_ptSetB_centSetA[jkk][0][1][1][cent],
-        d_FLow_ptSetB_centSetA[jkk][0][1][2][cent], d_FLow_ptSetB_centSetA[jkk][0][1][3][cent]};
-      Double_t ey_v1_reso[n_ptSetB_centSetA] = {/*d_Flow_err_ptSetB_centSetA[jkk][0][1][0][cent],*/ d_Flow_err_ptSetB_centSetA[jkk][0][1][1][cent],
-        d_Flow_err_ptSetB_centSetA[jkk][0][1][2][cent], d_Flow_err_ptSetB_centSetA[jkk][0][1][3][cent]};
-      canvas_v1_reso_vs_pT_ptSetB_centSetA->cd(cent+1);
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v1_reso,ex,ey_v1_reso);
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
-      mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
-      l1_ptSetB_centSetA->Draw("same");
-
-      // Double_t y_v2_raw[n_ptSetB_centSetA] = {d_FLow_ptSetB_centSetA[jkk][1][0][0][cent], d_FLow_ptSetB_centSetA[jkk][1][0][1][cent],
-      //   d_FLow_ptSetB_centSetA[jkk][1][0][2][cent], d_FLow_ptSetB_centSetA[jkk][1][0][3][cent]};
-      // Double_t ey_v2_raw[n_ptSetB_centSetA] = {d_Flow_err_ptSetB_centSetA[jkk][1][0][0][cent], d_Flow_err_ptSetB_centSetA[jkk][1][0][1][cent],
-      //   d_Flow_err_ptSetB_centSetA[jkk][1][0][2][cent], d_Flow_err_ptSetB_centSetA[jkk][1][0][3][cent]};
-      // canvas_v2_raw_vs_pT_ptSetB_centSetA->cd(cent+1);
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v2_raw,ex,ey_v2_raw);
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{raw}");
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
-      // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
-      // l1_ptSetB_centSetA->Draw("same");
-
-      Double_t y_v2_reso[n_ptSetB_centSetA] = {/*d_FLow_ptSetB_centSetA[jkk][1][1][0][cent], */d_FLow_ptSetB_centSetA[jkk][1][1][1][cent],
-        d_FLow_ptSetB_centSetA[jkk][1][1][2][cent], d_FLow_ptSetB_centSetA[jkk][1][1][3][cent]};
-      Double_t ey_v2_reso[n_ptSetB_centSetA] = {/*d_Flow_err_ptSetB_centSetA[jkk][1][1][0][cent], */d_Flow_err_ptSetB_centSetA[jkk][1][1][1][cent],
-        d_Flow_err_ptSetB_centSetA[jkk][1][1][2][cent], d_Flow_err_ptSetB_centSetA[jkk][1][1][3][cent]};
-      canvas_v2_reso_vs_pT_ptSetB_centSetA->cd(cent+1);
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v2_reso,ex,ey_v2_reso);
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
-      mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
-      l1_ptSetB_centSetA->Draw("same");
-    }
-  }
+  // for(int jkk=0; jkk<11; jkk++){
+  //   for(int pt=1; pt<4; pt++)
+  //   {
+  //     for(int cent=0; cent<6;cent++){
+  //       canvas_InvM_ptSetB_centSetA->cd((cent+1)+6*pt);
+  //       mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximum());
+  //       mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       // Get the bin of the Normalization range
+  //       int a_iBin_range[4];
+  //       for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> FindFixBin(a_d_int_range[ijk]);
+  //       //right bg Normalization
+  //       Double_t d_r_area     = a_d_int_range[3]-a_d_int_range[2];
+  //       Double_t d_r_same_int = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+  //       Double_t d_r_mx_int   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[2],a_iBin_range[3]);
+  //       Double_t d_r_norm     = (d_r_mx_int != 0.0) ? d_r_same_int/d_r_mx_int : 1.0;
+  //       cout<<" R: "<<d_r_area<<" : "<<d_r_same_int<<" : "<<d_r_mx_int<<endl;
+  //       //left bg Normalization
+  //       Double_t d_l_area =  a_d_int_range[1]-a_d_int_range[0];
+  //       Double_t d_l_same_int = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+  //       Double_t d_l_mx_int   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Integral(a_iBin_range[0],a_iBin_range[1]);
+  //       Double_t d_l_norm     = (d_l_mx_int != 0.0) ? d_l_same_int/d_l_mx_int : 1.0;
+  //       cout<<" L: "<<d_l_area<<" : "<<d_l_same_int<<" : "<<d_l_mx_int<<endl;
+  //       cout<<" l: "<<d_l_norm<<" r: "<<d_r_norm<<endl;
+  //       Double_t d_norm = ((d_r_norm/d_r_area) + (d_l_norm/d_l_area))/( (1.0/d_r_area) + (1.0/d_l_area));
+  //       cout<<" d_norm = "<<d_norm<<endl;
+  //
+  //       // Normalize mixed event invariant mass
+  //       mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetMarkerStyle(1);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Sumw2();
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Scale(d_norm);
+  //       mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetLineColor(kRed);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw("HISTsames");
+  //       // Substract normalized ME from SE to get Signal
+  //       TH1D * HistSignal = (TH1D*) mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> Clone("HistSignal");
+  //       // HistSignal->SetLineColor(kRed);
+  //       HistSignal -> Reset();
+  //       HistSignal -> Sumw2();
+  //
+  //       for(int ijk = 1; ijk < HistSignal->GetNbinsX()+1; ijk++)
+  //       {
+  //         Double_t d_center   = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinCenter(ijk);
+  //         Double_t d_same     = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
+  //         Double_t d_same_err = mHist_Input_SE_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinError(ijk);
+  //         Double_t d_mx       = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinContent(ijk);
+  //         Double_t d_mx_err   = mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> GetBinError(ijk);
+  //         Double_t d_sig      = d_same - d_mx;
+  //         Double_t d_sig_err  = sqrt(d_same_err*d_same_err+d_mx_err*d_mx_err);
+  //
+  //         HistSignal -> SetBinContent(ijk,d_sig);
+  //         HistSignal -> SetBinError(ijk,d_sig_err);
+  //       }
+  //       HistSignal->SetMarkerStyle(2);
+  //       HistSignal->SetMarkerColor(kBlue);
+  //       HistSignal->SetLineColor(kBlue);
+  //       HistSignal -> Draw("HISTsamesE");
+  //       gStyle->SetOptFit(1111);
+  //
+  //       //Fit function
+  //       //fit Signal with Gauss plus constant
+  //       TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
+  //       TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+  //       //fit to a simple gauss first to get seed
+  //       TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
+  //       HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
+  //       // seeds
+  //       Double_t d_seeds_p0    = tf1_gauss -> GetParameter(0);
+  //       Double_t d_seeds_mean  = tf1_gauss -> GetParameter(1);
+  //       Double_t d_seeds_sigma = tf1_gauss -> GetParameter(2);
+  //
+  //       tf1_Signal -> SetParameter(1,d_seeds_mean);
+  //       tf1_Signal -> SetParameter(2,d_seeds_sigma);
+  //       tf1_Signal -> SetParLimits(1,d_seeds_mean-d_seeds_sigma,d_seeds_mean+d_seeds_sigma);
+  //       tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
+  //       tf1_Signal -> SetLineColor(kBlue);
+  //
+  //       int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+  //       tf1_Signal->Draw("same");
+  //       canvas_InvM_ptSetB_centSetA->cd((cent+1)+6*pt)->Update();
+  //       cout << "FitStatus= " << FitStatus << endl;
+  //       // To count how many #phi mesons HistSignal has
+  //       dParSig[0]    = tf1_Signal -> GetParameter(0);
+  //       dParSig[1]    = tf1_Signal -> GetParameter(1);
+  //       dParSig[2]    = tf1_Signal -> GetParameter(2);
+  //       dParSig[3]    = tf1_Signal -> GetParameter(3);
+  //       int iBin_3sigint_low = HistSignal -> FindFixBin(dParSig[1] - (3*dParSig[2]));
+  //       int iBin_3sigint_hi  = HistSignal -> FindFixBin(dParSig[1] + (3*dParSig[2]));
+  //       Double_t d_3sig_integral_error;
+  //       Double_t d_3sig_integral = HistSignal -> IntegralAndError(iBin_3sigint_low,iBin_3sigint_hi,d_3sig_integral_error,"");
+  //       TPaveText * ptext = new TPaveText(0.1,0.65,0.30,0.9,"NDCARC");
+  //       ptext -> AddText(Form("Mean: %.4f",dParSig[1]));
+  //       ptext -> AddText(Form("Sigma: %.4f",dParSig[2]));
+  //       ptext -> AddText(Form("3#sigma Int: %.4f",d_3sig_integral));
+  //       ptext -> AddText(Form("3#sigma Int Err: %.4f",d_3sig_integral_error));
+  //       ptext -> Draw("same");
+  //       // Fitting the background
+  //       // TH1D * mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] = (TH1D*) mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> Clone("mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]");
+  //       // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]   -> SetTitle(Form("%s Background fit with Pol2",mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetTitle() ));
+  //       TF1 * tf1_Background = new TF1("tf1_pol","[0] + [1]*x + [2]*x**2",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillColor(kRed);
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent] -> SetFillStyle(3002);
+  //       // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->SetMaximum(mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetBinContent(mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->GetMaximumBin())*1.4);
+  //       // mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       mHist_Input_ME_InvM_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_Background,"E+","R",(dParSig[1] - (_sigmaRange*dParSig[2])),(dParSig[1] + (_sigmaRange*dParSig[2])));
+  //       // sameEventInvM->Draw("same");
+  //       tf1_Background->SetLineColor(kRed);
+  //       tf1_Background->Draw("same");
+  //       dParBg[0]=tf1_Background->GetParameter(0);
+  //       dParBg[1]=tf1_Background->GetParameter(1);
+  //       dParBg[2]=tf1_Background->GetParameter(2);
+  //       TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
+  //       TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+  //
+  //       canvas_v1_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
+  //       // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+  //       Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+  //       Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+  //       tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+  //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+  //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+  //       tf1_totalFlow -> SetLineColor(kBlue);
+  //       // mProfile_Input_v1_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       d_FLow_ptSetB_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+  //       d_Flow_err_ptSetB_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+  //       TPaveText * ptextFlow_v1_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+  //       ptextFlow_v1_raw_ptSetB_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][0][0][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][0][0][pt][cent]));
+  //       ptextFlow_v1_raw_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+  //       ptextFlow_v1_raw_ptSetB_centSetA->Draw("same");
+  //
+  //       canvas_v1_reso_ptSetB_centSetA->cd((cent+1)+6*pt);
+  //       mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+  //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+  //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+  //       tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+  //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+  //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+  //       tf1_totalFlow -> SetLineColor(kBlue);
+  //       mProfile_Input_v1_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       d_FLow_ptSetB_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+  //       d_Flow_err_ptSetB_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+  //       TPaveText * ptextFlow_v1_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+  //       ptextFlow_v1_reso_ptSetB_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][0][1][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][0][1][pt][cent]));
+  //       ptextFlow_v1_reso_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+  //       ptextFlow_v1_reso_ptSetB_centSetA->Draw("same");
+  //
+  //       canvas_v2_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
+  //       // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+  //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+  //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+  //       tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+  //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+  //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+  //       tf1_totalFlow -> SetLineColor(kBlue);
+  //       // mProfile_Input_v2_raw_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       d_FLow_ptSetB_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+  //       d_Flow_err_ptSetB_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+  //       TPaveText * ptextFlow_v2_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+  //       ptextFlow_v2_raw_ptSetB_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][1][0][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][1][0][pt][cent]));
+  //       ptextFlow_v2_raw_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+  //       ptextFlow_v2_raw_ptSetB_centSetA->Draw("same");
+  //
+  //       canvas_v2_reso_ptSetB_centSetA->cd((cent+1)+6*pt);
+  //       mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Draw();
+  //       mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+  //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+  //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+  //       tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+  //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+  //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+  //       tf1_totalFlow -> SetLineColor(kBlue);
+  //       mProfile_Input_v2_reso_ptSetB_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       d_FLow_ptSetB_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+  //       d_Flow_err_ptSetB_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+  //       TPaveText * ptextFlow_v2_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+  //       ptextFlow_v2_reso_ptSetB_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetB_centSetA[jkk][1][1][pt][cent],177,d_Flow_err_ptSetB_centSetA[jkk][1][1][pt][cent]));
+  //       ptextFlow_v2_reso_ptSetB_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+  //       ptextFlow_v2_reso_ptSetB_centSetA->Draw("same");
+  //     }
+  //   }
+  // }
+  // const int n_ptSetB_centSetA = 3;
+  // for(int jkk=0; jkk<11; jkk++){
+  //   for(int cent=0; cent<6;cent++){
+  //     TLine *l1_ptSetB_centSetA = new TLine(0.2,0,2.2,0);
+  //     l1_ptSetB_centSetA->SetLineStyle(2);
+  //     Double_t x[n_ptSetB_centSetA] = {0.85, 1.55, 2.5};
+  //     Double_t ex[n_ptSetB_centSetA] = {0.25, 0.45, 0.5};
+  //     // Double_t y_v1_raw[n_ptSetB_centSetA-1] = {/*d_FLow_ptSetB_centSetA[jkk][0][0][0][cent],*/ d_FLow_ptSetB_centSetA[jkk][0][0][1][cent],
+  //     //   d_FLow_ptSetB_centSetA[jkk][0][0][2][cent], d_FLow_ptSetB_centSetA[jkk][0][0][3][cent]};
+  //     // Double_t ey_v1_raw[n_ptSetB_centSetA-1] = {/*d_Flow_err_ptSetB_centSetA[jkk][0][0][0][cent],*/ d_Flow_err_ptSetB_centSetA[jkk][0][0][1][cent],
+  //     //   d_Flow_err_ptSetB_centSetA[jkk][0][0][2][cent], d_Flow_err_ptSetB_centSetA[jkk][0][0][3][cent]};
+  //     // canvas_v1_raw_vs_pT_ptSetB_centSetA->cd(cent+1);
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v1_raw,ex,ey_v1_raw);
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
+  //     // mTGE_v1_raw_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
+  //     // l1_ptSetB_centSetA->Draw("same");
+  //
+  //     Double_t y_v1_reso[n_ptSetB_centSetA] = {/*d_FLow_ptSetB_centSetA[jkk][0][1][0][cent],*/ d_FLow_ptSetB_centSetA[jkk][0][1][1][cent],
+  //       d_FLow_ptSetB_centSetA[jkk][0][1][2][cent], d_FLow_ptSetB_centSetA[jkk][0][1][3][cent]};
+  //     Double_t ey_v1_reso[n_ptSetB_centSetA] = {/*d_Flow_err_ptSetB_centSetA[jkk][0][1][0][cent],*/ d_Flow_err_ptSetB_centSetA[jkk][0][1][1][cent],
+  //       d_Flow_err_ptSetB_centSetA[jkk][0][1][2][cent], d_Flow_err_ptSetB_centSetA[jkk][0][1][3][cent]};
+  //     canvas_v1_reso_vs_pT_ptSetB_centSetA->cd(cent+1);
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v1_reso,ex,ey_v1_reso);
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{1}");
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
+  //     mTGE_v1_reso_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
+  //     l1_ptSetB_centSetA->Draw("same");
+  //
+  //     // Double_t y_v2_raw[n_ptSetB_centSetA] = {d_FLow_ptSetB_centSetA[jkk][1][0][0][cent], d_FLow_ptSetB_centSetA[jkk][1][0][1][cent],
+  //     //   d_FLow_ptSetB_centSetA[jkk][1][0][2][cent], d_FLow_ptSetB_centSetA[jkk][1][0][3][cent]};
+  //     // Double_t ey_v2_raw[n_ptSetB_centSetA] = {d_Flow_err_ptSetB_centSetA[jkk][1][0][0][cent], d_Flow_err_ptSetB_centSetA[jkk][1][0][1][cent],
+  //     //   d_Flow_err_ptSetB_centSetA[jkk][1][0][2][cent], d_Flow_err_ptSetB_centSetA[jkk][1][0][3][cent]};
+  //     // canvas_v2_raw_vs_pT_ptSetB_centSetA->cd(cent+1);
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v2_raw,ex,ey_v2_raw);
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{raw}");
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
+  //     // mTGE_v2_raw_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
+  //     // l1_ptSetB_centSetA->Draw("same");
+  //
+  //     Double_t y_v2_reso[n_ptSetB_centSetA] = {/*d_FLow_ptSetB_centSetA[jkk][1][1][0][cent], */d_FLow_ptSetB_centSetA[jkk][1][1][1][cent],
+  //       d_FLow_ptSetB_centSetA[jkk][1][1][2][cent], d_FLow_ptSetB_centSetA[jkk][1][1][3][cent]};
+  //     Double_t ey_v2_reso[n_ptSetB_centSetA] = {/*d_Flow_err_ptSetB_centSetA[jkk][1][1][0][cent], */d_Flow_err_ptSetB_centSetA[jkk][1][1][1][cent],
+  //       d_Flow_err_ptSetB_centSetA[jkk][1][1][2][cent], d_Flow_err_ptSetB_centSetA[jkk][1][1][3][cent]};
+  //     canvas_v2_reso_vs_pT_ptSetB_centSetA->cd(cent+1);
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v2_reso,ex,ey_v2_reso);
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
+  //     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
+  //     l1_ptSetB_centSetA->Draw("same");
+  //   }
+  // }
   // mTGE_v1_raw_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
   // mTGE_v1_raw_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
   // mTGE_v1_raw_vs_pT_ptSetB_centSetA[2]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[2],centSetA[3]));
@@ -1037,12 +1037,12 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // mTGE_v1_raw_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
   // mTGE_v1_raw_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{1}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
 
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[2]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[2],centSetA[3]));
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[3]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[2],centSetA[4]));
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
-  mTGE_v1_reso_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[2]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[2],centSetA[3]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[3]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[2],centSetA[4]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
+  // mTGE_v1_reso_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{1}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
 
   // mTGE_v2_raw_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
   // mTGE_v2_raw_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
@@ -1051,12 +1051,12 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // mTGE_v2_raw_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
   // mTGE_v2_raw_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{2}^{raw}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
 
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[2]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[2],centSetA[3]));
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[3]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[2],centSetA[4]));
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
-  mTGE_v2_reso_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[0]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[1]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[1]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[1],centSetA[2]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[2]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[2],centSetA[3]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[3]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[2],centSetA[4]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[4]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
+  // mTGE_v2_reso_vs_pT_ptSetB_centSetA[5]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
   // pt SetA, cent SetB
   // for(int pt=0; pt<2; pt++)
   // {
@@ -1841,7 +1841,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // }
   // rap SetA, cent SetA
   for(int jkk=0; jkk<11; jkk++){
-    for(int rap=0; rap<4; rap++)
+    for(int rap=1; rap<4; rap++)
     {
       for(int cent=0; cent<6;cent++){
         canvas_InvM_rapSetA_centSetA->cd((cent+1)+6*rap);
@@ -1956,32 +1956,35 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
         TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
         TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
 
-        canvas_v1_raw_rapSetA_centSetA->cd((cent+1)+6*rap);
-        mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Draw();
-        mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_rapSetA_centSetA[jkk][0][0][rap][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_rapSetA_centSetA[jkk][0][0][rap][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v1_raw_rapSetA_centSetA[jkk] = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v1_raw_rapSetA_centSetA[jkk] -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA[jkk][0][0][rap][cent],177,d_Flow_err_rapSetA_centSetA[jkk][0][0][rap][cent]));
-        ptextFlow_v1_raw_rapSetA_centSetA[jkk] -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v1_raw_rapSetA_centSetA[jkk]->Draw("same");
+        // canvas_v1_raw_rapSetA_centSetA->cd((cent+1)+6*rap);
+        // mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        // mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Draw();
+        // mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        // Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        // Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        // Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        // tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        // tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        // tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        // tf1_totalFlow -> SetLineColor(kBlue);
+        // mProfile_Input_v1_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        // d_FLow_rapSetA_centSetA[jkk][0][0][rap][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        // d_Flow_err_rapSetA_centSetA[jkk][0][0][rap][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        // TPaveText * ptextFlow_v1_raw_rapSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        // ptextFlow_v1_raw_rapSetA_centSetA -> AddText(Form("v_{1}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA[jkk][0][0][rap][cent],177,d_Flow_err_rapSetA_centSetA[jkk][0][0][rap][cent]));
+        // ptextFlow_v1_raw_rapSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        // ptextFlow_v1_raw_rapSetA_centSetA->Draw("same");
 
         canvas_v1_reso_rapSetA_centSetA->cd((cent+1)+6*rap);
         mProfile_Input_v1_reso_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
         mProfile_Input_v1_reso_rapSetA_centSetA[jkk][rap][cent]->Draw();
         mProfile_Input_v1_reso_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        // d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        // d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        // d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
         tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
         tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
         tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
@@ -1994,24 +1997,24 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
         ptextFlow_v1_reso_rapSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
         ptextFlow_v1_reso_rapSetA_centSetA->Draw("same");
 
-        canvas_v2_raw_rapSetA_centSetA->cd((cent+1)+6*rap);
-        mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-        mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Draw();
-        mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-        d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
-        d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
-        d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
-        tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
-        tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
-        tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
-        tf1_totalFlow -> SetLineColor(kBlue);
-        mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
-        d_FLow_rapSetA_centSetA[jkk][1][0][rap][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
-        d_Flow_err_rapSetA_centSetA[jkk][1][0][rap][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
-        TPaveText * ptextFlow_v2_raw_rapSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
-        ptextFlow_v2_raw_rapSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA[jkk][1][0][rap][cent],177,d_Flow_err_rapSetA_centSetA[jkk][1][0][rap][cent]));
-        ptextFlow_v2_raw_rapSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
-        ptextFlow_v2_raw_rapSetA_centSetA->Draw("same");
+        // canvas_v2_raw_rapSetA_centSetA->cd((cent+1)+6*rap);
+        // mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+        // mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Draw();
+        // mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        // d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
+        // d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
+        // d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        // tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
+        // tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
+        // tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
+        // tf1_totalFlow -> SetLineColor(kBlue);
+        // mProfile_Input_v2_raw_rapSetA_centSetA[jkk][rap][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+        // d_FLow_rapSetA_centSetA[jkk][1][0][rap][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
+        // d_Flow_err_rapSetA_centSetA[jkk][1][0][rap][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
+        // TPaveText * ptextFlow_v2_raw_rapSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
+        // ptextFlow_v2_raw_rapSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_rapSetA_centSetA[jkk][1][0][rap][cent],177,d_Flow_err_rapSetA_centSetA[jkk][1][0][rap][cent]));
+        // ptextFlow_v2_raw_rapSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        // ptextFlow_v2_raw_rapSetA_centSetA->Draw("same");
 
         canvas_v2_reso_rapSetA_centSetA->cd((cent+1)+6*rap);
         mProfile_Input_v2_reso_rapSetA_centSetA[jkk][rap][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
@@ -2244,10 +2247,10 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       mTGE_v1_raw_vs_rap_rapSetA_centSetA[cent]->Draw("AP");
       l1_rapSetA_centSetA->Draw("same");
 
-      Double_t y_v1_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA[0][0][1][1][cent],
-        d_FLow_rapSetA_centSetA[0][0][1][2][cent], d_FLow_rapSetA_centSetA[0][0][1][3][cent]};
-      Double_t ey_v1_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[0][1][1][cent],
-        d_Flow_err_rapSetA_centSetA[0][1][2][cent], d_Flow_err_rapSetA_centSetA[0][1][3][cent]};
+      Double_t y_v1_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA[jkk][0][1][1][cent],
+        d_FLow_rapSetA_centSetA[jkk][0][1][2][cent], d_FLow_rapSetA_centSetA[jkk][0][1][3][cent]};
+      Double_t ey_v1_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[jkk][0][1][1][cent],
+        d_Flow_err_rapSetA_centSetA[jkk][0][1][2][cent], d_Flow_err_rapSetA_centSetA[jkk][0][1][3][cent]};
       canvas_v1_reso_vs_rap_rapSetA_centSetA->cd(cent+1);
       mTGE_v1_reso_vs_rap_rapSetA_centSetA[jkk][cent] = new TGraphErrors(n_rapSetA_centSetA,x,y_v1_reso,ex,ey_v1_reso);
       mTGE_v1_reso_vs_rap_rapSetA_centSetA[jkk][cent]->GetXaxis()->SetTitle("y-y_{CM}");
@@ -2259,8 +2262,8 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
 
       Double_t y_v2_raw[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA[0][1][0][1][cent],
         d_FLow_rapSetA_centSetA[0][1][0][2][cent], d_FLow_rapSetA_centSetA[0][1][0][3][cent]};
-      Double_t ey_v2_raw[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[1][0][1][cent],
-        d_Flow_err_rapSetA_centSetA[1][0][2][cent], d_Flow_err_rapSetA_centSetA[1][0][3][cent]};
+      Double_t ey_v2_raw[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[0][1][0][1][cent],
+        d_Flow_err_rapSetA_centSetA[0][1][0][2][cent], d_Flow_err_rapSetA_centSetA[0][1][0][3][cent]};
       canvas_v2_raw_vs_rap_rapSetA_centSetA->cd(cent+1);
       mTGE_v2_raw_vs_rap_rapSetA_centSetA[cent] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_raw,ex,ey_v2_raw);
       mTGE_v2_raw_vs_rap_rapSetA_centSetA[cent]->GetXaxis()->SetTitle("y-y_{CM}");
@@ -2270,10 +2273,10 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       mTGE_v2_raw_vs_rap_rapSetA_centSetA[cent]->Draw("AP");
       l1_rapSetA_centSetA->Draw("same");
 
-      Double_t y_v2_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA[0][1][1][1][cent],
-        d_FLow_rapSetA_centSetA[0][1][1][2][cent], d_FLow_rapSetA_centSetA[0][1][1][3][cent]};
-      Double_t ey_v2_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[1][1][1][cent],
-        d_Flow_err_rapSetA_centSetA[1][1][2][cent], d_Flow_err_rapSetA_centSetA[1][1][3][cent]};
+      Double_t y_v2_reso[n_rapSetA_centSetA] = {d_FLow_rapSetA_centSetA[jkk][1][1][1][cent],
+        d_FLow_rapSetA_centSetA[jkk][1][1][2][cent], d_FLow_rapSetA_centSetA[jkk][1][1][3][cent]};
+      Double_t ey_v2_reso[n_rapSetA_centSetA] = {d_Flow_err_rapSetA_centSetA[jkk][1][1][1][cent],
+        d_Flow_err_rapSetA_centSetA[jkk][1][1][2][cent], d_Flow_err_rapSetA_centSetA[jkk][1][1][3][cent]};
       canvas_v2_reso_vs_rap_rapSetA_centSetA->cd(cent+1);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->GetXaxis()->SetTitle("y-y_{CM}");
@@ -2656,16 +2659,16 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->Draw("AP");
   //   l1_rapSetA_centSetB->Draw("same");
   // }
-  // TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
+  TF1 * tf1_dv1dy = new TF1("tf1_dv1dy",proportion,0.,2.,1);
   for(int jkk=0; jkk<11; jkk++){
-    for(int cent = 0; cent<3;cent++){
+    for(int cent = 1; cent<2;cent++){
       mTGE_v1_reso_vs_rap_rapSetA_centSetA[jkk][cent]->Fit(tf1_dv1dy,"QE+","R",-1.42-_y_CM,/*2.*/0.-_y_CM);
-      cout<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
-      flowFile<<Form("v1 %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_FLow_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
-      cout<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
-      flowFile<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA: ",centSetA[cent],centSetA[cent+1]) << d_Flow_err_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
-      cout<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1]) << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
-      flowFile<<Form("%2.f-%2.f%% dv1/dy slope: ",centSetA[cent],centSetA[cent+1])<< (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      cout<<Form("v1 %2.f-%2.f%% rapSetA_centSetA jkk %d: ",centSetA[cent],centSetA[cent+1],jkk) << d_FLow_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
+      flowFile<<Form("v1 %2.f-%2.f%% rapSetA_centSetA jkk %d: ",centSetA[cent],centSetA[cent+1],jkk) << d_FLow_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_FLow_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
+      cout<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA jkk %d: ",centSetA[cent],centSetA[cent+1],jkk) << d_Flow_err_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
+      flowFile<<Form("v1 err %2.f-%2.f%% rapSetA_centSetA jkk %d: ",centSetA[cent],centSetA[cent+1],jkk) << d_Flow_err_rapSetA_centSetA[jkk][0][1][1][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][2][cent] <<", "<<d_Flow_err_rapSetA_centSetA[jkk][0][1][3][cent]<<endl;
+      cout<<Form("%2.f-%2.f%% dv1/dy slope jkk %d: ",centSetA[cent],centSetA[cent+1],jkk) << (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
+      flowFile<<Form("%2.f-%2.f%% dv1/dy slope jkk %d: ",centSetA[cent],centSetA[cent+1],jkk)<< (Double_t)tf1_dv1dy->GetParameter(0) <<" +/- "<<(Double_t)tf1_dv1dy->GetParError(0) <<endl;
       cout<<endl;
       flowFile<<endl;
     }
@@ -2709,92 +2712,92 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   // cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
   // }
   // cout<<endl;
-  for(int jkk=0;jkk<11;jkk++){
-    cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1]  <<endl;
-    flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
-    cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
-    flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
-  }
+  // for(int jkk=0;jkk<11;jkk++){
+  //   cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1]  <<endl;
+  //   flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
+  //   cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
+  //   flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
+  // }
   cout << endl;
-  cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1]  <<endl;
-  flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1] <<endl;
-  cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
-  flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
+  // cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1]  <<endl;
+  // flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1] <<endl;
+  // cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
+  // flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
   outputFile->cd();
-  canvas_InvM_ptSetA_centSetA->Write();
-  canvas_v1_raw_ptSetA_centSetA->Write();
-  canvas_v1_reso_ptSetA_centSetA->Write();
-  canvas_v2_raw_ptSetA_centSetA->Write();
-  canvas_v2_reso_ptSetA_centSetA->Write();
-  canvas_v1_raw_vs_pT_ptSetA_centSetA->Write();
-  canvas_v1_reso_vs_pT_ptSetA_centSetA->Write();
-  canvas_v2_raw_vs_pT_ptSetA_centSetA->Write();
-  canvas_v2_reso_vs_pT_ptSetA_centSetA->Write();
-  canvas_InvM_ptSetB_centSetA->Write();
-  canvas_v1_raw_ptSetB_centSetA->Write();
-  canvas_v1_reso_ptSetB_centSetA->Write();
-  canvas_v2_raw_ptSetB_centSetA->Write();
-  canvas_v2_reso_ptSetB_centSetA->Write();
-  canvas_v1_raw_vs_pT_ptSetB_centSetA->Write();
-  canvas_v1_reso_vs_pT_ptSetB_centSetA->Write();
-  canvas_v2_raw_vs_pT_ptSetB_centSetA->Write();
-  canvas_v2_reso_vs_pT_ptSetB_centSetA->Write();
-  canvas_InvM_ptSetA_centSetB->Write();
-  canvas_v1_raw_ptSetA_centSetB->Write();
-  canvas_v1_reso_ptSetA_centSetB->Write();
-  canvas_v2_raw_ptSetA_centSetB->Write();
-  canvas_v2_reso_ptSetA_centSetB->Write();
-  canvas_v1_raw_vs_pT_ptSetA_centSetB->Write();
-  canvas_v1_reso_vs_pT_ptSetA_centSetB->Write();
-  canvas_v2_raw_vs_pT_ptSetA_centSetB->Write();
-  canvas_v2_reso_vs_pT_ptSetA_centSetB->Write();
-  canvas_InvM_ptSetB_centSetB->Write();
-  canvas_v1_raw_ptSetB_centSetB->Write();
-  canvas_v1_reso_ptSetB_centSetB->Write();
-  canvas_v2_raw_ptSetB_centSetB->Write();
-  canvas_v2_reso_ptSetB_centSetB->Write();
-  canvas_v1_raw_vs_pT_ptSetB_centSetB->Write();
-  canvas_v1_reso_vs_pT_ptSetB_centSetB->Write();
-  canvas_v2_raw_vs_pT_ptSetB_centSetB->Write();
-  canvas_v2_reso_vs_pT_ptSetB_centSetB->Write();
-  canvas_InvM_ptSetC_centAll->Write();
-  canvas_v1_raw_ptSetC_centAll->Write();
-  canvas_v1_reso_ptSetC_centAll->Write();
-  canvas_v2_raw_ptSetC_centAll->Write();
-  canvas_v2_reso_ptSetC_centAll->Write();
-  canvas_v1_raw_vs_pT_ptSetC_centAll->Write();
-  canvas_v1_reso_vs_pT_ptSetC_centAll->Write();
-  canvas_v2_raw_vs_pT_ptSetC_centAll->Write();
-  canvas_v2_reso_vs_pT_ptSetC_centAll->Write();
+  // canvas_InvM_ptSetA_centSetA->Write();
+  // canvas_v1_raw_ptSetA_centSetA->Write();
+  // canvas_v1_reso_ptSetA_centSetA->Write();
+  // canvas_v2_raw_ptSetA_centSetA->Write();
+  // canvas_v2_reso_ptSetA_centSetA->Write();
+  // canvas_v1_raw_vs_pT_ptSetA_centSetA->Write();
+  // canvas_v1_reso_vs_pT_ptSetA_centSetA->Write();
+  // canvas_v2_raw_vs_pT_ptSetA_centSetA->Write();
+  // canvas_v2_reso_vs_pT_ptSetA_centSetA->Write();
+  // canvas_InvM_ptSetB_centSetA->Write();
+  // canvas_v1_raw_ptSetB_centSetA->Write();
+  // canvas_v1_reso_ptSetB_centSetA->Write();
+  // canvas_v2_raw_ptSetB_centSetA->Write();
+  // canvas_v2_reso_ptSetB_centSetA->Write();
+  // canvas_v1_raw_vs_pT_ptSetB_centSetA->Write();
+  // canvas_v1_reso_vs_pT_ptSetB_centSetA->Write();
+  // canvas_v2_raw_vs_pT_ptSetB_centSetA->Write();
+  // canvas_v2_reso_vs_pT_ptSetB_centSetA->Write();
+  // canvas_InvM_ptSetA_centSetB->Write();
+  // canvas_v1_raw_ptSetA_centSetB->Write();
+  // canvas_v1_reso_ptSetA_centSetB->Write();
+  // canvas_v2_raw_ptSetA_centSetB->Write();
+  // canvas_v2_reso_ptSetA_centSetB->Write();
+  // canvas_v1_raw_vs_pT_ptSetA_centSetB->Write();
+  // canvas_v1_reso_vs_pT_ptSetA_centSetB->Write();
+  // canvas_v2_raw_vs_pT_ptSetA_centSetB->Write();
+  // canvas_v2_reso_vs_pT_ptSetA_centSetB->Write();
+  // canvas_InvM_ptSetB_centSetB->Write();
+  // canvas_v1_raw_ptSetB_centSetB->Write();
+  // canvas_v1_reso_ptSetB_centSetB->Write();
+  // canvas_v2_raw_ptSetB_centSetB->Write();
+  // canvas_v2_reso_ptSetB_centSetB->Write();
+  // canvas_v1_raw_vs_pT_ptSetB_centSetB->Write();
+  // canvas_v1_reso_vs_pT_ptSetB_centSetB->Write();
+  // canvas_v2_raw_vs_pT_ptSetB_centSetB->Write();
+  // canvas_v2_reso_vs_pT_ptSetB_centSetB->Write();
+  // canvas_InvM_ptSetC_centAll->Write();
+  // canvas_v1_raw_ptSetC_centAll->Write();
+  // canvas_v1_reso_ptSetC_centAll->Write();
+  // canvas_v2_raw_ptSetC_centAll->Write();
+  // canvas_v2_reso_ptSetC_centAll->Write();
+  // canvas_v1_raw_vs_pT_ptSetC_centAll->Write();
+  // canvas_v1_reso_vs_pT_ptSetC_centAll->Write();
+  // canvas_v2_raw_vs_pT_ptSetC_centAll->Write();
+  // canvas_v2_reso_vs_pT_ptSetC_centAll->Write();
   canvas_InvM_rapSetA_centSetA->Write();
-  canvas_v1_raw_rapSetA_centSetA->Write();
+  // canvas_v1_raw_rapSetA_centSetA->Write();
   canvas_v1_reso_rapSetA_centSetA->Write();
-  canvas_v2_raw_rapSetA_centSetA->Write();
+  // canvas_v2_raw_rapSetA_centSetA->Write();
   canvas_v2_reso_rapSetA_centSetA->Write();
   canvas_v1_raw_vs_rap_rapSetA_centSetA->Write();
   canvas_v1_reso_vs_rap_rapSetA_centSetA->Write();
   canvas_v2_raw_vs_rap_rapSetA_centSetA->Write();
   canvas_v2_reso_vs_rap_rapSetA_centSetA->Write();
-  for(int pt=0;pt<3;pt++){
-    canvas_InvM_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v1_raw_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v1_reso_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v2_raw_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v2_reso_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
-    canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
-  }
-  canvas_InvM_rapSetA_centSetB->Write();
-  canvas_v1_raw_rapSetA_centSetB->Write();
-  canvas_v1_reso_rapSetA_centSetB->Write();
-  canvas_v2_raw_rapSetA_centSetB->Write();
-  canvas_v2_reso_rapSetA_centSetB->Write();
-  canvas_v1_raw_vs_rap_rapSetA_centSetB->Write();
-  canvas_v1_reso_vs_rap_rapSetA_centSetB->Write();
-  canvas_v2_raw_vs_rap_rapSetA_centSetB->Write();
-  canvas_v2_reso_vs_rap_rapSetA_centSetB->Write();
+  // for(int pt=0;pt<3;pt++){
+  //   canvas_InvM_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v1_raw_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v1_reso_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v2_raw_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v2_reso_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v1_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v1_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v2_raw_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+  //   canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->Write();
+  // }
+  // canvas_InvM_rapSetA_centSetB->Write();
+  // canvas_v1_raw_rapSetA_centSetB->Write();
+  // canvas_v1_reso_rapSetA_centSetB->Write();
+  // canvas_v2_raw_rapSetA_centSetB->Write();
+  // canvas_v2_reso_rapSetA_centSetB->Write();
+  // canvas_v1_raw_vs_rap_rapSetA_centSetB->Write();
+  // canvas_v1_reso_vs_rap_rapSetA_centSetB->Write();
+  // canvas_v2_raw_vs_rap_rapSetA_centSetB->Write();
+  // canvas_v2_reso_vs_rap_rapSetA_centSetB->Write();
   // outputFile->Write();
   flowFile.close();
 }
