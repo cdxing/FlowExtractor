@@ -314,6 +314,8 @@ void flowPlotter(){
   // 7.2 GeV v2 vs. pT 10-40%
   double x_ptSetA[2]    = { 0.9,1.8};
   double xErr_ptSetA[2] = {0.3,0.6};
+  double x_ptSetB_3bin[3]    = { 0.85,1.55,2.5};
+  double xErr_ptSetB_3bin[3] = {0.25,0.45,0.5};
   // double y_v2_10_40[2]      = {0.0256657, 0.0120596}; // EPD
   // double yErr_stat_v2_10_40[2] = {0.023679, 0.0240889};
 
@@ -323,6 +325,11 @@ void flowPlotter(){
   double y_v2_10_40[2]      = {-0.00966106, -0.0205263}; // w bin
   double yErr_stat_v2_10_40[2] = {0.014085270558323343, 0.009257925680356804};
 
+  double y_v2_10_40_3bin[3]      = {-0.0276872, -0.0100532, 0.0504745}; // w bin
+  double yErr_stat_v2_10_40_3bin[3] = {0.015015, 0.0060396, 0.023567};
+  // double yErr_stat_v2_10_40_3bin[3] = {0.009892, 0.00487,0.01565};
+  // v2 10-40% ptSetB_centSetA: -0.0276872, -0.0100532, 0.0504745
+  // v2 Err 10-40% ptSetB_centSetA: 0.0310942, 0.0257785, 0.178318
   double x_ptSetB[4]    = { 0.55,0.85,1.2,1.7};
   double xErr_ptSetB[4] = {0.15,0.15,0.2,0.3};
 
@@ -367,14 +374,14 @@ void flowPlotter(){
   gr7p2Cen_10_40_invM->SetMarkerColor(kRed);
   gr7p2Cen_10_40_invM->SetLineColor(kRed);
   gr7p2Cen_10_40_invM->SetMarkerSize(2);
-  gr7p2Cen_10_40_invM->Draw("P");
+  // gr7p2Cen_10_40_invM->Draw("P");
 
   TGraphErrors* gr7p2Cen_10_40 = new TGraphErrors(2, pt_7p2Cen_10_40, v2_7p2Cen_10_40, pterr_7p2Cen_10_40, v2stat_7p2Cen_10_40);
   gr7p2Cen_10_40->SetMarkerStyle(8);
   gr7p2Cen_10_40->SetMarkerColor(kRed);
   gr7p2Cen_10_40->SetLineColor(kRed);
   gr7p2Cen_10_40->SetMarkerSize(2);
-  gr7p2Cen_10_40->Draw("P");
+  // gr7p2Cen_10_40->Draw("P");
   // 7.2 GeV v2 vs. pT 10-40%
   TGraphErrors *graph_v2_vs_pT_10_40_7p2 = new TGraphErrors(2, x_ptSetA, y_v2_10_40, xErr_ptSetA, yErr_stat_v2_10_40);
   graph_v2_vs_pT_10_40_7p2->SetMarkerStyle(30);
@@ -382,6 +389,13 @@ void flowPlotter(){
   graph_v2_vs_pT_10_40_7p2->SetLineColor(kBlue);
   graph_v2_vs_pT_10_40_7p2->SetMarkerSize(2);
   graph_v2_vs_pT_10_40_7p2->Draw("P");
+  // 3bin
+  TGraphErrors *graph_v2_vs_pT_10_40_7p2_3bin = new TGraphErrors(3, x_ptSetB_3bin, y_v2_10_40_3bin, xErr_ptSetB_3bin, yErr_stat_v2_10_40_3bin);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerStyle(32);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerColor(kRed+2);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetLineColor(kRed+2);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerSize(2);
+  graph_v2_vs_pT_10_40_7p2_3bin->Draw("P");
   // 7.2 GeV v2 vs. pT 10-40% Shaowei
   TGraphErrors *graph_v2_vs_pT_10_40_7p2_Shaowei = new TGraphErrors(2, x_ptSetA, y_v2_10_40_Shaowei, xErr_ptSetA, yErr_stat_v2_10_40_Shaowei);
   graph_v2_vs_pT_10_40_7p2_Shaowei->SetMarkerStyle(21);
@@ -394,8 +408,9 @@ void flowPlotter(){
   line1_1->Draw("same");
   TLegend *legend1 = new TLegend(0.4,0.65,0.9,0.9);
   legend1->AddEntry(graph_v2_vs_pT_10_40_7p2,"7.2 GeV 10-40% invM - This analysis","p");
-  legend1->AddEntry(gr7p2Cen_10_40_invM,"7.2 GeV 10-40% invM - Guannan","p");
-  legend1->AddEntry(gr7p2Cen_10_40,"7.2 GeV 10-40% etasub - Guannan","p");
+  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_3bin,"7.2 GeV 10-40% invM - 3 bin","p");
+  // legend1->AddEntry(gr7p2Cen_10_40_invM,"7.2 GeV 10-40% invM - Guannan","p");
+  // legend1->AddEntry(gr7p2Cen_10_40,"7.2 GeV 10-40% etasub - Guannan","p");
   legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_Shaowei,"7.2 GeV 10-40% etasub - Shaowei","p");
   legend1->AddEntry(gr7p7Cen_10_40,"7.7 GeV 10-40% etasub - BES-I","p");
   legend1->Draw("same");
@@ -1068,7 +1083,55 @@ void flowPlotter(){
   TCanv_jkk->cd(2);
   h_v2_bin2->Draw();
 
+  // ========================== (8) v2 2 bin jackknife 7.2 GeV ========================
+  TCanvas *TCanv_jkk_3bin = new TCanvas("TCanv_jkk_3bin","TCanv_jkk_3bin",200,10,1024,768);
+  TCanv_jkk_3bin->Divide(3,1);
+  Double_t jkk0_3bin[10] = {-0.024103, -0.0312833, -0.0195566, -0.0470599, -0.0161398,
+    -0.038317, -0.0344636, -0.0130601, -0.0268843, -0.0255705};
+  Double_t jkk1_3bin[10] =  {-0.00661559, -0.014488, -0.0180263, -0.0120914, -0.00925052,
+    -0.0123143, -0.0126176, -0.0022658, -0.0109871, -0.00204892 };
+  Double_t jkk2_3bin[10] =   {-0.0290174, -0.00876496, 0.214951, 0.0186555, 0.107771,
+    0.213564, -0.00352324, 0.00395574, -0.0624693, 0.0938725};
 
+  TH1D *h_v2_jkk_bin1 = new TH1D("h_v2_jkk_bin1","h_v2_jkk_bin1",8, -0.05,0.05);
+  TH1D *h_v2_jkk_bin2 = new TH1D("h_v2_jkk_bin2","h_v2_jkk_bin2",8, -0.05,0.05);
+  TH1D *h_v2_jkk_bin3 = new TH1D("h_v2_jkk_bin3","h_v2_jkk_bin3",8, -0.05,0.05);
+  for(int i=0;i<10;i++){
+    h_v2_jkk_bin1->Fill(jkk0_3bin[i]);
+    h_v2_jkk_bin2->Fill(jkk1_3bin[i]);
+    h_v2_jkk_bin3->Fill(jkk2_3bin[i]);
+  }
+  TCanv_jkk_3bin->cd(1);
+  h_v2_jkk_bin1->Draw();
+  TCanv_jkk_3bin->cd(2);
+  h_v2_jkk_bin2->Draw();
+  TCanv_jkk_3bin->cd(3);
+  h_v2_jkk_bin3->Draw();
+
+  // ========================== (9) v1 3 bin jackknife 7.2 GeV ========================
+  TCanvas *TCanv_jkk_rap = new TCanvas("TCanv_jkk_rap","TCanv_jkk_rap",200,10,1024,768);
+  TCanv_jkk_rap->Divide(3,1);
+  Double_t jkk0_rap[10] = {-0.0153919,0.0103276,-0.00969343,-0.00250536,-0.000626034,
+    0.00819924,0.000214182,0.00193367,0.00878884,-0.00066745};
+  Double_t jkk1_rap[10] =  {0.0272558,0.0178734,0.0269522,0.0329685,0.0317695,
+    0.035321,0.0295679,0.0378912,0.0301462,0.0254561};
+  Double_t jkk2_rap[10] =   {0.0716877,0.111469,0.0604407,0.0561723,0.0998641,
+    0.109151,0.0839622,0.109282,0.057333,0.0915568};
+
+  TH1D *h_v1_jkk_bin1 = new TH1D("h_v1_jkk_bin1","h_v1_jkk_bin1",8, -0.05,0.05);
+  TH1D *h_v1_jkk_bin2 = new TH1D("h_v1_jkk_bin2","h_v1_jkk_bin2",8, -0.05,0.05);
+  TH1D *h_v1_jkk_bin3 = new TH1D("h_v1_jkk_bin3","h_v1_jkk_bin3",8, 0.0,0.15);
+  for(int i=0;i<10;i++){
+    h_v1_jkk_bin1->Fill(jkk0_rap[i]);
+    h_v1_jkk_bin2->Fill(jkk1_rap[i]);
+    h_v1_jkk_bin3->Fill(jkk2_rap[i]);
+  }
+  TCanv_jkk_rap->cd(1);
+  h_v1_jkk_bin1->Draw();
+  TCanv_jkk_rap->cd(2);
+  h_v1_jkk_bin2->Draw();
+  TCanv_jkk_rap->cd(3);
+  h_v1_jkk_bin3->Draw();
 }
 
 Double_t proportion(Double_t *x, Double_t *p)
