@@ -195,14 +195,19 @@ void flowPlotter(){
   TCanv_v1_vs_y->DrawFrame(0, -0.04, 2.1, 0.1);
   // 7.2 GeV v1 vs. y
   double x_rap[3]    = { -1.25-_y_CM, -0.75-_y_CM, -0.25-_y_CM};
-  // double xErr_rap[3] = {0.25, 0.25, 0.25};
+  double x_rap_jkk[3]    = { -1.25-_y_CM+0.02, -0.75-_y_CM+0.02, -0.25-_y_CM+0.02};
+  double xErr_rap_newProd[3] = {0.25, 0.25, 0.25};
   double xErr_rap[3] = {0};
   double y_v1[3]      = {0.00678684, 0.0191681, 0.0203576};
+  double y_v1_newProd[3] = {5.3034e-05, 0.0294281, 0.085239};
+  double y_v1_newProd_jkk[3] = {5.794e-05, 0.02952, 0.08509};
   double y_0[3]      = {0,0,0};
   double yErr_stat_v1[3] = {0.0220404, 0.0129847, 0.0461443};
+  double yErr_stat_v1_newProd[3] = { 0.0255991, 0.0138418, 0.0488292};
+  double yErr_stat_v1_newProd_jkk[3] = { 0.0077*3, 0.005338*3, 0.02125*3};
   double yErr_sys_v1[3] = {0.00881589, 0.00917299, 0.0286432};
   TCanv_v1_vs_y->cd();
-  TH2D * histTemp1 = new TH2D("histTemp1","histTemp1",1000,0,2.1,1000,-0.04,0.1);
+  TH2D * histTemp1 = new TH2D("histTemp1","histTemp1",1000,0,2.1,1000,-0.04,0.15);
   histTemp1->GetYaxis()->SetTitle("v_{1}");
   histTemp1->GetYaxis()->SetTitleOffset(1);
   histTemp1->GetXaxis()->SetTitle("y (COM frame)");
@@ -256,13 +261,25 @@ void flowPlotter(){
   // gr7p7Cen_v11_slop = new TGraphErrors(4, yy, v11, yyerr, v11err);
   gr7p7Cen_v11_slop = new TGraphErrors(4, yy, v11, 0, v11err);
   TCanvas *TCanv_7p2_7p7 = new TCanvas("TCanv_7p2_7p7","7.2 7.7 combined ",200,10,1024,768);
-  TCanv_7p2_7p7->DrawFrame(-1., -1., 2.1, 0.1);
+  TCanv_7p2_7p7->DrawFrame(-1., -1., 2.1, 0.15);
   TCanv_7p2_7p7->cd();
-  TH2D * histTemp_7p2_7p7 = new TH2D("histTemp_7p2_7p7","histTemp_7p2_7p7",1000,-1,2.1,1000,-0.05,0.1);
+  TH2D * histTemp_7p2_7p7 = new TH2D("histTemp_7p2_7p7","histTemp_7p2_7p7",1000,-1,2.1,1000,-0.05,0.15);
   histTemp_7p2_7p7->GetYaxis()->SetTitle("v_{1}");
   histTemp_7p2_7p7->GetYaxis()->SetTitleOffset(1);
   histTemp_7p2_7p7->GetXaxis()->SetTitle("y");
   histTemp_7p2_7p7->Draw();
+  TGraphErrors *graph_v1_vs_y_7p2_newProd = new TGraphErrors(3, x_rap, y_v1_newProd, xErr_rap_newProd, yErr_stat_v1_newProd);
+  graph_v1_vs_y_7p2_newProd->SetMarkerStyle(23);
+  graph_v1_vs_y_7p2_newProd->SetMarkerColor(kRed);
+  graph_v1_vs_y_7p2_newProd->SetLineColor(kRed);
+  graph_v1_vs_y_7p2_newProd->SetMarkerSize(2);
+  graph_v1_vs_y_7p2_newProd->Draw("P");
+  TGraphErrors *graph_v1_vs_y_7p2_newProd_jkk = new TGraphErrors(3, x_rap_jkk, y_v1_newProd_jkk, /*xErr_rap_newProd*/0, yErr_stat_v1_newProd_jkk);
+  graph_v1_vs_y_7p2_newProd_jkk->SetMarkerStyle(32);
+  graph_v1_vs_y_7p2_newProd_jkk->SetMarkerColor(kRed+2);
+  graph_v1_vs_y_7p2_newProd_jkk->SetLineColor(kRed+2);
+  graph_v1_vs_y_7p2_newProd_jkk->SetMarkerSize(2);
+  graph_v1_vs_y_7p2_newProd_jkk->Draw("P");
   gr7p7Cen_v11_slop->SetMarkerStyle(20);
   gr7p7Cen_v11_slop->SetMarkerSize(2);
   gr7p7Cen_v11_slop->SetMarkerColor(kGreen+3);
@@ -306,6 +323,8 @@ void flowPlotter(){
   legend_7p2_7p7->SetBorderSize(0);
   legend_7p2_7p7->AddEntry(gr7p7Cen_v11_slop,"#phi 7.7 GeV COL 10-40% ","p");
   legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2,"#phi 7.2 GeV FXT 10-40% ","p");
+  legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2_newProd,"#phi 7.2 GeV FXT 10-40% new Prod ","p");
+  legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2_newProd_jkk,"#phi 7.2 GeV FXT 10-40% new Prod - Jackknife ","p");
   legend_7p2_7p7->AddEntry((TObject*)0,Form("dv_{1} /dy|_{y=0} = %.4f %c %.4f",(Double_t)tf1_dv1dy_7p2_7p7->GetParameter(0),177,(Double_t)tf1_dv1dy_7p2_7p7->GetParError(0)),"");
   legend_7p2_7p7->Draw("same");
   // ========================== (3) v2 vs. pT at 7.2 GeV =======================
@@ -313,21 +332,27 @@ void flowPlotter(){
   TCanv_v2_vs_pt_10_40->DrawFrame(0, -0.1, 3, 0.2);
   // 7.2 GeV v2 vs. pT 10-40%
   double x_ptSetA[2]    = { 0.9,1.8};
+  double x_ptSetA_jkk[2]    = { 0.9+0.02,1.8+0.02};
   double xErr_ptSetA[2] = {0.3,0.6};
   double x_ptSetB_3bin[3]    = { 0.85,1.55,2.5};
+  double x_ptSetB_3bin_jkk[3]    = { 0.85+0.02,1.55+0.02,2.5+0.02};
   double xErr_ptSetB_3bin[3] = {0.25,0.45,0.5};
   // double y_v2_10_40[2]      = {0.0256657, 0.0120596}; // EPD
   // double yErr_stat_v2_10_40[2] = {0.023679, 0.0240889};
 
   // double y_v2_10_40[2]      = {-0.0149938, -0.0150853}; // w bin
   // double yErr_stat_v2_10_40[2] = {0.0277206, 0.028806};
+  double y_v2_10_40[2]      = {-0.0097, -0.0205}; // w bin
+  double yErr_stat_v2_10_40[2] = {0.0281, 0.0277};
 
-  double y_v2_10_40[2]      = {-0.00966106, -0.0205263}; // w bin
-  double yErr_stat_v2_10_40[2] = {0.014085270558323343, 0.009257925680356804};
+  double y_v2_10_40_jkk[2]      = {-0.00966106, -0.0205263}; // w bin
+  double yErr_stat_v2_10_40_jkk[2] = {0.014085270558323343*3, 0.009257925680356804*3};
 
   double y_v2_10_40_3bin[3]      = {-0.0276872, -0.0100532, 0.0504745}; // w bin
-  double yErr_stat_v2_10_40_3bin[3] = {0.015015, 0.0060396, 0.023567};
-  // double yErr_stat_v2_10_40_3bin[3] = {0.009892, 0.00487,0.01565};
+  double yErr_stat_v2_10_40_3bin[3] = { 0.0310942, 0.0257785, 0.178318};
+  double y_v2_10_40_3bin_jkk[3]      = {-0.02764, -0.01007, -0.003739}; // w bin
+  double yErr_stat_v2_10_40_3bin_jkk[3] = {0.009892*3, 0.00487*3, 0.01565*3};
+  // double yErr_stat_v2_10_40_3bin_jkk[3] = {0.009892, 0.00487,0.01565};
   // v2 10-40% ptSetB_centSetA: -0.0276872, -0.0100532, 0.0504745
   // v2 Err 10-40% ptSetB_centSetA: 0.0310942, 0.0257785, 0.178318
   double x_ptSetB[4]    = { 0.55,0.85,1.2,1.7};
@@ -358,7 +383,7 @@ void flowPlotter(){
   Double_t v2_values_10_40[1] = {0.0399507};
   Double_t v2_stat_error_10_40[1] = {0.0193815};
   TCanv_v2_vs_pt_10_40->cd();
-  TH2D * histTemp2 = new TH2D("histTemp2","histTemp2",1000,0,3,1000,-0.1,0.2);
+  TH2D * histTemp2 = new TH2D("histTemp2","histTemp2",1000,0,3,1000,-0.15,0.25);
   histTemp2->GetYaxis()->SetTitle("v_{2}");
   histTemp2->GetYaxis()->SetTitleOffset(1);
   histTemp2->GetXaxis()->SetTitle("pT [GeV/c]");
@@ -383,19 +408,33 @@ void flowPlotter(){
   gr7p2Cen_10_40->SetMarkerSize(2);
   // gr7p2Cen_10_40->Draw("P");
   // 7.2 GeV v2 vs. pT 10-40%
-  TGraphErrors *graph_v2_vs_pT_10_40_7p2 = new TGraphErrors(2, x_ptSetA, y_v2_10_40, xErr_ptSetA, yErr_stat_v2_10_40);
-  graph_v2_vs_pT_10_40_7p2->SetMarkerStyle(30);
-  graph_v2_vs_pT_10_40_7p2->SetMarkerColor(kBlue);
-  graph_v2_vs_pT_10_40_7p2->SetLineColor(kBlue);
+  TGraphErrors *graph_v2_vs_pT_10_40_7p2 = new TGraphErrors(2, x_ptSetA, y_v2_10_40, /*xErr_ptSetA*/0, yErr_stat_v2_10_40);
+  graph_v2_vs_pT_10_40_7p2->SetMarkerStyle(29);
+  graph_v2_vs_pT_10_40_7p2->SetMarkerColor(kBlue+2);
+  graph_v2_vs_pT_10_40_7p2->SetLineColor(kBlue+2);
   graph_v2_vs_pT_10_40_7p2->SetMarkerSize(2);
   graph_v2_vs_pT_10_40_7p2->Draw("P");
+  // 7.2 GeV v2 vs. pT 10-40%
+  TGraphErrors *graph_v2_vs_pT_10_40_7p2_jkk = new TGraphErrors(2, x_ptSetA_jkk, y_v2_10_40_jkk, /*xErr_ptSetA*/0, yErr_stat_v2_10_40_jkk);
+  graph_v2_vs_pT_10_40_7p2_jkk->SetMarkerStyle(30);
+  graph_v2_vs_pT_10_40_7p2_jkk->SetMarkerColor(kBlue);
+  graph_v2_vs_pT_10_40_7p2_jkk->SetLineColor(kBlue);
+  graph_v2_vs_pT_10_40_7p2_jkk->SetMarkerSize(2);
+  graph_v2_vs_pT_10_40_7p2_jkk->Draw("P");
   // 3bin
   TGraphErrors *graph_v2_vs_pT_10_40_7p2_3bin = new TGraphErrors(3, x_ptSetB_3bin, y_v2_10_40_3bin, xErr_ptSetB_3bin, yErr_stat_v2_10_40_3bin);
-  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerStyle(32);
-  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerColor(kRed+2);
-  graph_v2_vs_pT_10_40_7p2_3bin->SetLineColor(kRed+2);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerStyle(23);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerColor(kRed);
+  graph_v2_vs_pT_10_40_7p2_3bin->SetLineColor(kRed);
   graph_v2_vs_pT_10_40_7p2_3bin->SetMarkerSize(2);
   graph_v2_vs_pT_10_40_7p2_3bin->Draw("P");
+  // 3bin jkk
+  TGraphErrors *graph_v2_vs_pT_10_40_7p2_3bin_jkk = new TGraphErrors(3, x_ptSetB_3bin_jkk, y_v2_10_40_3bin_jkk, /*xErr_ptSetB_3bin*/0, yErr_stat_v2_10_40_3bin_jkk);
+  graph_v2_vs_pT_10_40_7p2_3bin_jkk->SetMarkerStyle(32);
+  graph_v2_vs_pT_10_40_7p2_3bin_jkk->SetMarkerColor(kRed+2);
+  graph_v2_vs_pT_10_40_7p2_3bin_jkk->SetLineColor(kRed+2);
+  graph_v2_vs_pT_10_40_7p2_3bin_jkk->SetMarkerSize(2);
+  graph_v2_vs_pT_10_40_7p2_3bin_jkk->Draw("P");
   // 7.2 GeV v2 vs. pT 10-40% Shaowei
   TGraphErrors *graph_v2_vs_pT_10_40_7p2_Shaowei = new TGraphErrors(2, x_ptSetA, y_v2_10_40_Shaowei, xErr_ptSetA, yErr_stat_v2_10_40_Shaowei);
   graph_v2_vs_pT_10_40_7p2_Shaowei->SetMarkerStyle(21);
@@ -407,8 +446,10 @@ void flowPlotter(){
   line1_1->SetLineStyle(7);
   line1_1->Draw("same");
   TLegend *legend1 = new TLegend(0.4,0.65,0.9,0.9);
-  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2,"7.2 GeV 10-40% invM - This analysis","p");
-  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_3bin,"7.2 GeV 10-40% invM - 3 bin","p");
+  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2,"7.2 GeV 10-40% invM","p");
+  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_jkk,"7.2 GeV 10-40% invM - Jackknife","p");
+  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_3bin,"7.2 GeV 10-40% invM - 3 pT bin","p");
+  legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_3bin_jkk,"7.2 GeV 10-40% invM - 3 pT bin - Jackknife","p");
   // legend1->AddEntry(gr7p2Cen_10_40_invM,"7.2 GeV 10-40% invM - Guannan","p");
   // legend1->AddEntry(gr7p2Cen_10_40,"7.2 GeV 10-40% etasub - Guannan","p");
   legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_Shaowei,"7.2 GeV 10-40% etasub - Shaowei","p");
