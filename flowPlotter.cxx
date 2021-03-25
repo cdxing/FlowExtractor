@@ -62,6 +62,7 @@ const Double_t _massOmegaMinus  = 1.67245;
 const Double_t _massXiMinus  = 1.32171;
 
 Double_t proportion(Double_t *x, Double_t *p);
+Double_t Pol3plus1(Double_t *x, Double_t *p);
 Double_t d_v2nq(Double_t d_v2, Int_t ncq );
 Double_t d_mTm0nq(Double_t d_pT, Int_t ncq, Double_t mass );
 
@@ -106,7 +107,7 @@ void flowPlotter(){
 
   // Now draw data set (1)
   // ------------- We first have to draw it only with the stat errors ------------
-  // gStyle->SetOptStat(0);
+  gStyle->SetOptStat(0);
   gStyle->SetOptDate(0);
   gStyle->SetEndErrorSize(6);
   gStyle->SetOptTitle(0);
@@ -195,11 +196,13 @@ void flowPlotter(){
   TCanv_v1_vs_y->DrawFrame(0, -0.04, 2.1, 0.1);
   // 7.2 GeV v1 vs. y
   double x_rap[3]    = { -1.25-_y_CM, -0.75-_y_CM, -0.25-_y_CM};
+  double x_rap_flip[3]    = { -(-1.25-_y_CM), -(-0.75-_y_CM), -(-0.25-_y_CM)};
   double x_rap_jkk[3]    = { -1.25-_y_CM+0.02, -0.75-_y_CM+0.02, -0.25-_y_CM+0.02};
   double xErr_rap_newProd[3] = {0.25, 0.25, 0.25};
   double xErr_rap[3] = {0};
   double y_v1[3]      = {0.00678684, 0.0191681, 0.0203576};
   double y_v1_newProd[3] = {5.3034e-05, 0.0294281, 0.085239};
+  double y_v1_newProd_flip[3] = {-5.3034e-05, -0.0294281, -0.085239};
   double y_v1_newProd_jkk[3] = {5.794e-05, 0.02952, 0.08509};
   double y_0[3]      = {0,0,0};
   double yErr_stat_v1[3] = {0.0220404, 0.0129847, 0.0461443};
@@ -261,19 +264,29 @@ void flowPlotter(){
   // gr7p7Cen_v11_slop = new TGraphErrors(4, yy, v11, yyerr, v11err);
   gr7p7Cen_v11_slop = new TGraphErrors(4, yy, v11, 0, v11err);
   TCanvas *TCanv_7p2_7p7 = new TCanvas("TCanv_7p2_7p7","7.2 7.7 combined ",200,10,1024,768);
-  TCanv_7p2_7p7->DrawFrame(-1., -1., 2.1, 0.15);
+  // TCanv_7p2_7p7->DrawFrame(-1., -0.05, 2.1, 0.15);
+  TCanv_7p2_7p7->DrawFrame(-2.1, -0.15, 2.1, 0.15);
   TCanv_7p2_7p7->cd();
-  TH2D * histTemp_7p2_7p7 = new TH2D("histTemp_7p2_7p7","histTemp_7p2_7p7",1000,-1,2.1,1000,-0.05,0.15);
+  // TH2D * histTemp_7p2_7p7 = new TH2D("histTemp_7p2_7p7","histTemp_7p2_7p7",1000,-1,2.1,1000,-0.05,0.15);
+  TH2D * histTemp_7p2_7p7 = new TH2D("histTemp_7p2_7p7","histTemp_7p2_7p7",1000,-2.1,2.1,1000,-0.15,0.15);
   histTemp_7p2_7p7->GetYaxis()->SetTitle("v_{1}");
   histTemp_7p2_7p7->GetYaxis()->SetTitleOffset(1);
   histTemp_7p2_7p7->GetXaxis()->SetTitle("y");
   histTemp_7p2_7p7->Draw();
+  TGraphErrors *graph_v1_vs_y_7p2_newProd_flip = new TGraphErrors(3, x_rap_flip, y_v1_newProd_flip, xErr_rap_newProd, yErr_stat_v1_newProd);
+  graph_v1_vs_y_7p2_newProd_flip->SetMarkerStyle(26);
+  graph_v1_vs_y_7p2_newProd_flip->SetMarkerColor(kRed);
+  graph_v1_vs_y_7p2_newProd_flip->SetLineColor(kRed);
+  graph_v1_vs_y_7p2_newProd_flip->SetMarkerSize(2);
+  // graph_v1_vs_y_7p2_newProd_flip->SetMarkerStyle(73);
+  graph_v1_vs_y_7p2_newProd_flip->Draw("P");
   TGraphErrors *graph_v1_vs_y_7p2_newProd = new TGraphErrors(3, x_rap, y_v1_newProd, xErr_rap_newProd, yErr_stat_v1_newProd);
   graph_v1_vs_y_7p2_newProd->SetMarkerStyle(23);
   graph_v1_vs_y_7p2_newProd->SetMarkerColor(kRed);
   graph_v1_vs_y_7p2_newProd->SetLineColor(kRed);
   graph_v1_vs_y_7p2_newProd->SetMarkerSize(2);
   graph_v1_vs_y_7p2_newProd->Draw("P");
+
   TGraphErrors *graph_v1_vs_y_7p2_newProd_jkk = new TGraphErrors(3, x_rap_jkk, y_v1_newProd_jkk, /*xErr_rap_newProd*/0, yErr_stat_v1_newProd_jkk);
   graph_v1_vs_y_7p2_newProd_jkk->SetMarkerStyle(32);
   graph_v1_vs_y_7p2_newProd_jkk->SetMarkerColor(kRed+2);
@@ -291,15 +304,27 @@ void flowPlotter(){
   double yyerr_7p2_7p7[7] = {0.15, 0.15, 0.15, 0.15, 0.15, 0.15, 0.15};
   double v11_7p2_7p7[7] = { -0.0173913, 0.00217391, -0.00797101, 0.0057971, 0.00678684, 0.0191681, 0.0203576};
   double v11err_7p2_7p7[7] = {0.0275362, 0.0210145, 0.0195652 , 0.0271739, 0.0220404, 0.0129847, 0.0461443};
+  double v11_7p2_7p7_newProd[7] = { -0.0173913, 0.00217391, -0.00797101, 0.0057971, 5.3034e-05, 0.0294281, 0.085239};
+  double v11err_7p2_7p7_newProd[7] = {0.0275362, 0.0210145, 0.0195652 , 0.0271739, 0.0255991, 0.0138418, 0.0488292};
   TGraphErrors *graph_v1_vs_y_7p2_7p7 = new TGraphErrors(7, yy_7p2_7p7, v11_7p2_7p7, 0, v11err_7p2_7p7);
   graph_v1_vs_y_7p2_7p7->SetMarkerStyle(31);
   graph_v1_vs_y_7p2_7p7->SetMarkerColor(kBlack);
   graph_v1_vs_y_7p2_7p7->SetLineColor(kBlack);
   graph_v1_vs_y_7p2_7p7->SetMarkerSize(2);
   // graph_v1_vs_y_7p2_7p7->Draw("Psame");
+  TGraphErrors *graph_v1_vs_y_7p2_7p7_newProd = new TGraphErrors(7, yy_7p2_7p7, v11_7p2_7p7_newProd, 0, v11err_7p2_7p7_newProd);
+  graph_v1_vs_y_7p2_7p7_newProd->SetMarkerStyle(31);
+  graph_v1_vs_y_7p2_7p7_newProd->SetMarkerColor(kBlack);
+  graph_v1_vs_y_7p2_7p7_newProd->SetLineColor(kBlack);
+  graph_v1_vs_y_7p2_7p7_newProd->SetMarkerSize(2);
+  // graph_v1_vs_y_7p2_7p7_newProd->Draw("Psame");
   TF1 * tf1_dv1dy_7p2_7p7 = new TF1("tf1_dv1dy_7p2_7p7",proportion,0.,2.,1);
   graph_v1_vs_y_7p2_7p7->Fit(tf1_dv1dy_7p2_7p7,"E+","R",-0.6,/*2.*/0.-_y_CM);
   graph_v1_vs_y_7p2_7p7->GetFunction("tf1_dv1dy_7p2_7p7")->Draw("same");
+  TF1 * tf1_dv1dy_7p2_7p7_pol3 = new TF1("tf1_dv1dy_7p2_7p7_pol3",Pol3plus1,0.,2.,2);
+  graph_v1_vs_y_7p2_7p7_newProd->Fit(tf1_dv1dy_7p2_7p7_pol3,"E+","R",-0.6,/*2.*/0.-_y_CM);
+  graph_v1_vs_y_7p2_7p7_newProd->GetFunction("tf1_dv1dy_7p2_7p7_pol3")->SetLineColor(kBlue);
+  graph_v1_vs_y_7p2_7p7_newProd->GetFunction("tf1_dv1dy_7p2_7p7_pol3")->Draw("same");
   TPaveText * ptext_7p2_7p7 = new TPaveText(0.12,0.75,0.35,0.85,"NDCARC");
   ptext_7p2_7p7->SetFillColor(0);
   ptext_7p2_7p7 -> AddText("Au+Au 7.2 GeV FXT");
@@ -312,10 +337,10 @@ void flowPlotter(){
   ptext_7p2_7p7_target -> AddText("y_{target} = 2.02");
   ptext_7p2_7p7_target->Draw("same");
   graph_v1_vs_y_7p2_sys->Draw("[]");
-  TLine *TL_7p2_7p7 = new TLine(-1, 0, 2.1, 0);
+  TLine *TL_7p2_7p7 = new TLine(-2.1, 0, 2.1, 0);
   TL_7p2_7p7->SetLineStyle(7);
   TL_7p2_7p7->Draw("same");
-  TLine *TL_7p2_7p7_1 = new TLine(0, -0.05, 0, 0.1);
+  TLine *TL_7p2_7p7_1 = new TLine(0, -0.15, 0, 0.15);
   TL_7p2_7p7_1->SetLineStyle(7);
   TL_7p2_7p7_1->Draw("same");
   TLegend *legend_7p2_7p7 = new TLegend(0.4,0.6,0.8,0.8);
@@ -325,7 +350,10 @@ void flowPlotter(){
   legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2,"#phi 7.2 GeV FXT 10-40% ","p");
   legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2_newProd,"#phi 7.2 GeV FXT 10-40% new Prod ","p");
   legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2_newProd_jkk,"#phi 7.2 GeV FXT 10-40% new Prod - Jackknife ","p");
-  legend_7p2_7p7->AddEntry((TObject*)0,Form("dv_{1} /dy|_{y=0} = %.4f %c %.4f",(Double_t)tf1_dv1dy_7p2_7p7->GetParameter(0),177,(Double_t)tf1_dv1dy_7p2_7p7->GetParError(0)),"");
+  legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2_newProd_flip,"#phi 7.2 GeV FXT 10-40% new Prod - flipped ","p");
+  legend_7p2_7p7->AddEntry((TObject*)0,Form("dv_{1} /dy|_{y=0} = %.4f %c %.4f, linear",(Double_t)tf1_dv1dy_7p2_7p7->GetParameter(0),177,(Double_t)tf1_dv1dy_7p2_7p7->GetParError(0)),"");
+  legend_7p2_7p7->AddEntry((TObject*)0,Form("p1 = %.4f %c %.4f, newProd, Pol3",(Double_t)tf1_dv1dy_7p2_7p7_pol3->GetParameter(0),177,(Double_t)tf1_dv1dy_7p2_7p7_pol3->GetParError(0)),"");
+  legend_7p2_7p7->AddEntry((TObject*)0,Form("p3 = %.4f %c %.4f, newProd, Pol3",(Double_t)tf1_dv1dy_7p2_7p7_pol3->GetParameter(1),177,(Double_t)tf1_dv1dy_7p2_7p7_pol3->GetParError(1)),"");
   legend_7p2_7p7->Draw("same");
   // ========================== (3) v2 vs. pT at 7.2 GeV =======================
   TCanvas *TCanv_v2_vs_pt_10_40 = new TCanvas("TCanv_v2_vs_pt_10_40","v2 vs. pT 10-40%",200,10,1024,768);
@@ -348,10 +376,15 @@ void flowPlotter(){
   double y_v2_10_40_jkk[2]      = {-0.00966106, -0.0205263}; // w bin
   double yErr_stat_v2_10_40_jkk[2] = {0.014085270558323343*3, 0.009257925680356804*3};
 
-  double y_v2_10_40_3bin[3]      = {-0.0276872, -0.0100532, 0.0504745}; // w bin
-  double yErr_stat_v2_10_40_3bin[3] = { 0.0310942, 0.0257785, 0.178318};
-  double y_v2_10_40_3bin_jkk[3]      = {-0.02764, -0.01007, -0.003739}; // w bin
-  double yErr_stat_v2_10_40_3bin_jkk[3] = {0.009892*3, 0.00487*3, 0.01565*3};
+  // double y_v2_10_40_3bin[3]      = { -0.0285367, -0.0089344, 0.112995}; // w bin
+  // double yErr_stat_v2_10_40_3bin[3] = { 0.0322494, 0.0270015, 0.16299};
+  // double y_v2_10_40_3bin_jkk[3]      = {-0.02838, -0.008862, 0.1135}; // w bin
+  // double yErr_stat_v2_10_40_3bin_jkk[3] = {0.008845*3, 0.008841*3, 0.07765*3};
+
+  double y_v2_10_40_3bin[3]      = { -0.0276968, -0.00838587, 0.0991779}; // w bin
+  double yErr_stat_v2_10_40_3bin[3] = { 0.031929, 0.0260998, 0.150601};
+  double y_v2_10_40_3bin_jkk[3]      = {-0.027653, -0.0083664, 0.0985826}; // w bin
+  double yErr_stat_v2_10_40_3bin_jkk[3] = {0.0333665, 0.0272353, 0.13186};
   // double yErr_stat_v2_10_40_3bin_jkk[3] = {0.009892, 0.00487,0.01565};
   // v2 10-40% ptSetB_centSetA: -0.0276872, -0.0100532, 0.0504745
   // v2 Err 10-40% ptSetB_centSetA: 0.0310942, 0.0257785, 0.178318
@@ -382,10 +415,51 @@ void flowPlotter(){
   Double_t pt_bin_center_errCen_10_40[1] = {0};
   Double_t v2_values_10_40[1] = {0.0399507};
   Double_t v2_stat_error_10_40[1] = {0.0193815};
+  // ****************** beam energy: 11.5 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_11p5[3] = {0.7705,1.2325,1.8925};
+  Double_t v2_values_11p5[3] = {0.0357841,0.0761367,0.0778874};
+  Double_t v2_stat_error_11p5[3] = {0.0120707,0.0127943,0.0261273};
+  Double_t v2_syst_low_error_11p5[3] = {0.00683794,0.00634618,0.00700603};
+  Double_t v2_syst_high_error_11p5[3] = {0.00540595,0.00642469,0.00644049};
+  // ****************** beam energy: 19.6 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_19p6[5] = {0.6515,0.9985,1.3735,1.7775,2.2645};
+  Double_t v2_values_19p6[5] = {0.014229,0.0481282,0.0734469,0.0872473,0.113327};
+  Double_t v2_stat_error_19p6[5] = {0.00862292,0.00630574,0.00811914,0.0124024,0.017897};
+  Double_t v2_syst_low_error_19p6[5] = {0.00529471,0.00438684,0.00180629,0.00541846,0.00201318};
+  Double_t v2_syst_high_error_19p6[5] = {0.00512403,0.00249747,0.00339875,0.00440116,0.00222428};
+  // ****************** beam energy: 27 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_27[5] = {0.6505,0.9995,1.3765,1.8445,2.4725};
+  Double_t v2_values_27[5] = {0.0201674,0.0486692,0.0869156,0.0978724,0.116611};
+  Double_t v2_stat_error_27[5] = {0.00582714,0.00414427,0.00513633,0.00669162,0.0122933};
+  Double_t v2_syst_low_error_27[5] = {0.00238713,0.00415245,0.00439713,0.00501242,0.00545236};
+  Double_t v2_syst_high_error_27[5] = {0.00204073,0.00189032,0.00548138,0.00402443,0.0044512};
+  // ****************** beam energy: 39 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_39[9] = {0.4905,0.7055,0.9055,1.1055,1.2955,1.5825,1.9805,2.3805,2.8715};
+  Double_t v2_values_39[9] = {0.0251251,0.0190003,0.0436195,0.06456,0.0827717,0.0947783,0.116937,0.135436,0.111607};
+  Double_t v2_stat_error_39[9] = {0.00805145,0.00455958,0.00398961,0.00399311,0.00446543,0.00402194,0.00582456,0.00900157,0.0125194};
+  Double_t v2_syst_low_error_39[9] = {0.00479174,0.003753,0.00214025,0.00134574,0.00119334,0.00199355,0.00184564,0.00328231,0.000280756};
+  Double_t v2_syst_high_error_39[9] = {0.0036222,0.002499,0.0012339,0.00152178,0.00401162,0.00157706,0.00226953,0.00396367,0.000235831};
+  // ****************** beam energy: 62.4 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_62p4[10] = {0.4925,0.7055,0.9055,1.1055,1.2955,1.5055,1.7045,1.9055,2.2355,2.8625};
+  Double_t v2_values_62p4[10] = {0.0365446,0.0203302,0.0487051,0.0690831,0.0882974,0.0955015,0.108206,0.132425,0.11579,0.153856};
+  Double_t v2_stat_error_62p4[10] = {0.0109052,0.00607439,0.00524557,0.00517082,0.005725,0.00657996,0.00782458,0.00937029,0.00803008,0.0156828};
+  Double_t v2_syst_low_error_62p4[10] = {0.00403066,0.00221206,0.00182418,0.00198662,0.00124976,0.00159041,0.00144111,0.00255449,0.00563747,0.00114042};
+  Double_t v2_syst_high_error_62p4[10] = {0.00511719,0.00241609,0.00236243,0.00191797,0.00180674,0.00222915,0.00184768,0.00316373,0.00464342,0.00135326};
+
   TCanv_v2_vs_pt_10_40->cd();
-  TH2D * histTemp2 = new TH2D("histTemp2","histTemp2",1000,0,3,1000,-0.15,0.25);
+  TH2D * histTemp2 = new TH2D("histTemp2","histTemp2",1000,0,3,1000,-0.08,0.26);
   histTemp2->GetYaxis()->SetTitle("v_{2}");
-  histTemp2->GetYaxis()->SetTitleOffset(1);
+  histTemp2->GetYaxis()->SetTitleOffset(1.2);
   histTemp2->GetXaxis()->SetTitle("pT [GeV/c]");
   histTemp2->Draw();
   TGraphErrors* gr7p7Cen_10_40 = new TGraphErrors(1, pt_bin_center_10_40, v2_values_10_40, pt_bin_center_errCen_10_40, v2_stat_error_10_40);
@@ -394,6 +468,36 @@ void flowPlotter(){
   gr7p7Cen_10_40->SetLineColor(kBlack);
   gr7p7Cen_10_40->SetMarkerSize(2);
   gr7p7Cen_10_40->Draw("P");
+  TGraphErrors* gr11p5Cen_10_40 = new TGraphErrors(3, pt_bin_center_11p5, v2_values_11p5, 0, v2_stat_error_11p5);
+  gr11p5Cen_10_40->SetMarkerStyle(23);
+  gr11p5Cen_10_40->SetMarkerColor(3);
+  gr11p5Cen_10_40->SetLineColor(3);
+  gr11p5Cen_10_40->SetMarkerSize(2);
+  gr11p5Cen_10_40->Draw("P");
+  TGraphErrors* gr19p6Cen_10_40 = new TGraphErrors(5, pt_bin_center_19p6, v2_values_19p6, 0, v2_stat_error_19p6);
+  gr19p6Cen_10_40->SetMarkerStyle(23);
+  gr19p6Cen_10_40->SetMarkerColor(4);
+  gr19p6Cen_10_40->SetLineColor(4);
+  gr19p6Cen_10_40->SetMarkerSize(2);
+  gr19p6Cen_10_40->Draw("P");
+  TGraphErrors* gr27Cen_10_40 = new TGraphErrors(5, pt_bin_center_27, v2_values_27, 0, v2_stat_error_27);
+  gr27Cen_10_40->SetMarkerStyle(23);
+  gr27Cen_10_40->SetMarkerColor(6);
+  gr27Cen_10_40->SetLineColor(6);
+  gr27Cen_10_40->SetMarkerSize(2);
+  gr27Cen_10_40->Draw("P");
+  TGraphErrors* gr39Cen_10_40 = new TGraphErrors(9, pt_bin_center_39, v2_values_39, 0, v2_stat_error_39);
+  gr39Cen_10_40->SetMarkerStyle(23);
+  gr39Cen_10_40->SetMarkerColor(7);
+  gr39Cen_10_40->SetLineColor(7);
+  gr39Cen_10_40->SetMarkerSize(2);
+  gr39Cen_10_40->Draw("P");
+  TGraphErrors* gr62p4Cen_10_40 = new TGraphErrors(10, pt_bin_center_62p4, v2_values_62p4, 0, v2_stat_error_62p4);
+  gr62p4Cen_10_40->SetMarkerStyle(23);
+  gr62p4Cen_10_40->SetMarkerColor(11);
+  gr62p4Cen_10_40->SetLineColor(11);
+  gr62p4Cen_10_40->SetMarkerSize(2);
+  gr62p4Cen_10_40->Draw("P");
   TGraphErrors* gr7p2Cen_10_40_invM = new TGraphErrors(2, pt_7p2Cen_10_40_invM, v2_7p2Cen_10_40_invM, pterr_7p2Cen_10_40_invM, v2stat_7p2Cen_10_40_invM);
   gr7p2Cen_10_40_invM->SetMarkerStyle(4);
   gr7p2Cen_10_40_invM->SetMarkerColor(kRed);
@@ -454,6 +558,11 @@ void flowPlotter(){
   // legend1->AddEntry(gr7p2Cen_10_40,"7.2 GeV 10-40% etasub - Guannan","p");
   legend1->AddEntry(graph_v2_vs_pT_10_40_7p2_Shaowei,"7.2 GeV 10-40% etasub - Shaowei","p");
   legend1->AddEntry(gr7p7Cen_10_40,"7.7 GeV 10-40% etasub - BES-I","p");
+  legend1->AddEntry(gr11p5Cen_10_40,"11.5 GeV 10-40% etasub - BES-I","p");
+  legend1->AddEntry(gr19p6Cen_10_40,"19.6 GeV 10-40% etasub - BES-I","p");
+  legend1->AddEntry(gr27Cen_10_40,"27 GeV 10-40% etasub - BES-I","p");
+  legend1->AddEntry(gr39Cen_10_40,"39 GeV 10-40% etasub - BES-I","p");
+  legend1->AddEntry(gr62p4Cen_10_40,"62.4 GeV 10-40% etasub - BES-I","p");
   legend1->Draw("same");
 
   // -------------------------- 0 - 60% / 80% ----------------------------------
@@ -542,7 +651,180 @@ void flowPlotter(){
   // v2 40-60% ptSetA_centSetA: 0.0108515, -0.0102652
   // v2 Err 40-60% ptSetA_centSetA: 0.0250194, 0.0256442
   // cout<< "size of array test" << sizeof(v2_stat_error)/sizeof(v2_stat_error[0]) <<endl;
+  // ================== NCQ scaling =================================
+  // 10 - 40%
+  TCanvas *TCanv_v2_vs_mt_10_40 = new TCanvas("TCanv_v2_vs_mt_10_40","v2 vs. (mT - m0)/nq 0-60%",200,10,1024,768);
+  TCanv_v2_vs_mt_10_40->DrawFrame(0, -0.04, 1.6, 0.13);
+  TH2D * histTemp4 = new TH2D("histTemp4","histTemp4",1000,0,1.,1000,-0.04,0.13);
+  histTemp4->GetYaxis()->SetTitle("v_{2}/n_{q}");
+  histTemp4->GetYaxis()->SetTitleOffset(1.2);
+  histTemp4->GetXaxis()->SetTitleOffset(1.2);
+  histTemp4->GetXaxis()->SetTitle("(m_{T}-m_{0})/n_{q} (GeV/c^{2})");
+  histTemp4->Draw();
+  // centrality: 10%-40%
 
+  // ************************************************************************
+  // ****************** beam energy: 7.7 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_phi_7p2[2] = {0.9, 1.8};
+  Double_t v2_values_phi_7p2[2] = {-0.0097, -0.0205};
+  Double_t v2_stat_error_phi_7p2[2] = {0.0281, 0.0277};
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_phi_7p2_3bin[3] = {0.85, 1.55, 2.5};
+  Double_t v2_values_phi_7p2_3bin[3] = { -0.0276968, -0.00838587, 0.0991779};
+  Double_t v2_stat_error_phi_7p2_3bin[3] = { 0.031929, 0.0260998, 0.150601};
+  // ****************** beam energy: 7.7 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  Double_t pt_bin_center_phi_7p7[1] = {0.9945};
+  Double_t v2_values_phi_7p7[1] = {0.0399507};
+  Double_t v2_stat_error_phi_7p7[1] = {0.0193815};
+  Double_t v2_syst_low_error_phi_7p7[1] = {0.0098416};
+  Double_t v2_syst_high_error_phi_7p7[1] = {0.00575247};
+  // ---------------- Particle species: Lambda ----------------
+  Double_t pt_bin_center_Lambda_7p7[10] = {0.4935,0.7055,0.9055,1.1055,1.2955,1.5055,1.7055,1.9055,2.1695,2.6175};
+  Double_t v2_values_Lambda_7p7[10] = {0.0056175,0.036717,0.0481013,0.0792141,0.0815696,0.0867856,0.108612,0.122262,0.133421,0.153319};
+  Double_t v2_stat_error_Lambda_7p7[10] = {0.00771747,0.0048333,0.00414777,0.00425718,0.00485913,0.00600927,0.00776441,0.0104924,0.0120231,0.0227567};
+  Double_t v2_syst_low_error_Lambda_7p7[10] = {0.00303084,0.00143998,0.00101268,0.000986658,0.00162709,0.00191824,0.00258821,0.00401433,0.00404447,0.0104834};
+  Double_t v2_syst_high_error_Lambda_7p7[10] = {0.00399962,0.00110434,0.00167376,0.0018407,0.00107831,0.000745689,0.00170209,0.00187684,0.00493309,0.0104299};
+  // ---------------- Particle species: K0S ----------------
+  Double_t pt_bin_center_K0S_7p7[8] = {0.3055,0.5055,0.7055,0.9055,1.1055,1.2955,1.5675,2.0025};
+  Double_t v2_values_K0S_7p7[8] = {0.0053047,0.0263517,0.037153,0.0669851,0.0704264,0.0828911,0.083941,0.127632};
+  Double_t v2_stat_error_K0S_7p7[8] = {0.00689945,0.00437349,0.00392164,0.00440512,0.00562355,0.00775186,0.00927243,0.0198935};
+  Double_t v2_syst_low_error_K0S_7p7[8] = {2.50309e-05,0.000185801,0.000318705,0.000232844,0.000408465,0.000216072,0.0027795,0.00365314};
+  Double_t v2_syst_high_error_K0S_7p7[8] = {2.53773e-05,0.00018327,0.000312561,0.000239669,0.000408919,0.000206365,0.0026328,0.00343635};
+  // ---------------- Particle species: Proton ----------------
+  Double_t pt_bin_center_proton_7p7[12] = {0.315,0.495,0.705,0.885,1.095,1.275,1.485,1.695,1.875,2.085,2.265,2.625};
+  Double_t v2_values_proton_7p7[12] = {0.00643856,0.0196543,0.0362226,0.0541206,0.0781074,0.090889,0.10682,0.121606,0.131171,0.13338,0.14221,0.152974};
+  Double_t v2_stat_error_proton_7p7[12] = {0.0028076,0.00108471,0.00093993,0.000987168,0.00115896,0.00144923,0.00189495,0.00257513,0.00358486,0.00494914,0.0070575,0.00820795};
+  Double_t v2_syst_low_error_proton_7p7[12] = {0.00276658,0.000576754,0.00109959,0.000118159,0.000515559,0.000388675,0.000212473,0.000415654,0.000904369,0.000963559,0.00125468,0.00391717};
+  Double_t v2_syst_high_error_proton_7p7[12] = {0.000944912,0.000311883,0.000503305,0.000107656,0.000468809,0.000749411,0.00011288,0.000274677,0.000484163,0.000938662,0.000643771,0.00192167};
+  // ---------------- Particle species: PiP ----------------
+  Double_t pt_bin_center_PiP_7p7[7] = {0.285,0.495,0.675,0.885,1.155,1.545,1.935};
+  Double_t v2_values_PiP_7p7[7] = {0.0225062,0.0415791,0.0560643,0.0678896,0.0819491,0.100776,0.120508};
+  Double_t v2_stat_error_PiP_7p7[7] = {0.000479722,0.000616763,0.000883004,0.00131197,0.00165343,0.00380281,0.00915605};
+  Double_t v2_syst_low_error_PiP_7p7[7] = {3.61284e-10,1.42286e-05,0.000107432,2.12591e-06,1.33104e-05,0.000353813,0.00177874};
+  Double_t v2_syst_high_error_PiP_7p7[7] = {4.7195e-11,2.84574e-05,0.000217747,4.25174e-06,6.65502e-06,0.000186354,0.00513822};
+  // ---------------- Particle species: KP ----------------
+  Double_t pt_bin_center_KP_7p7[7] = {0.315,0.495,0.705,0.885,1.155,1.545,1.965};
+  Double_t v2_values_KP_7p7[7] = {0.0123349,0.0284567,0.0493235,0.0674997,0.080886,0.100798,0.0878592};
+  Double_t v2_stat_error_KP_7p7[7] = {0.00259688,0.00169075,0.00177886,0.00220443,0.00239161,0.00478715,0.0106033};
+  Double_t v2_syst_low_error_KP_7p7[7] = {0.000213675,1.68026e-05,8.83694e-05,9.47739e-05,5.02883e-05,0.000454596,0.00393434};
+  Double_t v2_syst_high_error_KP_7p7[7] = {0.000181583,3.12802e-05,5.80217e-05,0.000169471,8.27577e-05,0.000264862,0.00378213};  // centrality: 0-80%
+  // ======== Loop that convert v2 vs. pT to v2/nq vs. (mT - m0)/nq ============
+  for(int i=0; i<sizeof(pt_bin_center_phi_7p2)/sizeof(pt_bin_center_phi_7p2[0]); i++){
+    v2_values_phi_7p2[i] = d_v2nq(v2_values_phi_7p2[i], 2);
+    v2_stat_error_phi_7p2[i] = d_v2nq(v2_stat_error_phi_7p2[i], 2);
+    pt_bin_center_phi_7p2[i] = d_mTm0nq(pt_bin_center_phi_7p2[i],  2,  _massPhi );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_phi_7p2_3bin)/sizeof(pt_bin_center_phi_7p2_3bin[0]); i++){
+    v2_values_phi_7p2_3bin[i] = d_v2nq(v2_values_phi_7p2_3bin[i], 2);
+    v2_stat_error_phi_7p2_3bin[i] = d_v2nq(v2_stat_error_phi_7p2_3bin[i], 2);
+    pt_bin_center_phi_7p2_3bin[i] = d_mTm0nq(pt_bin_center_phi_7p2_3bin[i],  2,  _massPhi );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_phi_7p7)/sizeof(pt_bin_center_phi_7p7[0]); i++){
+    v2_values_phi_7p7[i] = d_v2nq(v2_values_phi_7p7[i], 2);
+    v2_stat_error_phi_7p7[i] = d_v2nq(v2_stat_error_phi_7p7[i], 2);
+    pt_bin_center_phi_7p7[i] = d_mTm0nq(pt_bin_center_phi_7p7[i],  2,  _massPhi );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_Lambda_7p7)/sizeof(pt_bin_center_Lambda_7p7[0]); i++){
+    v2_values_Lambda_7p7[i] = d_v2nq(v2_values_Lambda_7p7[i], 2);
+    v2_stat_error_Lambda_7p7[i] = d_v2nq(v2_stat_error_Lambda_7p7[i], 2);
+    pt_bin_center_Lambda_7p7[i] = d_mTm0nq(pt_bin_center_Lambda_7p7[i],  2,  _massLambda );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_K0S_7p7)/sizeof(pt_bin_center_K0S_7p7[0]); i++){
+    v2_values_K0S_7p7[i] = d_v2nq(v2_values_K0S_7p7[i], 2);
+    v2_stat_error_K0S_7p7[i] = d_v2nq(v2_stat_error_K0S_7p7[i], 2);
+    pt_bin_center_K0S_7p7[i] = d_mTm0nq(pt_bin_center_K0S_7p7[i],  2,  _massKaonShort );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_proton_7p7)/sizeof(pt_bin_center_proton_7p7[0]); i++){
+    v2_values_proton_7p7[i] = d_v2nq(v2_values_proton_7p7[i], 3);
+    v2_stat_error_proton_7p7[i] = d_v2nq(v2_stat_error_proton_7p7[i], 3);
+    pt_bin_center_proton_7p7[i] = d_mTm0nq(pt_bin_center_proton_7p7[i],  3,  _massProton );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_PiP_7p7)/sizeof(pt_bin_center_PiP_7p7[0]); i++){
+    v2_values_PiP_7p7[i] = d_v2nq(v2_values_PiP_7p7[i], 2);
+    v2_stat_error_PiP_7p7[i] = d_v2nq(v2_stat_error_PiP_7p7[i], 2);
+    pt_bin_center_PiP_7p7[i] = d_mTm0nq(pt_bin_center_PiP_7p7[i],  2,  _massPion );
+  }
+  for(int i=0; i<sizeof(pt_bin_center_KP_7p7)/sizeof(pt_bin_center_KP_7p7[0]); i++){
+    v2_values_KP_7p7[i] = d_v2nq(v2_values_KP_7p7[i], 2);
+    v2_stat_error_KP_7p7[i] = d_v2nq(v2_stat_error_KP_7p7[i], 2);
+    pt_bin_center_KP_7p7[i] = d_mTm0nq(pt_bin_center_KP_7p7[i],  2,  _massPion );
+  }
+  TGraphErrors* gr7p7CenMt_10_40 = new TGraphErrors(1, pt_bin_center_phi_7p7, v2_values_phi_7p7, 0, v2_stat_error_phi_7p7);
+  gr7p7CenMt_10_40->SetMarkerStyle(23);
+  gr7p7CenMt_10_40->SetMarkerColor(kBlack);
+  gr7p7CenMt_10_40->SetLineWidth(2);
+  gr7p7CenMt_10_40->SetLineColor(kBlack);
+  gr7p7CenMt_10_40->SetMarkerSize(2);
+  gr7p7CenMt_10_40->Draw("P");
+  TGraphErrors* gr7p7CenMt_10_40_Lambda = new TGraphErrors(10, pt_bin_center_Lambda_7p7, v2_values_Lambda_7p7, 0, v2_stat_error_Lambda_7p7);
+  gr7p7CenMt_10_40_Lambda->SetMarkerStyle(22);
+  gr7p7CenMt_10_40_Lambda->SetMarkerColor(kGreen+2);
+  gr7p7CenMt_10_40_Lambda->SetLineWidth(2);
+  gr7p7CenMt_10_40_Lambda->SetLineColor(kGreen+2);
+  gr7p7CenMt_10_40_Lambda->SetMarkerSize(2);
+  gr7p7CenMt_10_40_Lambda->Draw("P");
+  TGraphErrors* gr7p7CenMt_10_40_K0S = new TGraphErrors(8, pt_bin_center_K0S_7p7,v2_values_K0S_7p7 , 0, v2_stat_error_K0S_7p7);
+  gr7p7CenMt_10_40_K0S->SetMarkerStyle(28);
+  gr7p7CenMt_10_40_K0S->SetMarkerColor(kRed+2);
+  gr7p7CenMt_10_40_K0S->SetLineWidth(2);
+  gr7p7CenMt_10_40_K0S->SetLineColor(kRed+2);
+  gr7p7CenMt_10_40_K0S->SetMarkerSize(2);
+  gr7p7CenMt_10_40_K0S->Draw("P");
+  TGraphErrors* gr7p7CenMt_10_40_Proton = new TGraphErrors(12, pt_bin_center_proton_7p7,v2_values_proton_7p7 , 0, v2_stat_error_proton_7p7);
+  gr7p7CenMt_10_40_Proton->SetMarkerStyle(20);
+  gr7p7CenMt_10_40_Proton->SetMarkerColor(kAzure+2);
+  gr7p7CenMt_10_40_Proton->SetLineWidth(2);
+  gr7p7CenMt_10_40_Proton->SetLineColor(kAzure+2);
+  gr7p7CenMt_10_40_Proton->SetMarkerSize(2);
+  gr7p7CenMt_10_40_Proton->Draw("P");
+  TGraphErrors* gr7p7CenMt_10_40_PiP = new TGraphErrors(7, pt_bin_center_PiP_7p7,v2_values_PiP_7p7 , 0, v2_stat_error_PiP_7p7);
+  gr7p7CenMt_10_40_PiP->SetMarkerStyle(30);
+  gr7p7CenMt_10_40_PiP->SetMarkerColor(kMagenta+2);
+  gr7p7CenMt_10_40_PiP->SetLineWidth(2);
+  gr7p7CenMt_10_40_PiP->SetLineColor(kMagenta+2);
+  gr7p7CenMt_10_40_PiP->SetMarkerSize(2);
+  gr7p7CenMt_10_40_PiP->Draw("P");
+  TGraphErrors* gr7p7CenMt_10_40_KP = new TGraphErrors(7, pt_bin_center_KP_7p7,v2_values_KP_7p7 , 0, v2_stat_error_KP_7p7);
+  gr7p7CenMt_10_40_KP->SetMarkerStyle(20);
+  gr7p7CenMt_10_40_KP->SetMarkerColor(kGray+2);
+  gr7p7CenMt_10_40_KP->SetLineWidth(2);
+  gr7p7CenMt_10_40_KP->SetLineColor(kGray+2);
+  gr7p7CenMt_10_40_KP->SetMarkerSize(2);
+  gr7p7CenMt_10_40_KP->Draw("P");
+  TGraphErrors *graph_v2_vs_mT_10_40_7p2 = new TGraphErrors(2, pt_bin_center_phi_7p2, v2_values_phi_7p2, 0, v2_stat_error_phi_7p2);
+  graph_v2_vs_mT_10_40_7p2->SetMarkerStyle(29);
+  graph_v2_vs_mT_10_40_7p2->SetMarkerColor(kBlue);
+  graph_v2_vs_mT_10_40_7p2->SetLineColor(kBlue);
+  graph_v2_vs_mT_10_40_7p2->SetLineWidth(2);
+  graph_v2_vs_mT_10_40_7p2->SetMarkerSize(2);
+  graph_v2_vs_mT_10_40_7p2->Draw("P");
+  TGraphErrors *graph_v2_vs_mT_10_40_7p2_3bin = new TGraphErrors(3, pt_bin_center_phi_7p2_3bin, v2_values_phi_7p2_3bin, 0, v2_stat_error_phi_7p2_3bin);
+  graph_v2_vs_mT_10_40_7p2_3bin->SetMarkerStyle(23);
+  graph_v2_vs_mT_10_40_7p2_3bin->SetMarkerColor(kRed);
+  graph_v2_vs_mT_10_40_7p2_3bin->SetLineColor(kRed);
+  graph_v2_vs_mT_10_40_7p2_3bin->SetLineWidth(2);
+  graph_v2_vs_mT_10_40_7p2_3bin->SetMarkerSize(2);
+  graph_v2_vs_mT_10_40_7p2_3bin->Draw("P");
+  TLine *line1_4 = new TLine(0, 0, 1., 0);
+  line1_4->SetLineStyle(7);
+  line1_4->Draw("same");
+  TLegend *legend1_4 = new TLegend(0.4,0.65,0.9,0.9);
+  legend1_4->AddEntry(graph_v2_vs_mT_10_40_7p2,"#phi FXT 7.2 GeV 10-40%","p");
+  legend1_4->AddEntry(graph_v2_vs_mT_10_40_7p2_3bin,"#phi FXT 7.2 GeV 10-40%, 3 bin","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40,"#phi 7.7 GeV 10-40% - BES-I","p");
+  // legend1_4->AddEntry(gr7p7CenMt_0_80_XiM,"#Xi^{-} 7.7 GeV 0-80% - BES-I","p");
+  // legend1_4->AddEntry(gr7p7CenMt_0_80_OmegaM,"#Omega^{-} 7.7 GeV 0-80% - BES-I","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40_Lambda,"#Lambda 7.7 GeV 10-40% - BES-I","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40_K0S,"K_{s}^{0} 7.7 GeV 10-40% - BES-I","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40_Proton,"p 7.7 GeV 10-40% - BES-I","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40_PiP,"#pi^{+} 7.7 GeV 10-40% - BES-I","p");
+  legend1_4->AddEntry(gr7p7CenMt_10_40_KP,"K^{+} 7.7 GeV 10-40% - BES-I","p");
+  legend1_4->Draw("same");
+  // 0 - 60/80%
   TCanvas *TCanv_v2_vs_mt_0_60 = new TCanvas("TCanv_v2_vs_mt_0_60","v2 vs. (mT - m0)/nq 0-60%",200,10,1024,768);
   TCanv_v2_vs_mt_0_60->DrawFrame(0, -0.06, 1.6, 0.1);
   TH2D * histTemp3 = new TH2D("histTemp3","histTemp3",1000,0,1.6,1000,-0.06,0.1);
@@ -550,8 +832,6 @@ void flowPlotter(){
   histTemp3->GetYaxis()->SetTitleOffset(1);
   histTemp3->GetXaxis()->SetTitle("(m_{T}-m_{0})/n_{q} (GeV/c^{2})");
   histTemp3->Draw();
-  // centrality: 0-80%
-
   // beam energy: 7.7 GeV
   // Event plane method: eta-sub
   // ---------------- Particle species: Phi ----------------
@@ -1127,16 +1407,16 @@ void flowPlotter(){
   // ========================== (8) v2 2 bin jackknife 7.2 GeV ========================
   TCanvas *TCanv_jkk_3bin = new TCanvas("TCanv_jkk_3bin","TCanv_jkk_3bin",200,10,1024,768);
   TCanv_jkk_3bin->Divide(3,1);
-  Double_t jkk0_3bin[10] = {-0.024103, -0.0312833, -0.0195566, -0.0470599, -0.0161398,
-    -0.038317, -0.0344636, -0.0130601, -0.0268843, -0.0255705};
-  Double_t jkk1_3bin[10] =  {-0.00661559, -0.014488, -0.0180263, -0.0120914, -0.00925052,
-    -0.0123143, -0.0126176, -0.0022658, -0.0109871, -0.00204892 };
-  Double_t jkk2_3bin[10] =   {-0.0290174, -0.00876496, 0.214951, 0.0186555, 0.107771,
-    0.213564, -0.00352324, 0.00395574, -0.0624693, 0.0938725};
+  Double_t jkk0_3bin[10] = {-0.0341356, -0.0164558, -0.0147401, -0.044426, -0.031164,
+    -0.023199, -0.0320284, -0.0362466, -0.0301097, -0.0212607};
+  Double_t jkk1_3bin[10] =  {-0.0111124, 0.003465, -0.00825907, -0.015967, -0.0155545,
+    -0.00968208, 0.00260028, -0.0251693, -0.0074882, -0.00145464};
+  Double_t jkk2_3bin[10] =   {0.0437703, 0.165346, 0.0167534, 0.0965503, 0.095658,
+    0.297014, 0.0773467, 0.180491, 0.105279, 0.0566139};
 
   TH1D *h_v2_jkk_bin1 = new TH1D("h_v2_jkk_bin1","h_v2_jkk_bin1",8, -0.05,0.05);
   TH1D *h_v2_jkk_bin2 = new TH1D("h_v2_jkk_bin2","h_v2_jkk_bin2",8, -0.05,0.05);
-  TH1D *h_v2_jkk_bin3 = new TH1D("h_v2_jkk_bin3","h_v2_jkk_bin3",8, -0.05,0.05);
+  TH1D *h_v2_jkk_bin3 = new TH1D("h_v2_jkk_bin3","h_v2_jkk_bin3",16, -0.3,0.3);
   for(int i=0;i<10;i++){
     h_v2_jkk_bin1->Fill(jkk0_3bin[i]);
     h_v2_jkk_bin2->Fill(jkk1_3bin[i]);
@@ -1178,6 +1458,11 @@ void flowPlotter(){
 Double_t proportion(Double_t *x, Double_t *p)
 {
   return ( p[0] * x[0]);
+}
+
+Double_t Pol3plus1(Double_t *x, Double_t *p)
+{
+  return ( p[0] * x[0] + p[1] * x[0] * x[0] * x[0]);
 }
 
 Double_t d_v2nq(Double_t d_v2, Int_t ncq ){
