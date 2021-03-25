@@ -52,6 +52,7 @@ using namespace std;
 
 const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
+const Double_t _n_jkk = 1;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
 Double_t proportion(Double_t *x, Double_t *p);
@@ -137,7 +138,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   TProfile *mProfile_Input_v1_reso_ptSetA_centSetA[11][2][6];
   TProfile *mProfile_Input_v2_raw_ptSetA_centSetA[11][2][6];
   TProfile *mProfile_Input_v2_reso_ptSetA_centSetA[11][2][6];
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk; jkk++){
     for(int pt=0; pt<2; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -498,7 +499,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     1.09
   };
   // pt SetA, cent SetA
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk; jkk++){
     for(int pt=0; pt<2; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -688,12 +689,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
         TPaveText * ptextFlow_v2_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
         ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][1][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][1][1][pt][cent]));
         ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
+        ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{bkg} : %.3f M_{inv}^{2} + %.3f M_{inv} + %.3f",d_V2_bg_p2,d_V2_bg_p1,d_V2_bg_p0));
         ptextFlow_v2_reso_ptSetA_centSetA->Draw("same");
       }
     }
   }
   const int n_ptSetA_centSetA = 2;
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk; jkk++){
     for(int cent=0; cent<6;cent++){
       TLine *l1_ptSetA_centSetA = new TLine(0.2,0,2.2,0);
       l1_ptSetA_centSetA->SetLineStyle(2);
