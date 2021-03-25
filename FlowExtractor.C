@@ -52,7 +52,9 @@ using namespace std;
 // -------------------------- set Some fitting prerequsites --------------------
 
 const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
-const Double_t _y_CM = -2.03;
+const Double_t _y_CM = -2.02;
+const int _n_jkk = 20;
+
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
 Double_t proportion(Double_t *x, Double_t *p);
@@ -62,7 +64,7 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter4_4330F8115CB4FD93CDF48C272BE87FE5_.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/PhiMesonAna_OUTPUT_sys_primary_var0_iter4_20jkkSets.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -98,9 +100,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   Double_t centSetA[5]  = {0, 10, 40, 60, 80}; // %
   Double_t centSetB[10]  = {0, 5, 10, 20, 30, 40, 50, 60, 70, 80}; // %
   // directed and elliptic flow. Indexes: 0: v1, 1: v2; raw, reso; pT/y SetA; cent SetA; jkk
-  Double_t d_FLow_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
+  Double_t d_FLow_ptSetA_centSetA[_n_jkk+1][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
-  Double_t d_FLow_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
+  Double_t d_FLow_ptSetB_centSetA[_n_jkk+1][2][2][4][6]; // pt SetA, cent SetA
   Double_t d_FLow_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_FLow_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_FLow_rapSetA_centSetA[2][2][4][6]; // pt SetA, cent 0-60%, 0-80%
@@ -108,14 +110,18 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   Double_t d_FLow_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
 
 
-  Double_t d_Flow_err_ptSetA_centSetA[11][2][2][2][6]; // pt SetA, cent SetA
+  Double_t d_Flow_err_ptSetA_centSetA[_n_jkk+1][2][2][2][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetA_centSetB[2][2][2][9]; // pt SetA, cent SetB
-  Double_t d_Flow_err_ptSetB_centSetA[11][2][2][4][6]; // pt SetA, cent SetA
+  Double_t d_Flow_err_ptSetB_centSetA[_n_jkk+1][2][2][4][6]; // pt SetA, cent SetA
   Double_t d_Flow_err_ptSetB_centSetB[2][2][4][6]; // pt SetB, cent SetB
   Double_t d_Flow_err_ptSetC_centAll[2][2][10][2]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_Flow_err_rapSetA_centSetA[2][2][4][6]; // pt SetC, cent 0-60%, 0-80%
   Double_t d_Flow_err_rapSetA_centSetA_pTRange[2][2][4][6][3]; // pt SetC, cent 0-60%, 0-80%, 3 pT range, [0.1,1], [1,2], [0.1,2]
   Double_t d_Flow_err_rapSetA_centSetB[2][2][4][9]; // pt SetC, cent 0-60%, 0-80%
+  TH1D *hist_jkk_3bin[3];
+  for(int i = 0; i<3;i++){
+    hist_jkk_3bin[i] = new TH1D(Form("hist_jkk_bin_%d",i), Form("hist_jkk_bin_%d",i), 16, -0.5, 0.5);
+  }
   // ---------------------- Input files and plots ------------------------------
   // SE/ME invM input
   // TFile * file_KK_InvM_Input = new TFile(invMFileName,"READ");
@@ -132,13 +138,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       std::cout<<"flow file loaded successfully!"<<std::endl;
   }
   // pt SetA, cent SetA
-  // TH1D *mHist_Input_SE_InvM_ptSetA_centSetA[11][2][6];
-  // TH1D *mHist_Input_ME_InvM_ptSetA_centSetA[11][2][6];
-  // TProfile *mProfile_Input_v1_raw_ptSetA_centSetA[11][2][6];
-  // TProfile *mProfile_Input_v1_reso_ptSetA_centSetA[11][2][6];
-  // TProfile *mProfile_Input_v2_raw_ptSetA_centSetA[11][2][6];
-  // TProfile *mProfile_Input_v2_reso_ptSetA_centSetA[11][2][6];
-  // for(int jkk=0; jkk<11; jkk++){
+  // TH1D *mHist_Input_SE_InvM_ptSetA_centSetA[_n_jkk+1][2][6];
+  // TH1D *mHist_Input_ME_InvM_ptSetA_centSetA[_n_jkk+1][2][6];
+  // TProfile *mProfile_Input_v1_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  // TProfile *mProfile_Input_v1_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  // TProfile *mProfile_Input_v2_raw_ptSetA_centSetA[_n_jkk+1][2][6];
+  // TProfile *mProfile_Input_v2_reso_ptSetA_centSetA[_n_jkk+1][2][6];
+  // for(int jkk=0; jkk<_n_jkk+1; jkk++){
   //   for(int pt=0; pt<2; pt++)
   //   {
   //     for(int cent=0; cent<6;cent++){
@@ -170,13 +176,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   }
   // }
   // pt SetB, cent SetA
-  TH1D *mHist_Input_SE_InvM_ptSetB_centSetA[11][4][6];
-  TH1D *mHist_Input_ME_InvM_ptSetB_centSetA[11][4][6];
-  // TProfile *mProfile_Input_v1_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_Input_v1_reso_ptSetB_centSetA[11][4][6];
-  // TProfile *mProfile_Input_v2_raw_ptSetB_centSetA[11][4][6];
-  TProfile *mProfile_Input_v2_reso_ptSetB_centSetA[11][4][6];
-  for(int jkk=0; jkk<11; jkk++){
+  TH1D *mHist_Input_SE_InvM_ptSetB_centSetA[_n_jkk+1][4][6];
+  TH1D *mHist_Input_ME_InvM_ptSetB_centSetA[_n_jkk+1][4][6];
+  // TProfile *mProfile_Input_v1_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_Input_v1_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  // TProfile *mProfile_Input_v2_raw_ptSetB_centSetA[_n_jkk+1][4][6];
+  TProfile *mProfile_Input_v2_reso_ptSetB_centSetA[_n_jkk+1][4][6];
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     for(int pt=1; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -501,7 +507,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     1.09
   };
   // pt SetA, cent SetA
-  // for(int jkk=0; jkk<11; jkk++){
+  // for(int jkk=0; jkk<_n_jkk+1; jkk++){
   //   for(int pt=0; pt<2; pt++)
   //   {
   //     for(int cent=0; cent<6;cent++){
@@ -696,7 +702,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   }
   // }
   // const int n_ptSetA_centSetA = 2;
-  // for(int jkk=0; jkk<11; jkk++){
+  // for(int jkk=0; jkk<_n_jkk+1; jkk++){
   //   for(int cent=0; cent<6;cent++){
   //     TLine *l1_ptSetA_centSetA = new TLine(0.2,0,2.2,0);
   //     l1_ptSetA_centSetA->SetLineStyle(2);
@@ -775,7 +781,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   // mTGE_v2_reso_vs_pT_ptSetA_centSetA[4]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[3]));
   // mTGE_v2_reso_vs_pT_ptSetA_centSetA[5]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[4]));
   // pt SetB, cent SetA
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     for(int pt=1; pt<4; pt++)
     {
       for(int cent=0; cent<6;cent++){
@@ -970,7 +976,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     }
   }
   const int n_ptSetB_centSetA = 3;
-  for(int jkk=0; jkk<11; jkk++){
+  for(int jkk=0; jkk<_n_jkk+1; jkk++){
     for(int cent=0; cent<6;cent++){
       TLine *l1_ptSetB_centSetA = new TLine(0.2,0,2.2,0);
       l1_ptSetB_centSetA->SetLineStyle(2);
@@ -2661,7 +2667,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   cout<<endl;
   //   flowFile<<endl;
   // }
-  for(int jkk=0;jkk<11;jkk++){
+  for(int jkk=0;jkk<_n_jkk+1;jkk++){
     cout<<"v1 10-40% ptSetA_centSetA_jkk_: " << jkk << " " << d_FLow_ptSetA_centSetA[jkk][0][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[jkk][0][1][1][1] <<endl;
     cout<<"v1 Err 10-40% ptSetA_centSetA_jkk_: "<< jkk << " " << d_Flow_err_ptSetA_centSetA[jkk][0][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][0][1][1][1] <<endl;
     cout<<endl;
@@ -2691,7 +2697,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     // flowFile<<endl;
   //   }
   // }
-  // for(int jkk=0;jkk<11;jkk++){
+  // for(int jkk=0;jkk<_n_jkk+1;jkk++){
   //   cout<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_FLow_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
   //   flowFile<<"v2 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_FLow_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_FLow_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
   //   cout<<"v2 Err 10-40% ptSetA_centSetA_jkk_" <<jkk <<", " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][1] /*<<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][1]*/ <<endl;
@@ -2700,17 +2706,25 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   // cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
   // }
   // cout<<endl;
-  for(int jkk=0;jkk<11;jkk++){
+  for(int jkk=0;jkk<_n_jkk+1;jkk++){
     cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1]  <<endl;
     flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
     cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
     flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[jkk][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[jkk][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[jkk][1][1][3][1] <<endl;
+    if(jkk>0){
+      hist_jkk_3bin[0] ->Fill(d_FLow_ptSetB_centSetA[jkk][1][1][1][1]);
+      hist_jkk_3bin[1] ->Fill(d_FLow_ptSetB_centSetA[jkk][1][1][2][1]);
+      hist_jkk_3bin[2] ->Fill(d_FLow_ptSetB_centSetA[jkk][1][1][3][1]);
+    }
   }
   cout << endl;
   cout<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1]  <<endl;
   flowFile<<"v2 10-40% ptSetB_centSetA: " /*<< d_FLow_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_FLow_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_FLow_ptSetB_centSetA[0][1][1][3][1] <<endl;
   cout<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
   flowFile<<"v2 Err 10-40% ptSetB_centSetA: " /*<< d_Flow_err_ptSetB_centSetA[0][1][1][0][1] <<", "*/<<d_Flow_err_ptSetB_centSetA[0][1][1][1][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][2][1] <<", "<<d_Flow_err_ptSetB_centSetA[0][1][1][3][1] <<endl;
+  cout<< "pt bin 1 mean = " << (double)hist_jkk_3bin[0] ->GetMean(1) << "pt bin 1 err = " << TMath::Sqrt(_n_jkk-1)*(double)hist_jkk_3bin[0]->GetStdDev()<< endl;
+  cout<< "pt bin 2 mean = " << (double)hist_jkk_3bin[1] ->GetMean(1) << "pt bin 2 err = " << TMath::Sqrt(_n_jkk-1)*(double)hist_jkk_3bin[1]->GetStdDev()<< endl;
+  cout<< "pt bin 3 mean = " << (double)hist_jkk_3bin[2] ->GetMean(1) << "pt bin 3 err = " << TMath::Sqrt(_n_jkk-1)*(double)hist_jkk_3bin[2]->GetStdDev()<< endl;
   outputFile->cd();
   // canvas_InvM_ptSetA_centSetA->Write();
   // canvas_v1_raw_ptSetA_centSetA->Write();
@@ -2730,6 +2744,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   canvas_v1_reso_vs_pT_ptSetB_centSetA->Write();
   canvas_v2_raw_vs_pT_ptSetB_centSetA->Write();
   canvas_v2_reso_vs_pT_ptSetB_centSetA->Write();
+  for(int i = 0; i<3;i++){
+    hist_jkk_3bin[i] -> Write();
+  }
   // canvas_InvM_ptSetA_centSetB->Write();
   // canvas_v1_raw_ptSetA_centSetB->Write();
   // canvas_v1_reso_ptSetA_centSetB->Write();
