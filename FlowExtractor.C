@@ -79,7 +79,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
                             "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
   // TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
-  TString outTxt = "./out_v2/phi_v2_y_sys_";
+  TString outTxt = "./out_v2/phi_v2_pt_sys_";
   TString outHead = outTxt;
   outTxt.Append(sys_object[sys_cutN]);
   outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
@@ -676,9 +676,14 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
         mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
         mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Draw();
         mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+        TFitResultPtr  bkg_fit_result = mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"S","R",0.99,1.09);
         d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
         d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
         d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
+        Double_t integral_bkg = tf1_backgroundFlow->Integral(1.04,1.09);
+        integral_bkg /= 0.05;
+        Double_t integralErr_bkg = tf1_backgroundFlow->IntegralError(1.04,1.09,bkg_fit_result->GetParams(), bkg_fit_result->GetCovarianceMatrix().GetMatrixArray() );
+        integralErr_bkg /= 0.05;
         tf1_totalFlow->SetParameter(0,d_V2_bg_p0);
         tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
         tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
@@ -690,6 +695,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
         ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{sig}: %.4f %c %.4f",d_FLow_ptSetA_centSetA[jkk][1][1][pt][cent],177,d_Flow_err_ptSetA_centSetA[jkk][1][1][pt][cent]));
         ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("#chi^{2}/NDF : %.2f / %d",(Double_t)tf1_totalFlow->GetChisquare(),(Int_t)tf1_totalFlow->GetNDF()));
         ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("v_{2}^{bkg} : %.3f M_{inv}^{2} + %.3f M_{inv} + %.3f",d_V2_bg_p2,d_V2_bg_p1,d_V2_bg_p0));
+        ptextFlow_v2_reso_ptSetA_centSetA -> AddText(Form("Integrated v_{2}^{bkg} (M_{inv}: [1.04, 1.09]) : %.4f %c %.4f ",integral_bkg,177,integralErr_bkg) );
         ptextFlow_v2_reso_ptSetA_centSetA->Draw("same");
       }
     }
@@ -739,7 +745,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       canvas_v2_reso_vs_pT_ptSetA_centSetA->cd(cent+1);
       mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent] = new TGraphErrors(n_ptSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
       mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+      mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}");
       mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerColor(4);
       mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->SetMarkerStyle(24);
       mTGE_v2_reso_vs_pT_ptSetA_centSetA[cent]->Draw("AP");
@@ -1018,7 +1024,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     canvas_v2_reso_vs_pT_ptSetB_centSetA->cd(cent+1);
     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent] = new TGraphErrors(n_ptSetB_centSetA,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_pT_ptSetB_centSetA[cent]->Draw("AP");
@@ -1292,7 +1298,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent] = new TGraphErrors(n_ptSetA_centSetB,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetB[cent],centSetB[cent+1]));
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_pT_ptSetA_centSetB[cent]->Draw("AP");
@@ -1547,7 +1553,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent] = new TGraphErrors(n_ptSetB_centSetB,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetB[cent],centSetB[cent+1]));
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_pT_ptSetB_centSetB[cent]->Draw("AP");
@@ -1827,7 +1833,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent] = new TGraphErrors(n_ptSetC_centAll,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetA[0],centSetA[cent+3]));
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->GetXaxis()->SetTitle("pT [GeV/c^{2}]");
-    mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_pT_ptSetC_centAll[cent]->Draw("AP");
@@ -2268,7 +2274,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     canvas_v2_reso_vs_rap_rapSetA_centSetA->cd(cent+1);
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->GetXaxis()->SetTitle("y-y_{CM}");
-    mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_rap_rapSetA_centSetA[cent]->Draw("AP");
@@ -2325,7 +2331,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       canvas_v2_reso_vs_rap_rapSetA_centSetA_pTRange[pt]->cd(cent+1);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt] = new TGraphErrors(n_rapSetA_centSetA,x,y_v2_reso,ex,ey_v2_reso);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetXaxis()->SetTitle("y-y_{CM}");
-      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+      mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->GetYaxis()->SetTitle("v_{2}");
       mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerColor(4);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->SetMarkerStyle(24);
       mTGE_v2_reso_vs_rap_rapSetA_centSetA_pTRange[cent][pt]->Draw("AP");
@@ -2638,7 +2644,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent] = new TGraphErrors(n_rapSetA_centSetB,x,y_v2_reso,ex,ey_v2_reso);
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->SetTitle(Form("v_{2}, %3.f -%3.f%%",centSetB[cent],centSetB[cent+1]));
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->GetXaxis()->SetTitle("y-y_{CM}");
-    mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->GetYaxis()->SetTitle("v_{2}^{resoluiton}");
+    mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->GetYaxis()->SetTitle("v_{2}");
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->SetMarkerColor(4);
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->SetMarkerStyle(24);
     mTGE_v2_reso_vs_rap_rapSetA_centSetB[cent]->Draw("AP");

@@ -14,6 +14,10 @@
  * Author: Ding Chen
  * Date: Oct 9, 2020
  *
+ * Update: Ding Chen
+ * To Average v2 of KP, KM and Kaon pair backgrounds, in order to answer question
+ * from Fuqiang
+ * Date: April, 2021
  *******************************************************************************
 */
 // Define Global contstant
@@ -21,7 +25,7 @@ const Int_t _Ncentralities = 9;
 const Int_t rapidityBins   = 15;
 const Double_t _y_CM = -2.03;
 
-void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/merged_merged_sys_primary_var0_iter2_652813E64F931A3A7865DC8AA3CF9F7E_.root")
+void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/pwg/merged_merged_sys_primary_var0_iter4_EB87EB73CD95FD68FE5ADC82F0ACD67E_.root")
 {
   TFile* F = TFile::Open(inFile);
   if (!F || F->IsZombie()){
@@ -30,16 +34,16 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   }
   Int_t ptBins = 15; Double_t ptLow = 0.0; Double_t ptHigh = 3.0;
 
-  TProfile3D *tp3d_proton_v1 = (TProfile3D*)F->Get("profile3D_Proton_v1");
-  TProfile3D *tp3d_proton_v2 = (TProfile3D*)F->Get("profile3D_Proton_v2");
-  TProfile3D *tp3d_KaonPlus_v1 = (TProfile3D*)F->Get("profile3D_KaonPlus_v1");
-  TProfile3D *tp3d_KaonPlus_v2 = (TProfile3D*)F->Get("profile3D_KaonPlus_v2");
-  TProfile3D *tp3d_KaonMinus_v1 = (TProfile3D*)F->Get("profile3D_KaonMinus_v1");
-  TProfile3D *tp3d_KaonMinus_v2 = (TProfile3D*)F->Get("profile3D_KaonMinus_v2");
+  // TProfile3D *tp3d_proton_v1 = (TProfile3D*)F->Get("profile3D_Proton_v1");
+  TProfile3D *tp3d_proton_v2 = (TProfile3D*)F->Get("profile3D_Phi_bkg_v2");
+  // TProfile3D *tp3d_KaonPlus_v1 = (TProfile3D*)F->Get("profile3D_KP_v1");
+  TProfile3D *tp3d_KaonPlus_v2 = (TProfile3D*)F->Get("profile3D_KP_v2");
+  // TProfile3D *tp3d_KaonMinus_v1 = (TProfile3D*)F->Get("profile3D_KM_v1");
+  TProfile3D *tp3d_KaonMinus_v2 = (TProfile3D*)F->Get("profile3D_KM_v2");
   // TProfile3D *tp3d_pionPlus = (TProfile3D*)F->Get("profile3D_pionPlus_v1");
   // TProfile3D *tp3d_pionMinus = (TProfile3D*)F->Get("profile3D_pionMinus_v1");
-  // TProfile3D *tp3d_kaonPlus = (TProfile3D*)F->Get("profile3D_kaonPlus_v1");
-  // TProfile3D *tp3d_kaonMinus = (TProfile3D*)F->Get("profile3D_kaonMinus_v1");
+  // TProfile3D *tp3d_kaonPlus = (TProfile3D*)F->Get("profile3D_KP_v1");
+  // TProfile3D *tp3d_kaonMinus = (TProfile3D*)F->Get("profile3D_KM_v1");
 
   // TProfile *profile_correlation_tpc_east_tpc_west_input = (TProfile*)F->Get("profile_correlation_tpc_east_tpc_west");
   // TProfile *profile_correlation_tpc_east_bbc_east_input = (TProfile*)F->Get("profile_correlation_tpc_east_bbc_east");
@@ -63,8 +67,8 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   //
   // }
 
-  TProfile2D *tp2d_proton_v1_vs_y = tp3d_proton_v1->Project3DProfile("xz");
-  TProfile2D *tp2d_proton_v1_vs_pt = tp3d_proton_v1->Project3DProfile("xy");
+  // TProfile2D *tp2d_proton_v1_vs_y = tp3d_proton_v1->Project3DProfile("xz");
+  // TProfile2D *tp2d_proton_v1_vs_pt = tp3d_proton_v1->Project3DProfile("xy");
 
   TProfile2D *tp2d_proton_v2_vs_y = tp3d_proton_v2->Project3DProfile("xz");
   TProfile2D *tp2d_proton_v2_vs_pt = tp3d_proton_v2->Project3DProfile("xy");
@@ -129,7 +133,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   TH1D * h_proton_v2_vs_pt_7p2_BES_II[3], * h_KaonPlus_v2_vs_pt_7p2_BES_II[3], * h_KaonMinus_v2_vs_pt_7p2_BES_II[3];
   for(int cent = 0; cent<9;cent++){
     h_proton_v2_vs_pt_7p2[cent] = new TH1D(Form("h_proton_v2_vs_pt_7p2_cent%d",cent),
-    Form("Au+Au 7.2 GeV FXT, %d - %d %%, proton",i_cent_section[cent],i_cent_section[cent+1]),
+    Form("Au+Au 7.2 GeV FXT, %d - %d %%, #phi^{bkg} M_{inv}: [1.04, 1.09]",i_cent_section[cent],i_cent_section[cent+1]),
     ptBins,ptLow,ptHigh);
     h_proton_v2_vs_pt_7p2[cent]->GetYaxis()->SetTitle("v_{2}");
     h_proton_v2_vs_pt_7p2[cent]->GetYaxis()->SetTitleOffset(1);
@@ -137,7 +141,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   }
   for(int cent=0;cent <3;cent++){
     h_proton_v2_vs_pt_7p2_BES_II[cent] = new TH1D(Form("h_proton_v2_vs_pt_7p2_BES_II_cent%d",cent),
-    Form("Au+Au 7.2 GeV FXT, %d - %d %%, proton",i_cent_section_BES_II[cent],i_cent_section_BES_II[cent+1]),
+    Form("Au+Au 7.2 GeV FXT, %d - %d %%, #phi^{bkg} M_{inv}: [1.04, 1.09]",i_cent_section_BES_II[cent],i_cent_section_BES_II[cent+1]),
     ptBins,ptLow,ptHigh);
     h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetTitle("v_{2}");
     h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetTitleOffset(1);
@@ -230,7 +234,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   double  value5_fnal[rapidityBins] = {0};
   double  errorbar5[rapidityBins] = {0};
 
-  double  d_resolution2[_Ncentralities] ={0};
+  double  d_resolution2[_Ncentralities] ={0.137326,0.220693,0.24983,0.208653,0.132604,1,1,1,1};
   double  d_resolution2_err[_Ncentralities] ={0};
 
   double  d_resolution[_Ncentralities] ={0};
@@ -262,8 +266,11 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   d_resolution[7] = 0.34041;
   d_resolution[8] = 0.438046;
 
+
+
   for(int i=0;i<_Ncentralities;i++)
   {
+    /*
     for(int j=0;j<rapidityBins;j++) // vs. y
     {
       double d_v1_vs_y_raw_proton           = tp2d_proton_v1_vs_y->GetBinContent(j+1,i+1);
@@ -301,24 +308,27 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
       //              + (0.5*d_v1_raw_kaonMinus*d_resolution2_err[i+2]/(pow(d_resolution[i+2],3)))*(0.5*d_v1_raw_kaonMinus*d_resolution2_err[i+2]/(pow(d_resolution[i+2],3))));
 
     }
+    */
     for(int k=0;k<ptBins;k++){ // vs. pt
       double d_v2_vs_pt_raw_proton           = tp2d_proton_v2_vs_pt->GetBinContent(k+1,i+1);
       double d_v2_vs_pt_raw_proton_err       = tp2d_proton_v2_vs_pt->GetBinError(k+1,i+1);
-      v_2_vs_pt_proton[i][k] = d_v2_vs_pt_raw_proton;
-      v_2_vs_pt_proton_err[i][k] = d_v2_vs_pt_raw_proton_err;
-
+      v_2_vs_pt_proton[i][k] = d_v2_vs_pt_raw_proton/d_resolution2[i];
+      v_2_vs_pt_proton_err[i][k] = d_v2_vs_pt_raw_proton_err/d_resolution2[i];
+      cout << "v2 phi bkg: "<< v_2_vs_pt_proton[i][k]<<endl;
       double d_v2_vs_pt_raw_KaonPlus           = tp2d_KaonPlus_v2_vs_pt->GetBinContent(k+1,i+1);
       double d_v2_vs_pt_raw_KaonPlus_err       = tp2d_KaonPlus_v2_vs_pt->GetBinError(k+1,i+1);
       double d_v2_vs_pt_raw_KaonMinus           = tp2d_KaonMinus_v2_vs_pt->GetBinContent(k+1,i+1);
       double d_v2_vs_pt_raw_KaonMinus_err       = tp2d_KaonMinus_v2_vs_pt->GetBinError(k+1,i+1);
 
-      v_2_vs_pt_KaonPlus[i][k] = d_v2_vs_pt_raw_KaonPlus;
-      v_2_vs_pt_KaonPlus_err[i][k] = d_v2_vs_pt_raw_KaonPlus_err;
-      v_2_vs_pt_KaonMinus[i][k] = d_v2_vs_pt_raw_KaonMinus;
-      v_2_vs_pt_KaonMinus_err[i][k] = d_v2_vs_pt_raw_KaonMinus_err;
+      v_2_vs_pt_KaonPlus[i][k] = d_v2_vs_pt_raw_KaonPlus/d_resolution2[i];
+      v_2_vs_pt_KaonPlus_err[i][k] = d_v2_vs_pt_raw_KaonPlus_err/d_resolution2[i];
+      cout << "v2 KP : "<< v_2_vs_pt_KaonPlus[i][k]<<endl;
+      v_2_vs_pt_KaonMinus[i][k] = d_v2_vs_pt_raw_KaonMinus/d_resolution2[i];
+      v_2_vs_pt_KaonMinus_err[i][k] = d_v2_vs_pt_raw_KaonMinus_err/d_resolution2[i];
+      cout << "v2 KM : "<< v_2_vs_pt_KaonMinus[i][k]<<endl;
     }
   }
-
+  /*
   for(int j=0;j<rapidityBins;j++) // vs. y
   {
     for(int i=2;i<5;i++) // centrality = 2, 10-20%; centrality = 5, 40-50%
@@ -373,6 +383,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
     // }
 
   }
+  */
 
   for(int k=0;k<ptBins;k++){ // vs. pt
 
@@ -434,10 +445,12 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
       if(v_2_vs_pt_proton_wt_BES_II[i][k]!=0){
         v_2_vs_pt_proton_fnl_BES_II[i][k] = v_2_vs_pt_proton_avrg_BES_II[i][k]/v_2_vs_pt_proton_wt_BES_II[i][k];
         v_2_vs_pt_proton_errbar_BES_II[i][k] = TMath::Sqrt(1/v_2_vs_pt_proton_wt_BES_II[i][k]);
-
+      }
+      if(v_2_vs_pt_KaonPlus_wt_BES_II[i][k]!=0){
         v_2_vs_pt_KaonPlus_fnl_BES_II[i][k] = v_2_vs_pt_KaonPlus_avrg_BES_II[i][k]/v_2_vs_pt_KaonPlus_wt_BES_II[i][k];
         v_2_vs_pt_KaonPlus_errbar_BES_II[i][k] = TMath::Sqrt(1/v_2_vs_pt_KaonPlus_wt_BES_II[i][k]);
-
+      }
+      if(v_2_vs_pt_KaonMinus_wt_BES_II[i][k]!=0){
         v_2_vs_pt_KaonMinus_fnl_BES_II[i][k] = v_2_vs_pt_KaonMinus_avrg_BES_II[i][k]/v_2_vs_pt_KaonMinus_wt_BES_II[i][k];
         v_2_vs_pt_KaonMinus_errbar_BES_II[i][k] = TMath::Sqrt(1/v_2_vs_pt_KaonMinus_wt_BES_II[i][k]);
       }
@@ -459,6 +472,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
     }
   }
 
+  /*
   for(int j=0;j<rapidityBins;j++) // vs. y
   {
     h_PRO_v1_vs_y_10_40->SetBinContent((j+1),v_1_vs_y_proton_fnl[j]);
@@ -477,6 +491,7 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
     // h_kaonMinus_v1_vs_y_10_30->SetBinError((j+1),errorbar5[j]);
     //
   }
+  */
 
   for(int k=0;k<ptBins;k++) // vs. pt Fill histograms
   {
@@ -517,28 +532,33 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
   for(int cent=0;cent<3;cent++){
     TCanv_v2_vs_pt_BES_II->cd(cent+1);
     h_proton_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
-    h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.001,0.002);
+    // h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.001,0.002);
+    h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,1.);
     h_proton_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
     TCanv_v2_vs_pt_BES_II->cd(cent+4);
     h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
-    h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.008);
+    // h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.008);
+    h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.2);
     h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
     TCanv_v2_vs_pt_BES_II->cd(cent+7);
     h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
-    h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.01);
+    // h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.01);
+    h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.2);
     h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
   }
 
-  TFile* o1 = new TFile("averageflow_Proton.root","RECREATE");
+  TFile* o1 = new TFile("averageflow_pwg_bkg.root","RECREATE");
   h_PRO_v1_vs_y_10_40->Write();
   for(int cent=0;cent<9;cent++){
     h_proton_v2_vs_pt_7p2[cent]->Write();
   }
   for(int cent=0;cent<3;cent++){
     h_proton_v2_vs_pt_7p2_BES_II[cent]->Write();
+    h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->Write();
+    h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->Write();
   }
   // h_pionPlus_v1_vs_y_10_30->Write();
   // h_pionMinus_v1_vs_y_10_30->Write();
