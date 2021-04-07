@@ -25,7 +25,7 @@ const Int_t _Ncentralities = 9;
 const Int_t rapidityBins   = 15;
 const Double_t _y_CM = -2.03;
 
-void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/pwg/merged_merged_sys_primary_var0_iter4_EB87EB73CD95FD68FE5ADC82F0ACD67E_.root")
+void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/pwg/merged_merged_sys_primary_var0_iter4_22F13B3805886BE920AC171E7672141C_NoKaonTpcEp.root")
 {
   TFile* F = TFile::Open(inFile);
   if (!F || F->IsZombie()){
@@ -533,19 +533,19 @@ void FlowAverager(const char* inFile = "/mnt/c/Users/pjska/github/FlowExtractor/
     TCanv_v2_vs_pt_BES_II->cd(cent+1);
     h_proton_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
     // h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.001,0.002);
-    h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,1.);
+    h_proton_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.15);
     h_proton_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
     TCanv_v2_vs_pt_BES_II->cd(cent+4);
     h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
     // h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.008);
-    h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.2);
+    h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.15);
     h_KaonPlus_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
     TCanv_v2_vs_pt_BES_II->cd(cent+7);
     h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetXaxis()->SetRangeUser(0,2.0);
     // h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.002,0.01);
-    h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.2);
+    h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->GetYaxis()->SetRangeUser(-0.04,0.15);
     h_KaonMinus_v2_vs_pt_7p2_BES_II[cent]->Draw();
     tl_0->Draw("same");
   }
