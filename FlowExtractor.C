@@ -50,7 +50,7 @@
 using namespace std;
 // -------------------------- set Some fitting prerequsites --------------------
 
-const Double_t _sigmaRange = 3.; // Sigma of the Fitting range
+const Double_t _sigmaRange = 3.; //5 Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
@@ -61,7 +61,8 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_crosscheck/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_C8A781722258FB768479544F7612801B_NewProd.root" ,
+                   // TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_crosscheck/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_C8A781722258FB768479544F7612801B_NewProd.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter4_22F13B3805886BE920AC171E7672141C_.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -78,7 +79,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
                             "TPCpid"};
   std::cout << "sys_cutN == "<< sys_cutN <<": "<< sys_object[sys_cutN] << std::endl;
   // TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
-  TString outTxt = "./out_sys/out_sys_Crosscheck/newProd_3ybin_3Sig_phi_v1_y_sys_";
+  TString outTxt = "./out_v2/newProd_5Sig_phi_v2_pt_newTpcEp_";
   TString outHead = outTxt;
   outTxt.Append(sys_object[sys_cutN]);
   outTxt.Append(Form("_var%d_iter%d_", sys_varN, sys_iterN));
