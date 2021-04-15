@@ -62,7 +62,7 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/PhiMesonAna_OUTPUT_sys_primary_var0_iter4_v2_2bin_jkk.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_00B5D0942240F873363997DDFAACE912_.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
@@ -142,12 +142,12 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     for(int pt=0; pt<2; pt++)
     {
       for(int cent=0; cent<6;cent++){
-        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk));
-        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d_jkk%d",pt,cent,jkk));
-        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
-        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetA%d_centSetA%d_jkk%d_pfx",pt,cent,jkk));
+        mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_SE_InvM_ptSetA%d_centSetA%d",pt,cent));
+        mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent] = (TH1D*) file_flow_invM_Input/*file_KK_InvM_Input*/->Get(Form("Hist_rotation_InvM_ptSetA%d_centSetA%d",pt,cent));
+        mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
+        mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v1_reso_ptSetA%d_centSetA%d_pfx",pt,cent));
+        mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_raw_ptSetA%d_centSetA%d_pfx",pt,cent));
+        mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent] = (TProfile*) file_flow_invM_Input->Get(Form("Hist_v2_reso_ptSetA%d_centSetA%d_pfx",pt,cent));
       }
     }
   }
