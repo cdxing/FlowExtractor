@@ -52,7 +52,7 @@ using namespace std;
 
 const Double_t _sigmaRange = 5.; // Sigma of the Fitting range
 const Double_t _y_CM = -2.03;
-const Double_t _n_jkk = 1;
+const Double_t _n_jkk = 11;
 Double_t dParBg[3]; // Bkg fitting parameters
 Double_t dParSig[4]; // Sig + Bkg fitting parameters
 Double_t proportion(Double_t *x, Double_t *p);
@@ -62,7 +62,7 @@ Double_t TotalFitting(Double_t *x, Double_t *p);
 // ======================== (1) Analysis Start =================================
 void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_merged_sys_primary_var0_iter1_.root",*/
                    // TString FlowFileName =  "./res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root" ,
-                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/PhiMesonAna_OUTPUT_sys_primary_var0_iter4_v2_2bin_jkk.root" ,
+                   TString FlowFileName =  "/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/1_EvtPlnR2/PhiMesonAna_OUTPUT_sys_primary_var0_iter3_jkk_newEP_noKaon.root" ,
                     // double inputParameter1 = 0.
                     Int_t   inputp2 = 0, // sysErr cut Indexes 0-15
                     Int_t   inputp3 = 0, // sysErr cut variations, each systematic check has 2 or 3 vertions
