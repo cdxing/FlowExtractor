@@ -46,7 +46,14 @@
 #include "TRandom3.h"
 #include "TDatime.h"
 #include "Math/MinimizerOptions.h"
-
+/* *****************************************************************************
+ * This macro draws the QA plots for 7.2 GeV phi-meson v1 analysis
+ *
+ * Author: Ding Chen
+ * Date: April 7, 2021
+ *
+ *******************************************************************************
+*/
 using namespace std;
 const Double_t _y_CM = -2.03;
 
@@ -86,9 +93,49 @@ void plot7p2QA(){
   if(  file_phi_QA->IsOpen() ) {
       std::cout<<"#phi QA file loaded successfully!"<<std::endl;
   }
+  TH2D* h2_dedx_KP = (TH2D*) file_PID_QA->Get("hist_dEdx_kaonPlus");
+  TH2D* h2_dedx_KM = (TH2D*) file_PID_QA->Get("hist_dEdx_kaonMinus");
+  TH2D* h2_mass_KP = (TH2D*) file_PID_QA->Get("hist_mass_kaonPlus");
+  TH2D* h2_mass_KM = (TH2D*) file_PID_QA->Get("hist_mass_kaonMinus");
   TH2D* h2_K_plus_pT_vs_y = (TH2D*) file_PID_QA->Get("hist_pt_y_kaonPlus");
   TH2D* h2_K_minus_pT_vs_y = (TH2D*) file_PID_QA->Get("hist_pt_y_kaonMinus");
   TH2D* h2_phi_pT_vs_y = (TH2D*) file_phi_QA->Get("hist_SE_pt_y_PhiMeson");
+  TCanvas* c1_1 = new TCanvas("c1_1","dedx QA",200,0,1024,768);
+  c1_1->SetLogz();
+  c1_1->cd();
+  h2_dedx_KP->GetZaxis()->SetRangeUser(1.,200000);
+  h2_dedx_KP->GetYaxis()->SetRangeUser(-2.,10.5);
+  h2_dedx_KP->GetXaxis()->SetRangeUser(-3.,3.);
+  h2_dedx_KP->Draw("colz");
+  h2_dedx_KM->GetZaxis()->SetRangeUser(1.,50000);
+  h2_dedx_KM->Draw("Samecolz");
+  // dedx distribution
+  TPaveText * ptxt_prelim_dedx = new TPaveText(0.12,0.6,0.45,0.85,"NDCARC");
+  ptxt_prelim_dedx->SetFillStyle(0);
+  ptxt_prelim_dedx->SetBorderSize(0);
+  ptxt_prelim_dedx->SetFillColor(0);
+  ptxt_prelim_dedx -> AddText("STAR Au+Au #sqrt{s_{NN}}=7.2 GeV FXT ");
+  // ptxt_prelim_dedx -> AddText("STAR preliminary");
+  ptxt_prelim_dedx->Draw("same");
+
+  TCanvas* c1_2 = new TCanvas("c1_2","mass2 QA",200,0,1024,768);
+  c1_2->SetLogz();
+  c1_2->cd();
+  h2_mass_KP->GetZaxis()->SetRangeUser(1.,200000);
+  h2_mass_KP->GetYaxis()->SetRangeUser(0.,0.55);
+  h2_mass_KP->GetXaxis()->SetRangeUser(-3.,3.);
+  h2_mass_KP->Draw("colz");
+  h2_mass_KM->GetZaxis()->SetRangeUser(1.,200000);
+  h2_mass_KM->Draw("Samecolz");
+  TPaveText * ptxt_prelim_mass2 = new TPaveText(0.15,0.6,0.48,0.85,"NDCARC");
+  ptxt_prelim_mass2->SetFillStyle(0);
+  ptxt_prelim_mass2->SetBorderSize(0);
+  ptxt_prelim_mass2->SetFillColor(0);
+  ptxt_prelim_mass2 -> AddText("STAR Au+Au #sqrt{s_{NN}}=7.2 GeV FXT ");
+  // ptxt_prelim_mass2 -> AddText("STAR preliminary");
+  ptxt_prelim_mass2->Draw("same");
+  // mass2 distribution
+
   TCanvas* c1 = new TCanvas("c1","K^{+} QA",200,0,1024,768);
   c1->SetLogz();
   c1->cd();
@@ -159,7 +206,7 @@ void plot7p2QA(){
       std::cout<<"#phi InvM loaded successfully!"<<std::endl;
   }
   // TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_sys/result_sys_flow/hadd_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_.root","READ");
-  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter2_652813E64F931A3A7865DC8AA3CF9F7E_.root","READ");
+  TFile * file_flow_invM_Input = new TFile("/mnt/c/Users/pjska/github/FlowExtractor/res_v2_7p2/0_EvtPlnR1/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter2_652813E64F931A3A7865DC8AA3CF9F7E_.root","READ");
   if( !file_flow_invM_Input->IsOpen() ) std::cout<<"No flow input!"<<std::endl;
   if(  file_flow_invM_Input->IsOpen() ) {
       std::cout<<"flow file loaded successfully!"<<std::endl;
@@ -167,10 +214,10 @@ void plot7p2QA(){
   TH1D *Hist_Input_SE_InvM_rapSetA_centSetA;
   TH1D *Hist_Input_ME_InvM_rapSetA_centSetA;
   TProfile *Profile_Input_v1_reso_rapSetA_centSetA;
-  // Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
-  Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
-  // Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_ME_InvM_rapSetA2_centSetA1");
-  Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_rotation_InvM_rapSetA2_centSetA1");
+  Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
+  // Hist_Input_SE_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_SE_InvM_rapSetA2_centSetA1");
+  Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_KK_InvM_Input->Get("Hist_ME_InvM_rapSetA2_centSetA1");
+  // Hist_Input_ME_InvM_rapSetA_centSetA = (TH1D*) file_flow_invM_Input->Get("Hist_rotation_InvM_rapSetA2_centSetA1");
   Profile_Input_v1_reso_rapSetA_centSetA = (TProfile*) file_flow_invM_Input->Get("Hist_v1_reso_rapSetA2_centSetA1_pfx");
 
   TCanvas* c4 = new TCanvas("c4","#phi invM",200,0,1024,768);
