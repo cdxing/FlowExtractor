@@ -53,7 +53,7 @@
 
 using namespace std;
 const Double_t _y_CM = -2.03;
-const Int_t _N_sysCut = 13;
+const Int_t _N_sysCut = 12;
 const Double_t _massPion     = 0.13957039;
 const Double_t _massKaon     = 0.493677;
 const Double_t _massProton   = 0.938272081;
@@ -74,77 +74,89 @@ void SysErrAnalyzer()
                             "pT", "dipAngle", "vtxDiff", "mthdDiff",
                             "binning",
                             "TPCpid"};
-  std::ifstream inputReso0("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_primary_var0_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr0[8];
+  std::ifstream inputReso0("./out_sys/phi_v1_y_sys_primary_var0_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr0[4];
   // primary
-  std::ifstream inputReso1_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_etaGap_var1_iter3_.txt");
-  std::ifstream inputReso1_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_etaGap_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr1_1[8];
-  Double_t d_v1_dv1dy_statErr1_2[8];
+  std::ifstream inputReso1_1("./out_sys/phi_v1_y_sys_etaGap_var1_iter3_.txt");
+  std::ifstream inputReso1_2("./out_sys/phi_v1_y_sys_etaGap_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr1_1[4];
+  Double_t d_v1_dv1dy_statErr1_2[4];
   // etaGap
-  std::ifstream inputReso2_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_etaRange_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr2_1[8];
+  std::ifstream inputReso2_1("./out_sys/phi_v1_y_sys_etaRange_var1_iter3_.txt");
+  std::ifstream inputReso2_2("./out_sys/phi_v1_y_sys_etaRange_var2_iter3_.txt");
+  std::ifstream inputReso2_3("./out_sys/phi_v1_y_sys_etaRange_var3_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr2_1[4];
+  Double_t d_v1_dv1dy_statErr2_2[4];
+  Double_t d_v1_dv1dy_statErr2_3[4];
   // etaRange
-  std::ifstream inputReso3_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vz_var1_iter3_.txt");
-  std::ifstream inputReso3_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vz_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr3_1[8];
-  Double_t d_v1_dv1dy_statErr3_2[8];
+  std::ifstream inputReso3_1("./out_sys/phi_v1_y_sys_vz_var1_iter3_.txt");
+  std::ifstream inputReso3_2("./out_sys/phi_v1_y_sys_vz_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr3_1[4];
+  Double_t d_v1_dv1dy_statErr3_2[4];
   // vz
-  std::ifstream inputReso4_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vr_var1_iter3_.txt");
-  std::ifstream inputReso4_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vr_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr4_1[8];
-  Double_t d_v1_dv1dy_statErr4_2[8];
+  std::ifstream inputReso4_1("./out_sys/phi_v1_y_sys_vr_var1_iter3_.txt");
+  std::ifstream inputReso4_2("./out_sys/phi_v1_y_sys_vr_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr4_1[4];
+  Double_t d_v1_dv1dy_statErr4_2[4];
   // vr
-  std::ifstream inputReso5_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_dedx_var1_iter3_.txt");
-  std::ifstream inputReso5_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_dedx_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr5_1[8];
-  Double_t d_v1_dv1dy_statErr5_2[8];
+  std::ifstream inputReso5_1("./out_sys/phi_v1_y_sys_dedx_var1_iter3_.txt");
+  std::ifstream inputReso5_2("./out_sys/phi_v1_y_sys_dedx_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr5_1[4];
+  Double_t d_v1_dv1dy_statErr5_2[4];
   // dedx
-  std::ifstream inputReso6_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_dca_var1_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr6_1[8];
+  std::ifstream inputReso6_1("./out_sys/phi_v1_y_sys_dca_var1_iter3_.txt");
+  std::ifstream inputReso6_2("./out_sys/phi_v1_y_sys_dca_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr6_1[4];
+  Double_t d_v1_dv1dy_statErr6_2[4];
   // dca
-  std::ifstream inputReso7_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_nHitsFit_var1_iter3_.txt");
-  std::ifstream inputReso7_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_nHitsFit_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr7_1[8];
-  Double_t d_v1_dv1dy_statErr7_2[8];
+  std::ifstream inputReso7_1("./out_sys/phi_v1_y_sys_nHitsFit_var1_iter3_.txt");
+  std::ifstream inputReso7_2("./out_sys/phi_v1_y_sys_nHitsFit_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr7_1[4];
+  Double_t d_v1_dv1dy_statErr7_2[4];
   // nHitsFit
-  std::ifstream inputReso8_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_ratio_var1_iter3_.txt");
-  std::ifstream inputReso8_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_ratio_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr8_1[8];
-  Double_t d_v1_dv1dy_statErr8_2[8];
+  std::ifstream inputReso8_1("./out_sys/phi_v1_y_sys_ratio_var1_iter3_.txt");
+  std::ifstream inputReso8_2("./out_sys/phi_v1_y_sys_ratio_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr8_1[4];
+  Double_t d_v1_dv1dy_statErr8_2[4];
   // ratio (nHitsFit/nHitsPoss)
-  std::ifstream inputReso9_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_nSigK_var1_iter3_.txt");
-  std::ifstream inputReso9_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_nSigK_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr9_1[8];
-  Double_t d_v1_dv1dy_statErr9_2[8];
+  std::ifstream inputReso9_1("./out_sys/phi_v1_y_sys_nSigK_var1_iter3_.txt");
+  std::ifstream inputReso9_2("./out_sys/phi_v1_y_sys_nSigK_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr9_1[4];
+  Double_t d_v1_dv1dy_statErr9_2[4];
   // nSigK
-  std::ifstream inputReso10_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_mass2_var1_iter3_.txt");
-  std::ifstream inputReso10_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_mass2_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr10_1[8];
-  Double_t d_v1_dv1dy_statErr10_2[8];
+  std::ifstream inputReso10_1("./out_sys/phi_v1_y_sys_mass2_var1_iter3_.txt");
+  std::ifstream inputReso10_2("./out_sys/phi_v1_y_sys_mass2_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr10_1[4];
+  Double_t d_v1_dv1dy_statErr10_2[4];
   // mass2
-  std::ifstream inputReso11_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_pT_var1_iter3_.txt");
-  std::ifstream inputReso11_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_pT_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr11_1[8];
-  Double_t d_v1_dv1dy_statErr11_2[8];
+  std::ifstream inputReso11_1("./out_sys/phi_v1_y_sys_pT_var1_iter3_.txt");
+  std::ifstream inputReso11_2("./out_sys/phi_v1_y_sys_pT_var2_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr11_1[4];
+  Double_t d_v1_dv1dy_statErr11_2[4];
   // pT
-  std::ifstream inputReso12_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_dipAngle_var1_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr12_1[8];
+  std::ifstream inputReso12_1("./out_sys/phi_v1_y_sys_dipAngle_var1_iter3_.txt");
+  std::ifstream inputReso12_2("./out_sys/phi_v1_y_sys_dipAngle_var2_iter3_.txt");
+  std::ifstream inputReso12_3("./out_sys/phi_v1_y_sys_dipAngle_var3_iter3_.txt");
+  Double_t d_v1_dv1dy_statErr12_1[4];
+  Double_t d_v1_dv1dy_statErr12_2[4];
+  Double_t d_v1_dv1dy_statErr12_3[4];
   // dipAngle
-  std::ifstream inputReso13_1("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vtxDiff_var1_iter3_.txt");
-  std::ifstream inputReso13_2("/mnt/c/Users/pjska/github/FlowExtractor/out_sys/phi_v1_y_sys_vtxDiff_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr13_1[8];
-  Double_t d_v1_dv1dy_statErr13_2[8];
-  // vtxdiff
+  // std::ifstream inputReso13_1("./out_sys/phi_v1_y_sys_vtxDiff_var1_iter3_.txt");
+  // std::ifstream inputReso13_2("./out_sys/phi_v1_y_sys_vtxDiff_var2_iter3_.txt");
+  // Double_t d_v1_dv1dy_statErr13_1[4];
+  // Double_t d_v1_dv1dy_statErr13_2[4];
+  // // vtxdiff
 
 
-  for(int i=0;i<8;i++){
+  for(int i=0;i<4;i++){
     inputReso0   >> d_v1_dv1dy_statErr0[i];
 
     inputReso1_1 >> d_v1_dv1dy_statErr1_1[i];
     inputReso1_2 >> d_v1_dv1dy_statErr1_2[i];
 
     inputReso2_1 >> d_v1_dv1dy_statErr2_1[i];
+    inputReso2_2 >> d_v1_dv1dy_statErr2_2[i];
+    inputReso2_3 >> d_v1_dv1dy_statErr2_3[i];
 
     inputReso3_1 >> d_v1_dv1dy_statErr3_1[i];
     inputReso3_2 >> d_v1_dv1dy_statErr3_2[i];
@@ -156,6 +168,7 @@ void SysErrAnalyzer()
     inputReso5_2 >> d_v1_dv1dy_statErr5_2[i];
 
     inputReso6_1 >> d_v1_dv1dy_statErr6_1[i];
+    inputReso6_2 >> d_v1_dv1dy_statErr6_2[i];
 
     inputReso7_1 >> d_v1_dv1dy_statErr7_1[i];
     inputReso7_2 >> d_v1_dv1dy_statErr7_2[i];
@@ -173,35 +186,27 @@ void SysErrAnalyzer()
     inputReso11_2 >> d_v1_dv1dy_statErr11_2[i];
 
     inputReso12_1 >> d_v1_dv1dy_statErr12_1[i];
-
-    inputReso13_1 >> d_v1_dv1dy_statErr13_1[i];
-    inputReso13_2 >> d_v1_dv1dy_statErr13_2[i];
+    inputReso12_2 >> d_v1_dv1dy_statErr12_2[i];
+    inputReso12_3 >> d_v1_dv1dy_statErr12_3[i];
   }
 
 
   // (2) =========== Processor:  TProfile/ TH1D to calculate Std Dev of each selection =======================
   TFile * outFile = new TFile("systematic_error_output.result.root","RECREATE" );
-  TProfile  *TP_profile[4][_N_sysCut]; // 13 selections
-  TProfile  *TP_profile2[_N_sysCut]; // 13 selections
-  TProfile  *TP_profile3[_N_sysCut]; // 13 selections
-  TProfile  *TP_profile4[_N_sysCut]; // 13 selections
-  TH1D      *h_bin[4][_N_sysCut];
+  TProfile  *TP_profile[2][_N_sysCut]; // 13 selections
+  TH1D      *h_bin[2][_N_sysCut];
 
   for(int i = 0 ; i<_N_sysCut;i++){
     string  s_sysObj = sys_object[i+1];
     char * cstr = new char [s_sysObj.length()+1];
     std::strcpy (cstr, s_sysObj.c_str());
 
-    for(int j = 0; j<3;j++){
-      TP_profile[j][i]= new TProfile(Form("TProfile_v1_bin%d_%s",j+1,cstr),Form("Variations of v_{1} in y bin%d, %s cut", j+1 ,cstr),1,0,1);
-      TP_profile[j][i]->GetXaxis()->SetTitle("v_{1}");
+    for(int j = 0; j<2;j++){
+      TP_profile[j][i]= new TProfile(Form("TProfile_v2_bin%d_%s",j+1,cstr),Form("Variations of v_{2} in p_{T} bin%d, %s cut", j+1 ,cstr),1,0,1);
+      TP_profile[j][i]->GetXaxis()->SetTitle("v_{2}");
       h_bin[j][i]= new TH1D(Form("h_v1_bin%d_%s",j,cstr),Form("Variations of v_{1} in y bin%d, %s cut",j,cstr),10000000,-0.1,0.1);
       h_bin[j][i]->GetXaxis()->SetTitle("v_{1}");
     }
-    TP_profile[3][i]= new TProfile(Form("TProfile_dv1dy_%s",cstr),Form("Variations of dv_{1}/dy, %s cut",cstr),1,0,1);
-    TP_profile[3][i]->GetXaxis()->SetTitle("dv_{1}/dy");
-    h_bin[3][i]= new TH1D(Form("h_dv1dy_%s",cstr),Form("Variations of dv_{1}/dy, %s cut",cstr),10000000,0.0,0.02);
-    h_bin[3][i]->GetXaxis()->SetTitle("dv_{1}/dy");
   }
 
   // Fill default value to all the TProfile and TH1D
@@ -267,12 +272,16 @@ void SysErrAnalyzer()
     // pT
     TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_1[j]);
     h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_1[j]);
+    TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_2[j]);
+    h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_2[j]);
+    TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_3[j]);
+    h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_3[j]);
     // dipAngle
-    TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_1[j]);
-    h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_1[j]);
-    TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_2[j]);
-    h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_2[j]);
-    // vtxdiff
+    // TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_1[j]);
+    // h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_1[j]);
+    // TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_2[j]);
+    // h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_2[j]);
+    // // vtxdiff
   }
   // (4) =========== Output:  Sys Err of v1 and dv1/dy by Sqrt(Sum(Std Dev)) =======================
   TString outTxt = "systematic_error_output";
@@ -317,7 +326,7 @@ void SysErrAnalyzer()
     h_bin[3][i]->Draw();
     PaintBin (h_bin[3][i], i_bin, kRed);
 
-    TC_inv1[i]->SaveAs(Form("/mnt/c/Users/pjska/Desktop/h_dv1dy_%d.png",i));
+    TC_inv1[i]->SaveAs(Form("./out_systematic/h_dv1dy_%d.png",i));
   }
 
 
