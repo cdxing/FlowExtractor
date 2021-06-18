@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Job parameters -->
+<job maxFilesPerProcess="1" filesPerHour="1" fileListSyntax="xrootd">
+  <!-- <stdout discard="true"/> -->
+  <!-- Task list -->
+  <command>
+    stardev
+    root4star -b -q RunAnalyzer.C+
+    root4star -b -q PicoAnalyzer.cxx+\(\"$FILELIST\",\"$JOBID\",1,12,1,1\)
+  </command>
+
+  <!-- Necessary files -->
+  <SandBox installer="ZIP">
+    <Package>
+      <File>file:/star/u/dchen/GitHub/EpdAna/StRoot</File>
+      <File>file:/star/u/dchen/GitHub/EpdAna/RunAnalyzer.C</File>
+      <File>file:/star/u/dchen/GitHub/EpdAna/PicoAnalyzer.cxx</File>
+      <File>file:/star/u/dchen/GitHub/EpdAna/EpCorrection_INPUT.root</File>
+    </Package>
+  </SandBox>
+
+  <!-- Get input files from get_file_lis.pl -->
+  <!-- <input URL="catalog:star.bnl.gov?production=P19ie,filetype=daq_reco_picoDst,trgsetupname=production_26p5GeV_fixedTarget_2018,tpx=1,filename~st_physics,sanity=1,storage!=HPSS" nFiles="10" /> -->
+  <input URL="filelist:/star/u/bkimel/26p5GeV_2018_newProduction_allFiles.list" nFiles="all" />
+
+  <!-- Run log & error messages -->
+  <stdout URL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/scheduler/out/$JOBID.out" />
+  <stderr URL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/scheduler/out/$JOBID.err" />
+  <output fromScratch="*.root" toURL="file:/star/data01/pwg/dchen/Ana/7p2GeV_FXT_2018/result/"/>
+
+</job>
