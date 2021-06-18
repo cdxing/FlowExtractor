@@ -308,6 +308,46 @@ void flowPlotter(){
   legend_7p2_7p7->AddEntry(graph_v1_vs_y_7p2,"#phi 7.2 GeV FXT 10-40% ","p");
   legend_7p2_7p7->AddEntry((TObject*)0,Form("dv_{1} /dy|_{y=0} = %.4f %c %.4f",(Double_t)tf1_dv1dy_7p2_7p7->GetParameter(0),177,(Double_t)tf1_dv1dy_7p2_7p7->GetParError(0)),"");
   legend_7p2_7p7->Draw("same");
+  // ========================== (3) v2 vs. pT at 27 GeV =======================
+  // ****************** beam energy: 27 GeV ******************
+  // Event plane method: eta-sub
+  // ---------------- Particle species: Phi ----------------
+  TCanvas *TCanv_27gev_v2_vs_pt_0_80 = new TCanvas("TCanv_27gev_v2_vs_pt_0_80","v2 vs. pT 10-40%",200,10,1024,768);
+  TCanv_27gev_v2_vs_pt_0_80->DrawFrame(0, -0.1, 3, 0.2);
+  Double_t pt_bin_center_27gev_BES[6] = {0.6515,0.9985,1.3765,1.7825,2.2735,3.1485};
+  Double_t v2_values_27gev_BES[6] = {0.0220273,0.0469739,0.0613465,0.0841156,0.0879743,0.0998885};
+  Double_t v2_stat_error_27gev_BES[6] = {0.00585358,0.00424557,0.00539332,0.00805886,0.0104242,0.0280924};
+  Double_t v2_syst_low_error_27gev_BES[6] = {0.00333359,0.00372183,0.00258433,0.00196695,0.00551662,0.00728802};
+  Double_t v2_syst_high_error_27gev_BES[6] = {0.0025597,0.00166639,0.00284935,0.00150963,0.00444994,0.00687705};
+
+  Double_t pt_bin_center_27gev_r18_dchen[10] = {0.3, 0.5, 0.7, 0.9, 1.15, 1.45, 1.8, 2.25, 2.75, 3.5};
+  Double_t v2_values_27gev_r18_dchen[10] = {0.0126294, 0.0252202, 0.0344669, 0.046869, 0.026788, 0.0480522, 0.0270589, 0.0398632, 0.0486449, 0.0582576};
+  Double_t v2_stat_error_27gev_r18_dchen[10] = {0.0146897, 0.0116167, 0.0101259, 0.00833911, 0.00602502, 0.00607197, 0.00666828, 0.00952076, 0.0195048, 0.043287};
+  TH2D * histTemp27 = new TH2D("histTemp27","histTemp27",1000,0,4,1000,-0.01,0.15);
+  histTemp27->GetYaxis()->SetTitle("v_{2}");
+  histTemp27->GetYaxis()->SetTitleOffset(1);
+  histTemp27->GetXaxis()->SetTitle("pT [GeV/c]");
+  histTemp27->Draw();
+
+  TGraphErrors* gr27_besI_00_80 = new TGraphErrors(6, pt_bin_center_27gev_BES, v2_values_27gev_BES, 0, v2_stat_error_27gev_BES);
+  gr27_besI_00_80->SetMarkerStyle(23);
+  gr27_besI_00_80->SetMarkerColor(kBlack);
+  gr27_besI_00_80->SetLineColor(kBlack);
+  gr27_besI_00_80->SetMarkerSize(2);
+  gr27_besI_00_80->Draw("P");
+  TGraphErrors* gr27_r18_00_80_dchen = new TGraphErrors(10, pt_bin_center_27gev_r18_dchen, v2_values_27gev_r18_dchen, 0, v2_stat_error_27gev_r18_dchen);
+  gr27_r18_00_80_dchen->SetMarkerStyle(4);
+  gr27_r18_00_80_dchen->SetMarkerColor(kRed);
+  gr27_r18_00_80_dchen->SetLineColor(kRed);
+  gr27_r18_00_80_dchen->SetMarkerSize(2);
+  gr27_r18_00_80_dchen->Draw("P");
+  TLine *line27gev = new TLine(0, 0, 4, 0);
+  line27gev->SetLineStyle(7);
+  line27gev->Draw("same");
+  TLegend *legend27gev = new TLegend(0.4,0.65,0.9,0.9);
+  legend27gev->AddEntry(gr27_r18_00_80_dchen,"27 GeV Run18 0-80% ","p");
+  legend27gev->AddEntry(gr27_besI_00_80,"27 GeV Run11 0-80% - BES-I","p");
+  legend27gev->Draw("same");
   // ========================== (3) v2 vs. pT at 7.2 GeV =======================
   TCanvas *TCanv_v2_vs_pt_10_40 = new TCanvas("TCanv_v2_vs_pt_10_40","v2 vs. pT 10-40%",200,10,1024,768);
   TCanv_v2_vs_pt_10_40->DrawFrame(0, -0.1, 3, 0.2);
