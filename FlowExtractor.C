@@ -1169,9 +1169,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   }
   cout << endl;
   cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][1]   <<endl;
-  flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][1] <<endl;
+  flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][1] <<" "<<d_FLow_ptSetA_centSetA[0][1][1][1][1] <<endl;
   cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][1]   <<endl;
-  flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][1] <<endl;
+  flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][1] <<" "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][1] <<endl;
   outputFile->cd();
   canvas_InvM_ptSetA_centSetA->Write();
   canvas_v1_raw_ptSetA_centSetA->Write();

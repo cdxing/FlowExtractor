@@ -74,221 +74,231 @@ void SysErrAnalyzer()
                             "pT", "dipAngle", "vtxDiff", "mthdDiff",
                             "binning",
                             "TPCpid"};
-  std::ifstream inputReso0("./out_sys/phi_v1_y_sys_primary_var0_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr0[4];
+  std::ifstream inputReso0("./out/phi_v2_pt_sys_primary_var0_iter3_.txt");
+  Double_t d_value_stat0[4];
   // primary
-  std::ifstream inputReso1_1("./out_sys/phi_v1_y_sys_etaGap_var1_iter3_.txt");
-  std::ifstream inputReso1_2("./out_sys/phi_v1_y_sys_etaGap_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr1_1[4];
-  Double_t d_v1_dv1dy_statErr1_2[4];
+  std::ifstream inputReso1_1("./out/phi_v2_pt_sys_etaGap_var1_iter3_.txt");
+  std::ifstream inputReso1_2("./out/phi_v2_pt_sys_etaGap_var2_iter3_.txt");
+  Double_t d_value_stat1_1[4];
+  Double_t d_value_stat1_2[4];
   // etaGap
-  std::ifstream inputReso2_1("./out_sys/phi_v1_y_sys_etaRange_var1_iter3_.txt");
-  std::ifstream inputReso2_2("./out_sys/phi_v1_y_sys_etaRange_var2_iter3_.txt");
-  std::ifstream inputReso2_3("./out_sys/phi_v1_y_sys_etaRange_var3_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr2_1[4];
-  Double_t d_v1_dv1dy_statErr2_2[4];
-  Double_t d_v1_dv1dy_statErr2_3[4];
+  std::ifstream inputReso2_1("./out/phi_v2_pt_sys_etaRange_var1_iter3_.txt");
+  std::ifstream inputReso2_2("./out/phi_v2_pt_sys_etaRange_var2_iter3_.txt");
+  std::ifstream inputReso2_3("./out/phi_v2_pt_sys_etaRange_var3_iter3_.txt");
+  Double_t d_value_stat2_1[4];
+  Double_t d_value_stat2_2[4];
+  Double_t d_value_stat2_3[4];
   // etaRange
-  std::ifstream inputReso3_1("./out_sys/phi_v1_y_sys_vz_var1_iter3_.txt");
-  std::ifstream inputReso3_2("./out_sys/phi_v1_y_sys_vz_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr3_1[4];
-  Double_t d_v1_dv1dy_statErr3_2[4];
+  std::ifstream inputReso3_1("./out/phi_v2_pt_sys_vz_var1_iter3_.txt");
+  std::ifstream inputReso3_2("./out/phi_v2_pt_sys_vz_var2_iter3_.txt");
+  Double_t d_value_stat3_1[4];
+  Double_t d_value_stat3_2[4];
   // vz
-  std::ifstream inputReso4_1("./out_sys/phi_v1_y_sys_vr_var1_iter3_.txt");
-  std::ifstream inputReso4_2("./out_sys/phi_v1_y_sys_vr_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr4_1[4];
-  Double_t d_v1_dv1dy_statErr4_2[4];
+  std::ifstream inputReso4_1("./out/phi_v2_pt_sys_vr_var1_iter3_.txt");
+  std::ifstream inputReso4_2("./out/phi_v2_pt_sys_vr_var2_iter3_.txt");
+  Double_t d_value_stat4_1[4];
+  Double_t d_value_stat4_2[4];
   // vr
-  std::ifstream inputReso5_1("./out_sys/phi_v1_y_sys_dedx_var1_iter3_.txt");
-  std::ifstream inputReso5_2("./out_sys/phi_v1_y_sys_dedx_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr5_1[4];
-  Double_t d_v1_dv1dy_statErr5_2[4];
+  std::ifstream inputReso5_1("./out/phi_v2_pt_sys_dedx_var1_iter3_.txt");
+  std::ifstream inputReso5_2("./out/phi_v2_pt_sys_dedx_var2_iter3_.txt");
+  Double_t d_value_stat5_1[4];
+  Double_t d_value_stat5_2[4];
   // dedx
-  std::ifstream inputReso6_1("./out_sys/phi_v1_y_sys_dca_var1_iter3_.txt");
-  std::ifstream inputReso6_2("./out_sys/phi_v1_y_sys_dca_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr6_1[4];
-  Double_t d_v1_dv1dy_statErr6_2[4];
+  std::ifstream inputReso6_1("./out/phi_v2_pt_sys_dca_var1_iter3_.txt");
+  std::ifstream inputReso6_2("./out/phi_v2_pt_sys_dca_var2_iter3_.txt");
+  Double_t d_value_stat6_1[4];
+  Double_t d_value_stat6_2[4];
   // dca
-  std::ifstream inputReso7_1("./out_sys/phi_v1_y_sys_nHitsFit_var1_iter3_.txt");
-  std::ifstream inputReso7_2("./out_sys/phi_v1_y_sys_nHitsFit_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr7_1[4];
-  Double_t d_v1_dv1dy_statErr7_2[4];
+  std::ifstream inputReso7_1("./out/phi_v2_pt_sys_nHitsFit_var1_iter3_.txt");
+  std::ifstream inputReso7_2("./out/phi_v2_pt_sys_nHitsFit_var2_iter3_.txt");
+  Double_t d_value_stat7_1[4];
+  Double_t d_value_stat7_2[4];
   // nHitsFit
-  std::ifstream inputReso8_1("./out_sys/phi_v1_y_sys_ratio_var1_iter3_.txt");
-  std::ifstream inputReso8_2("./out_sys/phi_v1_y_sys_ratio_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr8_1[4];
-  Double_t d_v1_dv1dy_statErr8_2[4];
+  std::ifstream inputReso8_1("./out/phi_v2_pt_sys_ratio_var1_iter3_.txt");
+  std::ifstream inputReso8_2("./out/phi_v2_pt_sys_ratio_var2_iter3_.txt");
+  Double_t d_value_stat8_1[4];
+  Double_t d_value_stat8_2[4];
   // ratio (nHitsFit/nHitsPoss)
-  std::ifstream inputReso9_1("./out_sys/phi_v1_y_sys_nSigK_var1_iter3_.txt");
-  std::ifstream inputReso9_2("./out_sys/phi_v1_y_sys_nSigK_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr9_1[4];
-  Double_t d_v1_dv1dy_statErr9_2[4];
+  std::ifstream inputReso9_1("./out/phi_v2_pt_sys_nSigK_var1_iter3_.txt");
+  std::ifstream inputReso9_2("./out/phi_v2_pt_sys_nSigK_var2_iter3_.txt");
+  Double_t d_value_stat9_1[4];
+  Double_t d_value_stat9_2[4];
   // nSigK
-  std::ifstream inputReso10_1("./out_sys/phi_v1_y_sys_mass2_var1_iter3_.txt");
-  std::ifstream inputReso10_2("./out_sys/phi_v1_y_sys_mass2_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr10_1[4];
-  Double_t d_v1_dv1dy_statErr10_2[4];
+  std::ifstream inputReso10_1("./out/phi_v2_pt_sys_mass2_var1_iter3_.txt");
+  std::ifstream inputReso10_2("./out/phi_v2_pt_sys_mass2_var2_iter3_.txt");
+  Double_t d_value_stat10_1[4];
+  Double_t d_value_stat10_2[4];
   // mass2
-  std::ifstream inputReso11_1("./out_sys/phi_v1_y_sys_pT_var1_iter3_.txt");
-  std::ifstream inputReso11_2("./out_sys/phi_v1_y_sys_pT_var2_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr11_1[4];
-  Double_t d_v1_dv1dy_statErr11_2[4];
+  std::ifstream inputReso11_1("./out/phi_v2_pt_sys_pT_var1_iter3_.txt");
+  std::ifstream inputReso11_2("./out/phi_v2_pt_sys_pT_var2_iter3_.txt");
+  Double_t d_value_stat11_1[4];
+  Double_t d_value_stat11_2[4];
   // pT
-  std::ifstream inputReso12_1("./out_sys/phi_v1_y_sys_dipAngle_var1_iter3_.txt");
-  std::ifstream inputReso12_2("./out_sys/phi_v1_y_sys_dipAngle_var2_iter3_.txt");
-  std::ifstream inputReso12_3("./out_sys/phi_v1_y_sys_dipAngle_var3_iter3_.txt");
-  Double_t d_v1_dv1dy_statErr12_1[4];
-  Double_t d_v1_dv1dy_statErr12_2[4];
-  Double_t d_v1_dv1dy_statErr12_3[4];
+  std::ifstream inputReso12_1("./out/phi_v2_pt_sys_dipAngle_var1_iter3_.txt");
+  std::ifstream inputReso12_2("./out/phi_v2_pt_sys_dipAngle_var2_iter3_.txt");
+  std::ifstream inputReso12_3("./out/phi_v2_pt_sys_dipAngle_var3_iter3_.txt");
+  Double_t d_value_stat12_1[4];
+  Double_t d_value_stat12_2[4];
+  Double_t d_value_stat12_3[4];
   // dipAngle
-  // std::ifstream inputReso13_1("./out_sys/phi_v1_y_sys_vtxDiff_var1_iter3_.txt");
-  // std::ifstream inputReso13_2("./out_sys/phi_v1_y_sys_vtxDiff_var2_iter3_.txt");
-  // Double_t d_v1_dv1dy_statErr13_1[4];
-  // Double_t d_v1_dv1dy_statErr13_2[4];
+  // std::ifstream inputReso13_1("./out/phi_v2_pt_sys_vtxDiff_var1_iter3_.txt");
+  // std::ifstream inputReso13_2("./out/phi_v2_pt_sys_vtxDiff_var2_iter3_.txt");
+  // Double_t d_value_stat13_1[4];
+  // Double_t d_value_stat13_2[4];
   // // vtxdiff
-
+  cout << "test 0 "  <<endl;
 
   for(int i=0;i<4;i++){
-    inputReso0   >> d_v1_dv1dy_statErr0[i];
+    inputReso0   >> d_value_stat0[i];
 
-    inputReso1_1 >> d_v1_dv1dy_statErr1_1[i];
-    inputReso1_2 >> d_v1_dv1dy_statErr1_2[i];
+    inputReso1_1 >> d_value_stat1_1[i];
+    inputReso1_2 >> d_value_stat1_2[i];
 
-    inputReso2_1 >> d_v1_dv1dy_statErr2_1[i];
-    inputReso2_2 >> d_v1_dv1dy_statErr2_2[i];
-    inputReso2_3 >> d_v1_dv1dy_statErr2_3[i];
+    inputReso2_1 >> d_value_stat2_1[i];
+    inputReso2_2 >> d_value_stat2_2[i];
+    inputReso2_3 >> d_value_stat2_3[i];
 
-    inputReso3_1 >> d_v1_dv1dy_statErr3_1[i];
-    inputReso3_2 >> d_v1_dv1dy_statErr3_2[i];
+    inputReso3_1 >> d_value_stat3_1[i];
+    inputReso3_2 >> d_value_stat3_2[i];
 
-    inputReso4_1 >> d_v1_dv1dy_statErr4_1[i];
-    inputReso4_2 >> d_v1_dv1dy_statErr4_2[i];
+    inputReso4_1 >> d_value_stat4_1[i];
+    inputReso4_2 >> d_value_stat4_2[i];
 
-    inputReso5_1 >> d_v1_dv1dy_statErr5_1[i];
-    inputReso5_2 >> d_v1_dv1dy_statErr5_2[i];
+    inputReso5_1 >> d_value_stat5_1[i];
+    inputReso5_2 >> d_value_stat5_2[i];
 
-    inputReso6_1 >> d_v1_dv1dy_statErr6_1[i];
-    inputReso6_2 >> d_v1_dv1dy_statErr6_2[i];
+    inputReso6_1 >> d_value_stat6_1[i];
+    inputReso6_2 >> d_value_stat6_2[i];
 
-    inputReso7_1 >> d_v1_dv1dy_statErr7_1[i];
-    inputReso7_2 >> d_v1_dv1dy_statErr7_2[i];
+    inputReso7_1 >> d_value_stat7_1[i];
+    inputReso7_2 >> d_value_stat7_2[i];
 
-    inputReso8_1 >> d_v1_dv1dy_statErr8_1[i];
-    inputReso8_2 >> d_v1_dv1dy_statErr8_2[i];
+    inputReso8_1 >> d_value_stat8_1[i];
+    inputReso8_2 >> d_value_stat8_2[i];
 
-    inputReso9_1 >> d_v1_dv1dy_statErr9_1[i];
-    inputReso9_2 >> d_v1_dv1dy_statErr9_2[i];
+    inputReso9_1 >> d_value_stat9_1[i];
+    inputReso9_2 >> d_value_stat9_2[i];
 
-    inputReso10_1 >> d_v1_dv1dy_statErr10_1[i];
-    inputReso10_2 >> d_v1_dv1dy_statErr10_2[i];
+    inputReso10_1 >> d_value_stat10_1[i];
+    inputReso10_2 >> d_value_stat10_2[i];
 
-    inputReso11_1 >> d_v1_dv1dy_statErr11_1[i];
-    inputReso11_2 >> d_v1_dv1dy_statErr11_2[i];
+    inputReso11_1 >> d_value_stat11_1[i];
+    inputReso11_2 >> d_value_stat11_2[i];
 
-    inputReso12_1 >> d_v1_dv1dy_statErr12_1[i];
-    inputReso12_2 >> d_v1_dv1dy_statErr12_2[i];
-    inputReso12_3 >> d_v1_dv1dy_statErr12_3[i];
+    inputReso12_1 >> d_value_stat12_1[i];
+    inputReso12_2 >> d_value_stat12_2[i];
+    inputReso12_3 >> d_value_stat12_3[i];
   }
 
-
+  cout << "test 1 "  <<endl;
   // (2) =========== Processor:  TProfile/ TH1D to calculate Std Dev of each selection =======================
   TFile * outFile = new TFile("systematic_error_output.result.root","RECREATE" );
-  TProfile  *TP_profile[2][_N_sysCut]; // 13 selections
-  TH1D      *h_bin[2][_N_sysCut];
+  TProfile  *TP_profile[4][_N_sysCut]; // 13 selections
+  TH1D      *h_bin[4][_N_sysCut];
 
   for(int i = 0 ; i<_N_sysCut;i++){
     string  s_sysObj = sys_object[i+1];
     char * cstr = new char [s_sysObj.length()+1];
     std::strcpy (cstr, s_sysObj.c_str());
 
-    for(int j = 0; j<2;j++){
+    for(int j = 0; j<4;j++){
       TP_profile[j][i]= new TProfile(Form("TProfile_v2_bin%d_%s",j+1,cstr),Form("Variations of v_{2} in p_{T} bin%d, %s cut", j+1 ,cstr),1,0,1);
       TP_profile[j][i]->GetXaxis()->SetTitle("v_{2}");
-      h_bin[j][i]= new TH1D(Form("h_v1_bin%d_%s",j,cstr),Form("Variations of v_{1} in y bin%d, %s cut",j,cstr),10000000,-0.1,0.1);
-      h_bin[j][i]->GetXaxis()->SetTitle("v_{1}");
+      h_bin[j][i]= new TH1D(Form("h_v2_bin%d_%s",j,cstr),Form("Variations of v_{2} in p_{T} bin%d, %s cut",j,cstr),10000000,-0.1,0.1);
+      h_bin[j][i]->GetXaxis()->SetTitle("v_{2}");
     }
   }
-
+  cout << "test 2 "  <<endl;
   // Fill default value to all the TProfile and TH1D
   for(int j =0 ; j<4; j++){
     for(int i = 0 ; i<_N_sysCut;i++){
-      TP_profile[j][i]->Fill(0.5, d_v1_dv1dy_statErr0[j]);
-      h_bin[j][i]->Fill(d_v1_dv1dy_statErr0[j]);
+      TP_profile[j][i]->Fill(0.5, d_value_stat0[j]);
+      cout <<"j = "<<j<<", d_value_stat0 : "<< d_value_stat0[j]<<endl;
+      h_bin[j][i]->Fill(d_value_stat0[j]);
     }
   }
-
+  cout << "test 2.1 "  <<endl;
   // Fill variations to each TProfile and TH1D
   for(int j =0 ; j<4; j++){
-    TP_profile[j][0]->Fill(0.5, d_v1_dv1dy_statErr1_1[j]);
-    h_bin[j][0]->Fill(d_v1_dv1dy_statErr1_1[j]);
-    TP_profile[j][0]->Fill(0.5, d_v1_dv1dy_statErr1_2[j]);
-    h_bin[j][0]->Fill(d_v1_dv1dy_statErr1_2[j]);
+    TP_profile[j][0]->Fill(0.5, d_value_stat1_1[j]);
+    cout <<"j = "<<j<<", d_value_stat1_1 : "<< d_value_stat1_1[j]<<endl;
+    h_bin[j][0]->Fill(d_value_stat1_1[j]);
+    TP_profile[j][0]->Fill(0.5, d_value_stat1_2[j]);
+    h_bin[j][0]->Fill(d_value_stat1_2[j]);
     // etaGap
-    TP_profile[j][1]->Fill(0.5, d_v1_dv1dy_statErr2_1[j]);
-    h_bin[j][1]->Fill(d_v1_dv1dy_statErr2_1[j]);
+    TP_profile[j][1]->Fill(0.5, d_value_stat2_1[j]);
+    h_bin[j][1]->Fill(d_value_stat2_1[j]);
+    TP_profile[j][1]->Fill(0.5, d_value_stat2_2[j]);
+    h_bin[j][1]->Fill(d_value_stat2_2[j]);
+    TP_profile[j][1]->Fill(0.5, d_value_stat2_3[j]);
+    h_bin[j][1]->Fill(d_value_stat2_3[j]);
     // etaRange
-    TP_profile[j][2]->Fill(0.5, d_v1_dv1dy_statErr3_1[j]);
-    h_bin[j][2]->Fill(d_v1_dv1dy_statErr3_1[j]);
-    TP_profile[j][2]->Fill(0.5, d_v1_dv1dy_statErr3_2[j]);
-    h_bin[j][2]->Fill(d_v1_dv1dy_statErr3_2[j]);
+    TP_profile[j][2]->Fill(0.5, d_value_stat3_1[j]);
+    h_bin[j][2]->Fill(d_value_stat3_1[j]);
+    TP_profile[j][2]->Fill(0.5, d_value_stat3_2[j]);
+    h_bin[j][2]->Fill(d_value_stat3_2[j]);
     // vz
-    TP_profile[j][3]->Fill(0.5, d_v1_dv1dy_statErr4_1[j]);
-    h_bin[j][3]->Fill(d_v1_dv1dy_statErr4_1[j]);
-    TP_profile[j][3]->Fill(0.5, d_v1_dv1dy_statErr4_2[j]);
-    h_bin[j][3]->Fill(d_v1_dv1dy_statErr4_2[j]);
+    TP_profile[j][3]->Fill(0.5, d_value_stat4_1[j]);
+    h_bin[j][3]->Fill(d_value_stat4_1[j]);
+    TP_profile[j][3]->Fill(0.5, d_value_stat4_2[j]);
+    h_bin[j][3]->Fill(d_value_stat4_2[j]);
     // vr
-    TP_profile[j][4]->Fill(0.5, d_v1_dv1dy_statErr5_1[j]);
-    h_bin[j][4]->Fill(d_v1_dv1dy_statErr5_1[j]);
-    TP_profile[j][4]->Fill(0.5, d_v1_dv1dy_statErr5_2[j]);
-    h_bin[j][4]->Fill(d_v1_dv1dy_statErr5_2[j]);
+    TP_profile[j][4]->Fill(0.5, d_value_stat5_1[j]);
+    h_bin[j][4]->Fill(d_value_stat5_1[j]);
+    TP_profile[j][4]->Fill(0.5, d_value_stat5_2[j]);
+    h_bin[j][4]->Fill(d_value_stat5_2[j]);
     // dedx
-    TP_profile[j][5]->Fill(0.5, d_v1_dv1dy_statErr6_1[j]);
-    h_bin[j][5]->Fill(d_v1_dv1dy_statErr6_1[j]);
+    TP_profile[j][5]->Fill(0.5, d_value_stat6_1[j]);
+    h_bin[j][5]->Fill(d_value_stat6_1[j]);
+    TP_profile[j][5]->Fill(0.5, d_value_stat6_2[j]);
+    h_bin[j][5]->Fill(d_value_stat6_2[j]);
     // dca
-    TP_profile[j][6]->Fill(0.5, d_v1_dv1dy_statErr7_1[j]);
-    h_bin[j][6]->Fill(d_v1_dv1dy_statErr7_1[j]);
-    TP_profile[j][6]->Fill(0.5, d_v1_dv1dy_statErr7_2[j]);
-    h_bin[j][6]->Fill(d_v1_dv1dy_statErr7_2[j]);
+    TP_profile[j][6]->Fill(0.5, d_value_stat7_1[j]);
+    h_bin[j][6]->Fill(d_value_stat7_1[j]);
+    TP_profile[j][6]->Fill(0.5, d_value_stat7_2[j]);
+    h_bin[j][6]->Fill(d_value_stat7_2[j]);
     // nHitsFit
-    TP_profile[j][7]->Fill(0.5, d_v1_dv1dy_statErr8_1[j]);
-    h_bin[j][7]->Fill(d_v1_dv1dy_statErr8_1[j]);
-    TP_profile[j][7]->Fill(0.5, d_v1_dv1dy_statErr8_2[j]);
-    h_bin[j][7]->Fill(d_v1_dv1dy_statErr8_2[j]);
+    TP_profile[j][7]->Fill(0.5, d_value_stat8_1[j]);
+    h_bin[j][7]->Fill(d_value_stat8_1[j]);
+    TP_profile[j][7]->Fill(0.5, d_value_stat8_2[j]);
+    h_bin[j][7]->Fill(d_value_stat8_2[j]);
     // ratio (nHitsFit/nHitsPoss)
-    TP_profile[j][8]->Fill(0.5, d_v1_dv1dy_statErr9_1[j]);
-    h_bin[j][8]->Fill(d_v1_dv1dy_statErr9_1[j]);
-    TP_profile[j][8]->Fill(0.5, d_v1_dv1dy_statErr9_2[j]);
-    h_bin[j][8]->Fill(d_v1_dv1dy_statErr9_2[j]);
+    TP_profile[j][8]->Fill(0.5, d_value_stat9_1[j]);
+    h_bin[j][8]->Fill(d_value_stat9_1[j]);
+    TP_profile[j][8]->Fill(0.5, d_value_stat9_2[j]);
+    h_bin[j][8]->Fill(d_value_stat9_2[j]);
     // nSigK
-    TP_profile[j][9]->Fill(0.5, d_v1_dv1dy_statErr10_1[j]);
-    h_bin[j][9]->Fill(d_v1_dv1dy_statErr10_1[j]);
-    TP_profile[j][9]->Fill(0.5, d_v1_dv1dy_statErr10_2[j]);
-    h_bin[j][9]->Fill(d_v1_dv1dy_statErr10_2[j]);
+    TP_profile[j][9]->Fill(0.5, d_value_stat10_1[j]);
+    h_bin[j][9]->Fill(d_value_stat10_1[j]);
+    TP_profile[j][9]->Fill(0.5, d_value_stat10_2[j]);
+    h_bin[j][9]->Fill(d_value_stat10_2[j]);
     // mass2
-    TP_profile[j][10]->Fill(0.5, d_v1_dv1dy_statErr11_1[j]);
-    h_bin[j][10]->Fill(d_v1_dv1dy_statErr11_1[j]);
-    TP_profile[j][10]->Fill(0.5, d_v1_dv1dy_statErr11_2[j]);
-    h_bin[j][10]->Fill(d_v1_dv1dy_statErr11_2[j]);
+    TP_profile[j][10]->Fill(0.5, d_value_stat11_1[j]);
+    h_bin[j][10]->Fill(d_value_stat11_1[j]);
+    TP_profile[j][10]->Fill(0.5, d_value_stat11_2[j]);
+    h_bin[j][10]->Fill(d_value_stat11_2[j]);
     // pT
-    TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_1[j]);
-    h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_1[j]);
-    TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_2[j]);
-    h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_2[j]);
-    TP_profile[j][11]->Fill(0.5, d_v1_dv1dy_statErr12_3[j]);
-    h_bin[j][11]->Fill(d_v1_dv1dy_statErr12_3[j]);
+    TP_profile[j][11]->Fill(0.5, d_value_stat12_1[j]);
+    h_bin[j][11]->Fill(d_value_stat12_1[j]);
+    TP_profile[j][11]->Fill(0.5, d_value_stat12_2[j]);
+    h_bin[j][11]->Fill(d_value_stat12_2[j]);
+    TP_profile[j][11]->Fill(0.5, d_value_stat12_3[j]);
+    h_bin[j][11]->Fill(d_value_stat12_3[j]);
     // dipAngle
-    // TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_1[j]);
-    // h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_1[j]);
-    // TP_profile[j][12]->Fill(0.5, d_v1_dv1dy_statErr13_2[j]);
-    // h_bin[j][12]->Fill(d_v1_dv1dy_statErr13_2[j]);
+    // TP_profile[j][12]->Fill(0.5, d_value_stat13_1[j]);
+    // h_bin[j][12]->Fill(d_value_stat13_1[j]);
+    // TP_profile[j][12]->Fill(0.5, d_value_stat13_2[j]);
+    // h_bin[j][12]->Fill(d_value_stat13_2[j]);
     // // vtxdiff
   }
+  cout << "test 3 "  <<endl;
+
   // (4) =========== Output:  Sys Err of v1 and dv1/dy by Sqrt(Sum(Std Dev)) =======================
   TString outTxt = "systematic_error_output";
   outTxt.Append(".txt");
   std::ofstream sysFile(outTxt,ofstream::out);
-  Double_t d_sys_err_bin[4] = {0.0,0.0,0.0,0.0};
-  for(int j =0 ; j<4; j++){
+  Double_t d_sys_err_bin[2] = {0.0,0.0};
+  for(int j =0 ; j<2; j++){
     for(int i = 0 ; i<_N_sysCut;i++){
       Double_t d_stdDev = TP_profile[j][i]->GetStdDev(2);
       // Double_t d_stdDev = TP_profile[j][i]->GetBinError(1);
@@ -301,6 +311,8 @@ void SysErrAnalyzer()
     sysFile << "bin " << j <<  ", Std Err:" << sqrt(d_sys_err_bin[j]) << endl;
     sysFile <<  " "<<endl;
   }
+  cout << "test 4 "  <<endl;
+
 // TPaveText on the final result
   // TPaveText * ptext1 = new TPaveText(0.2,0.65,0.40,0.9,"NDCARC");
   // Double_t d_mean_bin4 = TP_profile1        -> GetBinContent(1);
@@ -319,12 +331,12 @@ void SysErrAnalyzer()
   // h_bin1->Draw();
   // ptext1->Draw("same");
   TCanvas * TC_inv1[_N_sysCut];
-  Int_t i_bin = h_bin[3][0]->FindBin(0.0142375);
+  Int_t i_bin = h_bin[0][0]->FindBin(0.00316102);
   for(int i = 0 ; i<_N_sysCut;i++){
     TC_inv1[i] = new TCanvas(Form("TC_inv%d",i),Form("TC_inv%d",i),800,600);
     TC_inv1[i]->cd();
-    h_bin[3][i]->Draw();
-    PaintBin (h_bin[3][i], i_bin, kRed);
+    h_bin[0][i]->Draw();
+    PaintBin (h_bin[0][i], i_bin, kRed);
 
     TC_inv1[i]->SaveAs(Form("./out_systematic/h_dv1dy_%d.png",i));
   }

@@ -320,8 +320,11 @@ void flowPlotter(){
   // double y_v2_10_40[2]      = {-0.0149938, -0.0150853}; // w bin
   // double yErr_stat_v2_10_40[2] = {0.0277206, 0.028806};
 
-  double y_v2_10_40[2]      = {-0.00966106, -0.0205263}; // w bin
-  double yErr_stat_v2_10_40[2] = {0.014085270558323343, 0.009257925680356804};
+  // double y_v2_10_40[2]      = {-0.00966106, -0.0205263}; // w bin
+  // double yErr_stat_v2_10_40[2] = {0.014085270558323343, 0.009257925680356804};
+  double y_v2_10_40[2]      = {0.00316102, -0.0208731}; // w bin
+  double yErr_stat_v2_10_40[2] = {0.0288402, 0.0282462};
+  double yErr_sys_v2_10_40[2] = {0.0323322, 0.0582375};
 
   double x_ptSetB[4]    = { 0.55,0.85,1.2,1.7};
   double xErr_ptSetB[4] = {0.15,0.15,0.2,0.3};
@@ -382,6 +385,14 @@ void flowPlotter(){
   graph_v2_vs_pT_10_40_7p2->SetLineColor(kBlue);
   graph_v2_vs_pT_10_40_7p2->SetMarkerSize(2);
   graph_v2_vs_pT_10_40_7p2->Draw("P");
+
+  TGraphErrors *graph_v2_vs_pT_10_40_7p2_sys = new TGraphErrors(2, x_ptSetA, y_v2_10_40, xErr_ptSetA, yErr_sys_v2_10_40);
+  graph_v2_vs_pT_10_40_7p2_sys->SetMarkerStyle(30);
+  graph_v2_vs_pT_10_40_7p2_sys->SetMarkerColor(kBlue);
+  graph_v2_vs_pT_10_40_7p2_sys->SetLineColor(kBlue);
+  graph_v2_vs_pT_10_40_7p2_sys->SetMarkerSize(2);
+  graph_v2_vs_pT_10_40_7p2_sys->Draw("[]");
+
   // 7.2 GeV v2 vs. pT 10-40% Shaowei
   TGraphErrors *graph_v2_vs_pT_10_40_7p2_Shaowei = new TGraphErrors(2, x_ptSetA, y_v2_10_40_Shaowei, xErr_ptSetA, yErr_stat_v2_10_40_Shaowei);
   graph_v2_vs_pT_10_40_7p2_Shaowei->SetMarkerStyle(21);

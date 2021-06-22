@@ -1,6 +1,7 @@
 #!/bin/bash
 mkdir out
 # root -b -q -l FlowExtractor.C
+root -b -q -l FlowExtractor.C'("./systematic_err/merged_merged_PhiMesonAna_OUTPUT_sys_primary_var0_iter3_00B5D0942240F873363997DDFAACE912_.root",0,0,3)'
 root -b -q -l FlowExtractor.C'("./systematic_err/merged_PhiMesonAna_OUTPUT_sys_etaGap_var1_iter3_.root",1,1,3)'
 root -b -q -l FlowExtractor.C'("./systematic_err/merged_PhiMesonAna_OUTPUT_sys_etaGap_var2_iter3_.root",1,2,3)'
 root -b -q -l FlowExtractor.C'("./systematic_err/merged_PhiMesonAna_OUTPUT_sys_etaRange_var1_iter3_.root",2,1,3)'
