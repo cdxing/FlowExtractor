@@ -1494,10 +1494,34 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     // cout<<"v2 Err 40-60% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[jkk][1][1][0][4] <<", "<<d_Flow_err_ptSetA_centSetA[jkk][1][1][1][4] <<endl;
   }
   cout << endl;
+  cout<<"v2 0-10% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][1][0][0] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][0] <<endl;
+  flowFile << "v2 0-10% ptSetA_centSetA: "<<endl;
+  flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][0] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][0] <<endl;
+  cout<<"v2 Err 0-10% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][1][0][0] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][0] <<endl;
+  flowFile << "v2 Err 0-10% ptSetA_centSetA: "<<endl;
+  flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][0] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][0] <<endl;
+
   cout<<"v2 10-40% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][1]   <<endl;
+  flowFile << "v2 10-40% ptSetA_centSetA: "<<endl;
   flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][1] <<endl;
   cout<<"v2 Err 10-40% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][1]   <<endl;
+  flowFile << "v2 Err 10-40% ptSetA_centSetA: "<<endl;
   flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][1] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][1] <<endl;
+
+  cout<<"v2 40-80% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][1][0][3] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][3] <<endl;
+  flowFile << "v2 40-80% ptSetA_centSetA: "<<endl;
+  flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][3] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][3] <<endl;
+  cout<<"v2 Err 40-80% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][1][0][3] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][3] <<endl;
+  flowFile << "v2 Err 40-80% ptSetA_centSetA: "<<endl;
+  flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][3] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][3] <<endl;
+
+  cout<<"v2 0-80% ptSetA_centSetA: " << d_FLow_ptSetA_centSetA[0][1][1][0][5] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][5] <<endl;
+  flowFile << "v2 0-80% ptSetA_centSetA: "<<endl;
+  flowFile << d_FLow_ptSetA_centSetA[0][1][1][0][5] <<", "<<d_FLow_ptSetA_centSetA[0][1][1][1][5] <<endl;
+  cout<<"v2 Err 0-80% ptSetA_centSetA: " << d_Flow_err_ptSetA_centSetA[0][1][1][0][5] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][5] <<endl;
+  flowFile << "v2 Err 0-80% ptSetA_centSetA: "<<endl;
+  flowFile << d_Flow_err_ptSetA_centSetA[0][1][1][0][5] <<", "<<d_Flow_err_ptSetA_centSetA[0][1][1][1][5] <<endl;
+
   cout<< "v2 0-80% ptSetC_centAll"<<endl;
   for(int ii = 0; ii<10;ii++){
     cout << d_FLow_ptSetC_centAll[1][1][ii][1] <<", ";
