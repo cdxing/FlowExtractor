@@ -382,8 +382,8 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     for(int cent=0; cent<6;cent++){
   //       canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt);
   //       mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetMaximum());
-  //       mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-  //       mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
+  //       mHist_Input_ME_InvM_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //       // Get the bin of the Normalization range
   //       int a_iBin_range[4];
   //       for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetA_centSetA[jkk][pt][cent] -> FindFixBin(a_d_int_range[ijk]);
@@ -440,7 +440,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       //Fit function
   //       //fit Signal with Gauss plus constant
   //       TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-  //       TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+  //       TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.08);
   //       //fit to a simple gauss first to get seed
   //       TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
   //       HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
@@ -455,7 +455,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
   //       tf1_Signal -> SetLineColor(kBlue);
   //
-  //       int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+  //       int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.08);
   //       tf1_Signal->Draw("same");
   //       canvas_InvM_ptSetA_centSetA->cd((cent+1)+6*pt)->Update();
   //       cout << "FitStatus= " << FitStatus << endl;
@@ -489,13 +489,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       dParBg[0]=tf1_Background->GetParameter(0);
   //       dParBg[1]=tf1_Background->GetParameter(1);
   //       dParBg[2]=tf1_Background->GetParameter(2);
-  //       TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-  //       TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+  //       TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.08,/*1*//*2*/3/*4*/);
+  //       TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.08,/*2*//*3*/4/*5*/);
   //
   //       canvas_v1_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
-  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Draw();
-  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //       Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //       Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //       Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -503,7 +503,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //       tf1_totalFlow -> SetLineColor(kBlue);
-  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v1_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //       d_FLow_ptSetA_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //       d_Flow_err_ptSetA_centSetA[jkk][0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //       TPaveText * ptextFlow_v1_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -512,9 +512,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       ptextFlow_v1_raw_ptSetA_centSetA->Draw("same");
   //
   //       canvas_v1_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
-  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Draw();
-  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -522,7 +522,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //       tf1_totalFlow -> SetLineColor(kBlue);
-  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v1_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //       d_FLow_ptSetA_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //       d_Flow_err_ptSetA_centSetA[jkk][0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //       TPaveText * ptextFlow_v1_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -531,9 +531,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       ptextFlow_v1_reso_ptSetA_centSetA->Draw("same");
   //
   //       canvas_v2_raw_ptSetA_centSetA->cd((cent+1)+6*pt);
-  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Draw();
-  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -541,7 +541,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //       tf1_totalFlow -> SetLineColor(kBlue);
-  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v2_raw_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //       d_FLow_ptSetA_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //       d_Flow_err_ptSetA_centSetA[jkk][1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //       TPaveText * ptextFlow_v2_raw_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -550,10 +550,10 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       ptextFlow_v2_raw_ptSetA_centSetA->Draw("same");
   //
   //       canvas_v2_reso_ptSetA_centSetA->cd((cent+1)+6*pt);
-  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Draw();
-  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
-  //       TFitResultPtr  bkg_fit_result = mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"S","R",0.99,1.09);
+  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
+  //       TFitResultPtr  bkg_fit_result = mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_backgroundFlow,"S","R",0.99,1.08);
   //       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -565,7 +565,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //       tf1_totalFlow -> SetLineColor(kBlue);
-  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //       mProfile_Input_v2_reso_ptSetA_centSetA[jkk][pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //       d_FLow_ptSetA_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //       d_Flow_err_ptSetA_centSetA[jkk][1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //       TPaveText * ptextFlow_v2_reso_ptSetA_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -663,8 +663,8 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
     for(int cent=0; cent<4;cent++){
       canvas_InvM_ptSetB_centSetA->cd((cent+1)+4*pt);
       mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent]->GetMaximum());
-      mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-      mHist_Input_ME_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+      mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
+      mHist_Input_ME_InvM_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
       // Get the bin of the Normalization range
       int a_iBin_range[4];
       for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetB_centSetA[pt][cent] -> FindFixBin(a_d_int_range[ijk]);
@@ -721,7 +721,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       //Fit function
       //fit Signal with Gauss plus constant
       TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-      TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+      TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.08);
       //fit to a simple gauss first to get seed
       TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
       HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
@@ -736,7 +736,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
       tf1_Signal -> SetLineColor(kBlue);
 
-      int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+      int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.08);
       tf1_Signal->Draw("same");
       canvas_InvM_ptSetB_centSetA->cd((cent+1)+6*pt)->Update();
       cout << "FitStatus= " << FitStatus << endl;
@@ -770,13 +770,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       dParBg[0]=tf1_Background->GetParameter(0);
       dParBg[1]=tf1_Background->GetParameter(1);
       dParBg[2]=tf1_Background->GetParameter(2);
-      TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-      TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+      TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.08,/*1*//*2*/3/*4*/);
+      TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.08,/*2*//*3*/4/*5*/);
 
       // canvas_v1_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
-      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
       // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->Draw();
-      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
       Double_t d_V2_bg_p0;// = tf1_backgroundFlow->GetParameter(0);
       Double_t d_V2_bg_p1;// = tf1_backgroundFlow->GetParameter(1);
       Double_t d_V2_bg_p2;// = tf1_backgroundFlow->GetParameter(2);
@@ -784,7 +784,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
       // tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
       // tf1_totalFlow -> SetLineColor(kBlue);
-      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v1_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
       // d_FLow_ptSetB_centSetA[0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
       // d_Flow_err_ptSetB_centSetA[0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
       // TPaveText * ptextFlow_v1_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -793,9 +793,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // ptextFlow_v1_raw_ptSetB_centSetA->Draw("same");
 
       // canvas_v1_reso_ptSetB_centSetA->cd((cent+1)+6*pt);
-      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
       // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->Draw();
-      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
       // d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
       // d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
       // d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -803,7 +803,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
       // tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
       // tf1_totalFlow -> SetLineColor(kBlue);
-      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v1_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
       // d_FLow_ptSetB_centSetA[0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
       // d_Flow_err_ptSetB_centSetA[0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
       // TPaveText * ptextFlow_v1_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -812,9 +812,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // ptextFlow_v1_reso_ptSetB_centSetA->Draw("same");
 
       // canvas_v2_raw_ptSetB_centSetA->cd((cent+1)+6*pt);
-      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
       // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->Draw();
-      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
       // d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
       // d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
       // d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -822,7 +822,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
       // tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
       // tf1_totalFlow -> SetLineColor(kBlue);
-      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+      // mProfile_Input_v2_raw_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
       // d_FLow_ptSetB_centSetA[1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
       // d_Flow_err_ptSetB_centSetA[1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
       // TPaveText * ptextFlow_v2_raw_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -831,9 +831,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       // ptextFlow_v2_raw_ptSetB_centSetA->Draw("same");
 
       canvas_v2_reso_ptSetB_centSetA->cd((cent+1)+4*pt);
-      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
       mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->Draw();
-      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
       d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
       d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
       d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -841,7 +841,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
       tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
       tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
       tf1_totalFlow -> SetLineColor(kBlue);
-      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+      mProfile_Input_v2_reso_ptSetB_centSetA[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
       d_FLow_ptSetB_centSetA[1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
       d_Flow_err_ptSetB_centSetA[1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
       TPaveText * ptextFlow_v2_reso_ptSetB_centSetA = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -950,8 +950,8 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   for(int cent=0; cent<9;cent++){
   //     canvas_InvM_ptSetA_centSetB->cd((cent+1)+9*pt);
   //     mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent]->GetMaximum());
-  //     mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-  //     mHist_Input_ME_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
+  //     mHist_Input_ME_InvM_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     // Get the bin of the Normalization range
   //     int a_iBin_range[4];
   //     for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetA_centSetB[pt][cent] -> FindFixBin(a_d_int_range[ijk]);
@@ -1008,7 +1008,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     //Fit function
   //     //fit Signal with Gauss plus constant
   //     TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-  //     TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+  //     TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.08);
   //     //fit to a simple gauss first to get seed
   //     TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
   //     HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
@@ -1023,7 +1023,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
   //     tf1_Signal -> SetLineColor(kBlue);
   //
-  //     int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+  //     int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.08);
   //     tf1_Signal->Draw("same");
   //     canvas_InvM_ptSetA_centSetB->cd((cent+1)+9*pt)->Update();
   //     cout << "FitStatus= " << FitStatus << endl;
@@ -1057,13 +1057,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     dParBg[0]=tf1_Background->GetParameter(0);
   //     dParBg[1]=tf1_Background->GetParameter(1);
   //     dParBg[2]=tf1_Background->GetParameter(2);
-  //     TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-  //     TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+  //     TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.08,/*1*//*2*/3/*4*/);
+  //     TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.08,/*2*//*3*/4/*5*/);
   //
   //     canvas_v1_raw_ptSetA_centSetB->cd((cent+1)+9*pt);
-  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->Draw();
-  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1071,7 +1071,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetA_centSetB[0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetA_centSetB[0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v1_raw_ptSetA_centSetB = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1080,9 +1080,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v1_raw_ptSetA_centSetB->Draw("same");
   //
   //     canvas_v1_reso_ptSetA_centSetB->cd((cent+1)+9*pt);
-  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->Draw();
-  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1090,7 +1090,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetA_centSetB[0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetA_centSetB[0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v1_reso_ptSetA_centSetB = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1099,9 +1099,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v1_reso_ptSetA_centSetB->Draw("same");
   //
   //     canvas_v2_raw_ptSetA_centSetB->cd((cent+1)+9*pt);
-  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->Draw();
-  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1109,7 +1109,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetA_centSetB[1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetA_centSetB[1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v2_raw_ptSetA_centSetB = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1118,9 +1118,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v2_raw_ptSetA_centSetB->Draw("same");
   //
   //     canvas_v2_reso_ptSetA_centSetB->cd((cent+1)+9*pt);
-  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->Draw();
-  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1128,7 +1128,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetA_centSetB[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetA_centSetB[1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetA_centSetB[1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v2_reso_ptSetA_centSetB = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1197,8 +1197,8 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //   for(int cent=0; cent<2;cent++){
   //     canvas_InvM_ptSetC_centAll->cd((cent+1)+2*pt);
   //     mHist_Input_SE_InvM_ptSetC_centAll[pt][cent]->GetYaxis()->SetRangeUser(-0.1*(Double_t)mHist_Input_SE_InvM_ptSetC_centAll[pt][cent]->GetMaximum(),1.1*(Double_t)mHist_Input_SE_InvM_ptSetC_centAll[pt][cent]->GetMaximum());
-  //     mHist_Input_SE_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
-  //     mHist_Input_ME_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mHist_Input_SE_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
+  //     mHist_Input_ME_InvM_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     // Get the bin of the Normalization range
   //     int a_iBin_range[4];
   //     for(int ijk = 0; ijk < 4; ijk++) a_iBin_range[ijk] =  mHist_Input_SE_InvM_ptSetC_centAll[pt][cent] -> FindFixBin(a_d_int_range[ijk]);
@@ -1255,7 +1255,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     //Fit function
   //     //fit Signal with Gauss plus constant
   //     TFormula * GausPlus = new TFormula("GausPlus","gaus(0)+[3]");
-  //     TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.09);
+  //     TF1 * tf1_Signal = new TF1("polygauss_single",GausPlus->GetExpFormula(),0.99,1.08);
   //     //fit to a simple gauss first to get seed
   //     TF1 * tf1_gauss = new TF1("tf1_gauss","gaus",0.9,1.1);
   //     HistSignal -> Fit(tf1_gauss,"0","R",1.01,1.03);
@@ -1270,7 +1270,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_Signal -> SetParLimits(2,0.66*d_seeds_sigma,1.5*d_seeds_sigma);
   //     tf1_Signal -> SetLineColor(kBlue);
   //
-  //     int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.09);
+  //     int FitStatus = HistSignal   -> Fit(tf1_Signal,"E+","R",0.99,1.08);
   //     tf1_Signal->Draw("same");
   //     canvas_InvM_ptSetC_centAll->cd((cent+1)+2*pt)->Update();
   //     cout << "FitStatus= " << FitStatus << endl;
@@ -1304,13 +1304,13 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     dParBg[0]=tf1_Background->GetParameter(0);
   //     dParBg[1]=tf1_Background->GetParameter(1);
   //     dParBg[2]=tf1_Background->GetParameter(2);
-  //     TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.09,/*1*//*2*/3/*4*/);
-  //     TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.09,/*2*//*3*/4/*5*/);
+  //     TF1 * tf1_backgroundFlow = new TF1("tf1_backgroundFlow",BackgroundFitting,0.99,1.08,/*1*//*2*/3/*4*/);
+  //     TF1 * tf1_totalFlow = new TF1("tf1_totalFlow",TotalFitting,0.99,1.08,/*2*//*3*/4/*5*/);
   //
   //     canvas_v1_raw_ptSetC_centAll->cd((cent+1)+2*pt);
-  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->Draw();
-  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     Double_t d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     Double_t d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     Double_t d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1318,7 +1318,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_raw_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetC_centAll[0][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetC_centAll[0][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v1_raw_ptSetC_centAll = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1327,9 +1327,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v1_raw_ptSetC_centAll->Draw("same");
   //
   //     canvas_v1_reso_ptSetC_centAll->cd((cent+1)+2*pt);
-  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->Draw();
-  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1337,7 +1337,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v1_reso_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetC_centAll[0][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetC_centAll[0][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v1_reso_ptSetC_centAll = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1346,9 +1346,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v1_reso_ptSetC_centAll->Draw("same");
   //
   //     canvas_v2_raw_ptSetC_centAll->cd((cent+1)+2*pt);
-  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->Draw();
-  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1356,7 +1356,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_raw_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetC_centAll[1][0][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetC_centAll[1][0][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v2_raw_ptSetC_centAll = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
@@ -1365,9 +1365,9 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     ptextFlow_v2_raw_ptSetC_centAll->Draw("same");
   //
   //     canvas_v2_reso_ptSetC_centAll->cd((cent+1)+2*pt);
-  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->GetXaxis()->SetRangeUser(0.99,1.08);
   //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->Draw();
-  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->Fit(tf1_backgroundFlow,"E+","R",0.99,1.08);
   //     d_V2_bg_p0 = tf1_backgroundFlow->GetParameter(0);
   //     d_V2_bg_p1 = tf1_backgroundFlow->GetParameter(1);
   //     d_V2_bg_p2 = tf1_backgroundFlow->GetParameter(2);
@@ -1375,7 +1375,7 @@ void FlowExtractor( /*TString invMFileName = "./res_sys/result_sys_invM/merged_m
   //     tf1_totalFlow->SetParameter(1,d_V2_bg_p1);
   //     tf1_totalFlow->SetParameter(2,d_V2_bg_p2);
   //     tf1_totalFlow -> SetLineColor(kBlue);
-  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.09);
+  //     mProfile_Input_v2_reso_ptSetC_centAll[pt][cent]->Fit(tf1_totalFlow,"E+","R",0.99,1.08);
   //     d_FLow_ptSetC_centAll[1][1][pt][cent] = tf1_totalFlow->GetParameter(/*1*//*2*/3/*4*/);
   //     d_Flow_err_ptSetC_centAll[1][1][pt][cent] = tf1_totalFlow->GetParError(/*1*//*2*/3/*4*/);
   //     TPaveText * ptextFlow_v2_reso_ptSetC_centAll = new TPaveText(0.2,0.8,0.6,0.9,"NDCARC");
