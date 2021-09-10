@@ -1,3 +1,3 @@
 #!/bin/bash
 mkdir ./out
-root -b -q -l FlowExtractor.C+
+root -b -q -l FlowExtractor.cxx+
